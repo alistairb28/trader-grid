@@ -62,7 +62,7 @@
   .page-sub { font-size: 13px; color: var(--text2); }
 
   /* Summary bar */
-  .summary-bar { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+  .summary-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
   .s-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; }
   .s-card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
   .s-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; color: #fff; }
@@ -163,26 +163,26 @@
     <div>
       <div class="section-title">Mode</div>
       <div class="mode-list">
-        <div class="mode-item active" data-mode="view" id="mode-view"><span class="mode-icon">👁</span> View</div>
-        <div class="mode-item" data-mode="edit" id="mode-edit"><span class="mode-icon">✏️</span> Edit levels</div>
-        <div class="mode-item" data-mode="goal" id="mode-goal"><span class="mode-icon">🎯</span> Set goals</div>
+        <div class="mode-item active" data-mode="view" id="mode-view"><span class="mode-icon">ðŸ‘</span> View</div>
+        <div class="mode-item" data-mode="edit" id="mode-edit"><span class="mode-icon">âœï¸</span> Edit levels</div>
+        <div class="mode-item" data-mode="goal" id="mode-goal"><span class="mode-icon">ðŸŽ¯</span> Set goals</div>
       </div>
     </div>
 
     <div>
       <div class="section-title">Bands</div>
       <div class="band-legend">
-        <div class="band-item"><div class="band-bar" style="background:var(--beginner)"></div>Beginner<span class="band-range">1–2</span></div>
-        <div class="band-item"><div class="band-bar" style="background:var(--intermediate)"></div>Intermediate<span class="band-range">3–4</span></div>
-        <div class="band-item"><div class="band-bar" style="background:var(--advanced)"></div>Advanced<span class="band-range">5–6</span></div>
-        <div class="band-item"><div class="band-bar" style="background:var(--expert)"></div>Expert<span class="band-range">7–8</span></div>
+        <div class="band-item"><div class="band-bar" style="background:var(--beginner)"></div>Beginner<span class="band-range">1â€“2</span></div>
+        <div class="band-item"><div class="band-bar" style="background:var(--intermediate)"></div>Intermediate<span class="band-range">3â€“4</span></div>
+        <div class="band-item"><div class="band-bar" style="background:var(--advanced)"></div>Advanced<span class="band-range">5â€“6</span></div>
+        <div class="band-item"><div class="band-bar" style="background:var(--expert)"></div>Expert<span class="band-range">7â€“8</span></div>
       </div>
     </div>
 
     <div style="margin-top:auto;">
       <div class="section-title">Export</div>
-      <div class="mode-item" id="btn-export" style="cursor:pointer"><span class="mode-icon">💾</span> Save JSON</div>
-      <div class="mode-item" id="btn-import" style="cursor:pointer"><span class="mode-icon">📂</span> Load JSON</div>
+      <div class="mode-item" id="btn-export" style="cursor:pointer"><span class="mode-icon">ðŸ’¾</span> Save JSON</div>
+      <div class="mode-item" id="btn-import" style="cursor:pointer"><span class="mode-icon">ðŸ“‚</span> Load JSON</div>
       <input type="file" id="file-input" accept=".json" style="display:none">
     </div>
   </aside>
@@ -215,10 +215,10 @@
   <div class="modal">
     <div class="modal-header">
       <div class="modal-title" id="modal-title"></div>
-      <div class="modal-close" onclick="closeNotesModal()">✕</div>
+      <div class="modal-close" onclick="closeNotesModal()">âœ•</div>
     </div>
     <div class="modal-meta" id="modal-meta"></div>
-    <textarea id="modal-textarea" placeholder="Add notes about this goal — focus areas, timelines, context..."></textarea>
+    <textarea id="modal-textarea" placeholder="Add notes about this goal â€” focus areas, timelines, context..."></textarea>
     <div class="modal-actions">
       <button class="btn" onclick="closeNotesModal()">Cancel</button>
       <button class="btn btn-primary" onclick="saveNote()">Save note</button>
@@ -230,16 +230,16 @@
 const DOMAINS = [
   'Cricket Knowledge',
   'Cricket Understanding',
-  'Pricing – Model biases',
-  'Pricing – Factors not in model',
-  'Execution – Confidence',
-  'Execution – Efficiency',
+  'Pricing â€“ Model biases',
+  'Pricing â€“ Factors not in model',
+  'Execution â€“ Confidence',
+  'Execution â€“ Efficiency',
   'Non-Trading Work',
   'Comms & Professionalism'
 ];
 
-const TRADERS = ['JR','JLB','SM'];
-const COLORS = { JR: '#4a8ff5', JLB: '#2ec090', SM: '#e8608a' };
+const TRADERS = ['EL','JR','HB','JLB','SM','AN','BM'];
+const COLORS = { EL: '#a78bfa', JR: '#4a8ff5', HB: '#38bdf8', JLB: '#2ec090', SM: '#e8608a', AN: '#fb923c', BM: '#f472b6' };
 
 function bandColor(v) {
   if (v <= 2) return '#e05555';
@@ -256,23 +256,35 @@ function bandName(v) {
 
 let state = {
   current: {
-    JR:  [4,5,2,3,2,2,4,3],
+    EL:  [4,4,5,4,4,4,4,3],
+    JR:  [7,5,2,3,2,2,4,4],
+    HB:  [3,3,4,3,4,3,4,5],
     JLB: [4,3,3,3,4,3,4,5],
-    SM:  [7,6,2,3,2,2,1,2]
+    SM:  [7,6,2,3,2,2,1,2],
+    AN:  [2,2,2,2,2,3,4,4],
+    BM:  [3,3,2,2,3,3,4,3]
   },
   goals: {
+    EL:  [null,null,null,null,null,null,null,null],
     JR:  [null,null,null,null,null,null,null,null],
+    HB:  [null,null,null,null,null,null,null,null],
     JLB: [null,null,null,null,null,null,null,null],
-    SM:  [null,null,null,null,null,null,null,null]
+    SM:  [null,null,null,null,null,null,null,null],
+    AN:  [null,null,null,null,null,null,null,null],
+    BM:  [null,null,null,null,null,null,null,null]
   },
   notes: {
+    EL:  ['','','','','','','',''],
     JR:  ['','','','','','','',''],
+    HB:  ['','','','','','','',''],
     JLB: ['','','','','','','',''],
-    SM:  ['','','','','','','','']
+    SM:  ['','','','','','','',''],
+    AN:  ['','','','','','','',''],
+    BM:  ['','','','','','','','']
   }
 };
 
-let activeTraders = new Set(['JR','JLB','SM']);
+let activeTraders = new Set(['EL','JR','HB','JLB','SM','AN','BM']);
 let mode = 'view';
 
 // --- Render sidebar traders ---
@@ -319,7 +331,7 @@ function renderSummary() {
       const note = state.notes[t][di];
       const hasNote = note && note.trim().length > 0;
       const goalStr = goal && goal !== cur
-        ? `<span class="s-goal-arrow">→</span><span class="s-goal-val" style="color:${COLORS[t]}">${goal}</span>${hasNote ? '<span class="note-indicator" title="Has note"></span>' : ''}`
+        ? `<span class="s-goal-arrow">â†’</span><span class="s-goal-val" style="color:${COLORS[t]}">${goal}</span>${hasNote ? '<span class="note-indicator" title="Has note"></span>' : ''}`
         : '';
       const noteRow = (goal && goal !== cur && hasNote)
         ? `<div class="s-note" style="padding-left:0; color:var(--text3)">${note}</div>` : '';
@@ -422,7 +434,7 @@ function openCtx(e, di, lvl) {
   const menu = document.getElementById('ctx-menu');
   const active = [...activeTraders];
 
-  let html = `<div class="ctx-title">${DOMAINS[di]} · Level ${lvl}</div>`;
+  let html = `<div class="ctx-title">${DOMAINS[di]} Â· Level ${lvl}</div>`;
 
   if (mode === 'edit') {
     html += `<div style="padding:4px 8px 6px; font-size:11px; color:var(--text3)">Set current level for:</div>`;
@@ -446,7 +458,7 @@ function openCtx(e, di, lvl) {
       </div>`;
       if (isSet) {
         html += `<div class="ctx-item" onclick="openNotesModal('${t}',${di}); closeCtx();" style="padding-left:26px;">
-          <span style="font-size:11px;color:var(--text3)">📝 ${hasNote ? 'Edit note' : 'Add note'}</span>
+          <span style="font-size:11px;color:var(--text3)">ðŸ“ ${hasNote ? 'Edit note' : 'Add note'}</span>
         </div>`;
       }
     });
@@ -474,7 +486,7 @@ function closeCtx() {
 function setLevel(t, di, lvl) {
   state.current[t][di] = lvl;
   render();
-  showToast(`${t} · ${DOMAINS[di]} set to ${lvl} (${bandName(lvl)})`);
+  showToast(`${t} Â· ${DOMAINS[di]} set to ${lvl} (${bandName(lvl)})`);
 }
 
 function setGoal(t, di, lvl) {
@@ -482,7 +494,7 @@ function setGoal(t, di, lvl) {
   if (!state.goals[t][di]) state.notes[t][di] = '';
   const g = state.goals[t][di];
   render();
-  showToast(g ? `Goal set: ${t} · ${DOMAINS[di]} → ${g}` : `Goal cleared for ${t} · ${DOMAINS[di]}`);
+  showToast(g ? `Goal set: ${t} Â· ${DOMAINS[di]} â†’ ${g}` : `Goal cleared for ${t} Â· ${DOMAINS[di]}`);
 }
 
 // --- Notes modal ---
@@ -491,7 +503,7 @@ let noteCtxT = null, noteCtxDi = null;
 function openNotesModal(t, di) {
   noteCtxT = t; noteCtxDi = di;
   const goal = state.goals[t][di];
-  document.getElementById('modal-title').textContent = `${t} — ${DOMAINS[di]}`;
+  document.getElementById('modal-title').textContent = `${t} â€” ${DOMAINS[di]}`;
   document.getElementById('modal-meta').textContent = `Goal: level ${goal} (${bandName(goal)})`;
   document.getElementById('modal-textarea').value = state.notes[t][di] || '';
   document.getElementById('notes-modal').style.display = 'flex';
