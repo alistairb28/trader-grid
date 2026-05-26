@@ -163,26 +163,26 @@
     <div>
       <div class="section-title">Mode</div>
       <div class="mode-list">
-        <div class="mode-item active" data-mode="view" id="mode-view"><span class="mode-icon">ðŸ‘</span> View</div>
-        <div class="mode-item" data-mode="edit" id="mode-edit"><span class="mode-icon">âœï¸</span> Edit levels</div>
-        <div class="mode-item" data-mode="goal" id="mode-goal"><span class="mode-icon">ðŸŽ¯</span> Set goals</div>
+        <div class="mode-item active" data-mode="view" id="mode-view"><span class="mode-icon">â—‰</span> View</div>
+        <div class="mode-item" data-mode="edit" id="mode-edit"><span class="mode-icon">âŠ˜</span> Edit levels</div>
+        <div class="mode-item" data-mode="goal" id="mode-goal"><span class="mode-icon">â—Ž</span> Set goals</div>
       </div>
     </div>
 
     <div>
       <div class="section-title">Bands</div>
       <div class="band-legend">
-        <div class="band-item"><div class="band-bar" style="background:var(--beginner)"></div>Beginner<span class="band-range">1â€“2</span></div>
-        <div class="band-item"><div class="band-bar" style="background:var(--intermediate)"></div>Intermediate<span class="band-range">3â€“4</span></div>
-        <div class="band-item"><div class="band-bar" style="background:var(--advanced)"></div>Advanced<span class="band-range">5â€“6</span></div>
-        <div class="band-item"><div class="band-bar" style="background:var(--expert)"></div>Expert<span class="band-range">7â€“8</span></div>
+        <div class="band-item"><div class="band-bar" style="background:var(--beginner)"></div>Beginner<span class="band-range">1-2</span></div>
+        <div class="band-item"><div class="band-bar" style="background:var(--intermediate)"></div>Intermediate<span class="band-range">3-4</span></div>
+        <div class="band-item"><div class="band-bar" style="background:var(--advanced)"></div>Advanced<span class="band-range">5-6</span></div>
+        <div class="band-item"><div class="band-bar" style="background:var(--expert)"></div>Expert<span class="band-range">7-8</span></div>
       </div>
     </div>
 
     <div style="margin-top:auto;">
       <div class="section-title">Export</div>
-      <div class="mode-item" id="btn-export" style="cursor:pointer"><span class="mode-icon">ðŸ’¾</span> Save JSON</div>
-      <div class="mode-item" id="btn-import" style="cursor:pointer"><span class="mode-icon">ðŸ“‚</span> Load JSON</div>
+      <div class="mode-item" id="btn-export" style="cursor:pointer"><span class="mode-icon">â†“</span> Save JSON</div>
+      <div class="mode-item" id="btn-import" style="cursor:pointer"><span class="mode-icon">â†‘</span> Load JSON</div>
       <input type="file" id="file-input" accept=".json" style="display:none">
     </div>
   </aside>
@@ -458,7 +458,7 @@ function openCtx(e, di, lvl) {
       </div>`;
       if (isSet) {
         html += `<div class="ctx-item" onclick="openNotesModal('${t}',${di}); closeCtx();" style="padding-left:26px;">
-          <span style="font-size:11px;color:var(--text3)">ðŸ“ ${hasNote ? 'Edit note' : 'Add note'}</span>
+          <span style="font-size:11px;color:var(--text3)">+ ${hasNote ? 'Edit note' : 'Add note'}</span>
         </div>`;
       }
     });
