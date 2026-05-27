@@ -104,14 +104,13 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 /* Grid */
 .grid-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
 .grid-scroll{overflow-x:auto;}
-table{width:100%;border-collapse:collapse;min-width:640px;}
-.col-domain{width:150px;min-width:150px;}
-thead tr:first-child th{padding:9px 5px 3px;font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-align:center;}
-thead tr:first-child th.col-domain{text-align:left;padding-left:14px;color:var(--text3);}
-thead tr:last-child th{padding:3px 3px 9px;font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);text-align:center;border-bottom:1px solid var(--border);}
-thead tr:last-child th.col-domain{text-align:left;padding-left:14px;}
+table{width:100%;border-collapse:collapse;min-width:700px;}
+.col-domain{width:165px;min-width:165px;}
+thead tr:first-child th{padding:12px 6px 4px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-align:center;}
+thead tr:first-child th.col-domain{text-align:left;padding-left:16px;color:var(--text3);}
+thead tr:last-child th{padding:4px 4px 10px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);text-align:center;border-bottom:1px solid var(--border);}
+thead tr:last-child th.col-domain{text-align:left;padding-left:16px;}
 .band-divider-left{border-left:1px solid var(--border);}
-/* Band column backgrounds */
 .band-col-1{background:var(--band-bg-1);}
 .band-col-2{background:var(--band-bg-2);}
 .band-col-3{background:var(--band-bg-3);}
@@ -123,20 +122,18 @@ tbody tr:hover td.band-col-2{background:rgba(232,135,42,0.1);}
 tbody tr:hover td.band-col-3{background:rgba(201,162,39,0.1);}
 tbody tr:hover td.band-col-4{background:rgba(42,127,111,0.1);}
 tbody tr:not(:last-child) td{border-bottom:1px solid var(--border);}
-td.domain-cell{padding:9px 14px;font-size:11px;font-weight:500;color:var(--text2);line-height:1.3;}
-td.level-cell{text-align:center;padding:5px 2px;cursor:default;position:relative;}
+td.domain-cell{padding:14px 16px;font-size:12px;font-weight:500;color:var(--text2);line-height:1.3;}
+td.level-cell{text-align:center;padding:8px 3px;cursor:default;position:relative;}
 td.level-cell.clickable{cursor:pointer;}
 td.level-cell.clickable:hover{filter:brightness(1.3);}
-.cell-inner{display:flex;flex-direction:column;align-items:center;gap:3px;padding:3px 2px;border-radius:5px;}
-.pips{display:flex;gap:2px;justify-content:center;flex-wrap:wrap;max-width:60px;}
-.pip{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--surface3);background:transparent;transition:all .15s;position:relative;cursor:default;}
-.pip-filled{border-color:transparent;}
+.cell-inner{display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 2px;border-radius:5px;}
+.pips{display:flex;gap:3px;justify-content:center;flex-wrap:wrap;max-width:90px;}
+.pip{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--surface3);background:transparent;transition:all .15s;position:relative;cursor:default;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:7px;font-weight:600;color:transparent;line-height:1;}
+.pip-filled{border-color:transparent;color:#0e1628;}
 .pip-goal{border-style:dashed;background:transparent;}
-/* Tooltip on pip */
 .pip[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:130%;left:50%;transform:translateX(-50%);background:var(--surface3);color:var(--text);font-size:10px;padding:2px 6px;border-radius:4px;white-space:nowrap;pointer-events:none;z-index:50;border:1px solid var(--border2);font-family:'DM Sans',sans-serif;}
-/* Focus mode */
 td.level-cell.focus-hit{filter:brightness(1.08);}
-.pip-focus{width:12px;height:12px;border-radius:50%;border:2px solid transparent;background:transparent;transition:all .15s;}
+.pip-focus{width:20px;height:20px;border-radius:50%;border:2px solid transparent;background:transparent;transition:all .15s;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:7px;font-weight:600;}
 .focus-bar{background:var(--surface2);border-bottom:1px solid var(--border);padding:8px 14px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:10px;}
 .focus-bar-avatar{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;color:#fff;flex-shrink:0;}
 .focus-clear{margin-left:auto;font-size:11px;cursor:pointer;color:var(--text3);padding:2px 8px;border-radius:4px;border:1px solid var(--border);}
@@ -288,6 +285,122 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .btn:hover{color:var(--gold);border-color:var(--gold-dim);}
 .btn-primary{color:var(--gold);border-color:var(--gold-dim);}
 
+/* Trader Card */
+.trader-card-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;}
+.trader-card{
+  width:240px;height:340px;position:relative;
+  border-radius:16px 16px 0 0;
+  display:flex;flex-direction:column;
+  font-family:'DM Sans',sans-serif;
+  box-shadow:0 16px 48px rgba(0,0,0,0.7),inset 0 1px 0 rgba(255,255,255,0.15);
+  cursor:default;flex-shrink:0;
+  transition:transform .2s,box-shadow .2s;
+  overflow:hidden;
+}
+/* Pointed bottom using a pseudo after */
+.trader-card-wrap .card-point{
+  width:0;height:0;
+  border-left:120px solid transparent;
+  border-right:120px solid transparent;
+  border-top-width:32px;border-top-style:solid;
+}
+.trader-card:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 24px 60px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,255,255,0.2);}
+/* Tier backgrounds â€” scoped to card and picker only */
+.trader-card.tier-bronze,.tier-option.tier-bronze{background:linear-gradient(160deg,#5c2800 0%,#a0521a 25%,#d4843c 45%,#f0b060 55%,#d4843c 70%,#8a3c10 85%,#5c2800 100%);}
+.trader-card.tier-silver,.tier-option.tier-silver{background:linear-gradient(160deg,#2a2d33 0%,#6b7585 25%,#b0bcc8 45%,#dce4ec 55%,#b0bcc8 70%,#5a6475 85%,#2a2d33 100%);}
+.trader-card.tier-gold,.tier-option.tier-gold{background:linear-gradient(160deg,#3d2500 0%,#8a5c00 25%,#d4960c 45%,#f5c518 55%,#d4960c 70%,#7a4e00 85%,#3d2500 100%);}
+.trader-card.tier-inform,.tier-option.tier-inform{background:linear-gradient(160deg,#2a0800 0%,#8a2800 25%,#cc5500 45%,#ff7700 55%,#cc5500 70%,#7a2000 85%,#2a0800 100%);}
+.trader-card.tier-totw,.tier-option.tier-totw{background:linear-gradient(160deg,#0f0d00 0%,#4a3c00 25%,#8a6e00 45%,#c9a800 55%,#8a6e00 70%,#3a2e00 85%,#0f0d00 100%);}
+.trader-card.tier-toty,.tier-option.tier-toty{background:linear-gradient(160deg,#00041a 0%,#071a6b 25%,#1040cc 45%,#2060ff 55%,#1040cc 70%,#071060 85%,#00041a 100%);}
+.trader-card.tier-icon,.tier-option.tier-icon{background:linear-gradient(160deg,#08001a 0%,#320060 25%,#6600bb 45%,#9933ea 55%,#6600bb 70%,#280050 85%,#08001a 100%);}
+.trader-card.tier-hero,.tier-option.tier-hero{background:linear-gradient(160deg,#001208 0%,#024020 25%,#077040 45%,#10b870 55%,#077040 70%,#023018 85%,#001208 100%);}
+.trader-card.tier-rare,.tier-option.tier-rare{background:linear-gradient(160deg,#000d1a 0%,#082448 25%,#1040a0 45%,#1e5fe0 55%,#1040a0 70%,#061838 85%,#000d1a 100%);}
+.trader-card.tier-out-of-form,.tier-option.tier-out-of-form{background:linear-gradient(160deg,#0a0a0a 0%,#1e1e1e 25%,#333 45%,#444 55%,#333 70%,#1a1a1a 85%,#0a0a0a 100%);}
+/* Texture */
+.trader-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    repeating-linear-gradient(55deg,rgba(255,255,255,0.025) 0,rgba(255,255,255,0.025) 1px,transparent 1px,transparent 16px),
+    repeating-linear-gradient(-55deg,rgba(255,255,255,0.025) 0,rgba(255,255,255,0.025) 1px,transparent 1px,transparent 16px);
+}
+/* Shimmer stripe */
+.trader-card::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,0.08) 48%,rgba(255,255,255,0.12) 52%,transparent 70%);
+}
+.card-content{position:relative;z-index:1;width:100%;height:100%;display:flex;flex-direction:column;}
+/* Top section: rating left, silhouette right */
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:16px 16px 0;}
+.card-top-left{display:flex;flex-direction:column;gap:2px;}
+.card-rating{font-size:52px;font-weight:900;line-height:1;text-shadow:0 3px 12px rgba(0,0,0,0.6),0 0 30px rgba(255,255,255,0.1);}
+.card-position{font-size:11px;font-weight:800;letter-spacing:.15em;text-shadow:0 1px 4px rgba(0,0,0,0.5);}
+.card-badge{width:38px;height:38px;margin-top:6px;background:rgba(0,0,0,0.35);border-radius:50%;border:1.5px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;}
+.card-badge svg{width:24px;height:24px;}
+/* Silhouette */
+.card-portrait{width:130px;height:120px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;}
+.card-silhouette{width:110px;height:115px;opacity:0.5;filter:drop-shadow(0 6px 16px rgba(0,0,0,0.5));}
+/* Divider line */
+.card-divider{width:calc(100% - 24px);height:1px;background:rgba(255,255,255,0.15);margin:0 12px 8px;box-shadow:0 1px 0 rgba(0,0,0,0.3);}
+/* Name */
+.card-name-bar{text-align:center;padding:6px 12px;background:rgba(0,0,0,0.3);border-top:1px solid rgba(255,255,255,0.12);border-bottom:1px solid rgba(255,255,255,0.12);margin-bottom:10px;}
+.card-name{font-size:15px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.6);}
+/* Stats grid */
+.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px 4px;padding:0 12px;}
+.card-stat{display:flex;align-items:center;gap:8px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.1);}
+.card-stat:nth-last-child(-n+2){border-bottom:none;}
+.card-stat-val{font-size:22px;font-weight:900;min-width:28px;text-align:right;text-shadow:0 2px 6px rgba(0,0,0,0.5);line-height:1;}
+.card-stat-lbl{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.8;line-height:1;}
+/* Text colors â€” scoped to card */
+.trader-card.tier-bronze .card-rating,.trader-card.tier-bronze .card-position,.trader-card.tier-bronze .card-name,.trader-card.tier-bronze .card-stat-val,.trader-card.tier-bronze .card-stat-lbl{color:#ffecd6;}
+.trader-card.tier-silver .card-rating,.trader-card.tier-silver .card-position,.trader-card.tier-silver .card-name,.trader-card.tier-silver .card-stat-val,.trader-card.tier-silver .card-stat-lbl{color:#f0f5fa;}
+.trader-card.tier-gold .card-rating,.trader-card.tier-gold .card-position,.trader-card.tier-gold .card-name,.trader-card.tier-gold .card-stat-val,.trader-card.tier-gold .card-stat-lbl{color:#fffae0;}
+.trader-card.tier-inform .card-rating,.trader-card.tier-inform .card-position,.trader-card.tier-inform .card-name,.trader-card.tier-inform .card-stat-val,.trader-card.tier-inform .card-stat-lbl{color:#fff2e0;}
+.trader-card.tier-totw .card-rating,.trader-card.tier-totw .card-position,.trader-card.tier-totw .card-name,.trader-card.tier-totw .card-stat-val,.trader-card.tier-totw .card-stat-lbl{color:#fffce0;}
+.trader-card.tier-toty .card-rating,.trader-card.tier-toty .card-position,.trader-card.tier-toty .card-name,.trader-card.tier-toty .card-stat-val,.trader-card.tier-toty .card-stat-lbl{color:#e0ecff;}
+.trader-card.tier-icon .card-rating,.trader-card.tier-icon .card-position,.trader-card.tier-icon .card-name,.trader-card.tier-icon .card-stat-val,.trader-card.tier-icon .card-stat-lbl{color:#f0e0ff;}
+.trader-card.tier-hero .card-rating,.trader-card.tier-hero .card-position,.trader-card.tier-hero .card-name,.trader-card.tier-hero .card-stat-val,.trader-card.tier-hero .card-stat-lbl{color:#d8fff0;}
+.trader-card.tier-rare .card-rating,.trader-card.tier-rare .card-position,.trader-card.tier-rare .card-name,.trader-card.tier-rare .card-stat-val,.trader-card.tier-rare .card-stat-lbl{color:#d8eaff;}
+.trader-card.tier-out-of-form .card-rating,.trader-card.tier-out-of-form .card-position,.trader-card.tier-out-of-form .card-name,.trader-card.tier-out-of-form .card-stat-val,.trader-card.tier-out-of-form .card-stat-lbl{color:#888;}
+.card-point{width:0;height:0;border-left:120px solid transparent;border-right:120px solid transparent;border-top-width:32px;border-top-style:solid;background:none !important;}
+.card-point.tier-bronze{border-top-color:#5c2800;}
+.card-point.tier-silver{border-top-color:#2a2d33;}
+.card-point.tier-gold{border-top-color:#3d2500;}
+.card-point.tier-inform{border-top-color:#2a0800;}
+.card-point.tier-totw{border-top-color:#0f0d00;}
+.card-point.tier-toty{border-top-color:#00041a;}
+.card-point.tier-icon{border-top-color:#08001a;}
+.card-point.tier-hero{border-top-color:#001208;}
+.card-point.tier-rare{border-top-color:#000d1a;}
+.card-point.tier-out-of-form{border-top-color:#0a0a0a;}
+/* Tier picker */
+.tier-picker-btn{font-size:11px;padding:5px 14px;border-radius:20px;border:1px solid var(--border2);background:var(--surface3);color:var(--text2);cursor:pointer;transition:all .15s;}
+.tier-picker-btn:hover{color:var(--gold);border-color:var(--gold-dim);}
+.tier-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px;}
+.tier-option{
+  height:72px;border-radius:8px 8px 0 0;padding:8px 6px 6px;text-align:center;cursor:pointer;
+  border:2px solid transparent;transition:all .15s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.4);
+}
+.tier-option:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.5);}
+.tier-option.selected{border-color:rgba(255,255,255,0.8);box-shadow:0 0 0 3px var(--gold),0 8px 20px rgba(0,0,0,0.5);}
+.tier-option-label{font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,0.75);}
+.goals-summary{margin-top:20px;}
+.goals-summary-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;}
+.goals-summary-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
+.gs-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 14px;cursor:pointer;transition:border-color .15s;}
+.gs-card:hover{border-color:var(--gold-dim);}
+.gs-card-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.gs-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;font-weight:600;color:#0e1628;flex-shrink:0;}
+.gs-name{font-size:12px;font-weight:600;}
+.gs-count{margin-left:auto;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);}
+.gs-goal{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--border);font-size:10px;}
+.gs-goal:last-child{border-bottom:none;}
+.gs-goal-domain{color:var(--text2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.gs-goal-level{font-family:'DM Mono',monospace;font-size:10px;padding:1px 5px;border-radius:3px;}
+.gs-status-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.gs-no-goals{font-size:11px;color:var(--text3);font-style:italic;text-align:center;padding:8px 0;}
+
 @media(max-width:768px){
   .app{grid-template-columns:1fr;}
   .sidebar{position:relative;height:auto;flex-direction:row;flex-wrap:wrap;padding:12px;}
@@ -295,6 +408,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
   .summary-bar{grid-template-columns:1fr 1fr;}
   .profile-grid{grid-template-columns:1fr;}
   .stats-strip{grid-template-columns:repeat(3,1fr);}
+  .goals-summary-grid{grid-template-columns:repeat(2,1fr);}
 }
 </style>
 </head>
@@ -356,6 +470,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
         <div id="edit-bar" style="display:none" class="edit-bar"><div class="edit-bar-dot"></div><span id="edit-bar-text"></span></div>
         <div class="grid-scroll"><table id="main-table"></table></div>
       </div>
+      <div class="goals-summary" id="goals-summary"></div>
     </div>
 
     <!-- PROFILE -->
@@ -430,7 +545,13 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 <div id="ctx-overlay" style="position:fixed;inset:0;z-index:199;display:none;" onclick="closeCtx()"></div>
 <div class="ctx-menu" id="ctx-menu" style="display:none"></div>
 
-<div class="modal-bg" id="goal-modal" style="display:none" onclick="handleGoalModalBg(event)">
+<div class="modal-bg" id="tier-modal" style="display:none" onclick="handleTierModalBg(event)">
+  <div class="modal" style="width:480px;">
+    <div class="modal-header"><div class="modal-title" id="tier-modal-title">Choose card tier</div><div class="modal-close" onclick="closeTierModal()">x</div></div>
+    <div class="tier-grid" id="tier-grid"></div>
+    <div class="modal-actions"><button class="btn" onclick="closeTierModal()">Cancel</button><button class="btn btn-primary" onclick="saveTier()">Apply</button></div>
+  </div>
+</div>
   <div class="modal">
     <div class="modal-header"><div class="modal-title" id="goal-modal-title"></div><div class="modal-close" onclick="closeGoalModal()">x</div></div>
     <div class="modal-field"><div class="modal-label">Notes (manager only)</div><textarea id="gm-notes" placeholder="Focus areas, context, development plan..."></textarea></div>
@@ -467,7 +588,8 @@ let state={
   goalMeta:{EL:emptyMetas(),JR:emptyMetas(),HB:emptyMetas(),JLB:emptyMetas(),SM:emptyMetas(),AN:emptyMetas(),BM:emptyMetas()},
   generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:''},
   history:{EL:[],JR:[],HB:[],JLB:[],SM:[],AN:[],BM:[]},
-  reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''}}
+  reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''}},
+  cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold'}
 };
 
 let activeTraders=new Set(TRADERS);
@@ -648,11 +770,12 @@ function renderGrid(){
         [...activeTraders].forEach(t=>{
           const cur=state.current[t][di],goal=state.goals[t][di];
           if(t===focusTrader){
-            let style='width:13px;height:13px;border-radius:50%;display:inline-block;';
-            if(cur===lvl)style+=`background:${COLORS[t]};border:2px solid ${COLORS[t]};`;
-            else if(goal===lvl)style+=`background:transparent;border:2px dashed ${COLORS[t]};`;
-            else style+='background:transparent;border:2px solid transparent;';
-            html+=`<div style="${style}" data-tip="${t}"></div>`;
+            let style='width:20px;height:20px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:DM Mono,monospace;font-size:7px;font-weight:600;';
+            let label='';
+            if(cur===lvl){style+=`background:${COLORS[t]};border:2px solid ${COLORS[t]};color:#0e1628;`;label=t;}
+            else if(goal===lvl){style+=`background:transparent;border:2px dashed ${COLORS[t]};color:transparent;`;}
+            else{style+='background:transparent;border:2px solid transparent;';}
+            html+=`<div style="${style}" data-tip="${t}">${label}</div>`;
           }else{
             let cls='pip',style='opacity:0.15;';
             if(cur===lvl){cls+=' pip-filled';style+=`background:${COLORS[t]};border-color:${COLORS[t]};`;}
@@ -667,7 +790,8 @@ function renderGrid(){
           if(cur===lvl){cls+=' pip-filled';style=`background:${COLORS[t]};border-color:${COLORS[t]}`;}
           else if(goal===lvl){cls+=' pip-goal';style=`border-color:${COLORS[t]}`;}
           const tip=cur===lvl?`${t} (current)`:goal===lvl?`${t} (goal)`:'';
-          html+=`<div class="${cls}" style="${style}"${tip?` data-tip="${tip}"`:''} title="${tip}"></div>`;
+          const initials=cur===lvl?t:'';
+          html+=`<div class="${cls}" style="${style}"${tip?` data-tip="${tip}"`:''} title="${tip}">${initials}</div>`;
         });
       }
       html+='</div></div></td>';
@@ -847,6 +971,129 @@ function onSpiderCompareChange(primaryTrader){
   drawSpider('spider-canvas',scores,goals,COLORS[primaryTrader],scores2,color2);
 }
 
+// ---- TRADER CARD ----
+const TIERS = [
+  {id:'bronze',       label:'Bronze',       class:'tier-bronze'},
+  {id:'silver',       label:'Silver',       class:'tier-silver'},
+  {id:'gold',         label:'Gold',         class:'tier-gold'},
+  {id:'inform',       label:'In Form',      class:'tier-inform'},
+  {id:'totw',         label:'TOTW',         class:'tier-totw'},
+  {id:'toty',         label:'TOTY',         class:'tier-toty'},
+  {id:'icon',         label:'Icon',         class:'tier-icon'},
+  {id:'hero',         label:'Hero',         class:'tier-hero'},
+  {id:'rare',         label:'Rare',         class:'tier-rare'},
+  {id:'out-of-form',  label:'Out of Form',  class:'tier-out-of-form'},
+];
+
+const DOMAIN_SHORT = ['CK','CU','PM','PNM','EC','EE','NTW','CP'];
+
+// Mustard Systems badge SVG
+const MUSTARD_BADGE = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="20" cy="20" r="18" fill="rgba(0,0,0,0.3)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+  <text x="20" y="26" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="800" font-size="18" fill="rgba(255,255,255,0.8)">M</text>
+  <text x="20" y="33" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="5" letter-spacing="1" fill="rgba(255,255,255,0.5)">MUSTARD</text>
+</svg>`;
+
+// Player silhouette SVG (FIFA-style standing pose)
+const SILHOUETTE_SVG = `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.35)">
+  <!-- Head -->
+  <ellipse cx="50" cy="14" rx="10" ry="11"/>
+  <!-- Neck -->
+  <rect x="46" y="24" width="8" height="6" rx="2"/>
+  <!-- Body / torso -->
+  <path d="M28 30 Q30 26 46 28 L54 28 Q70 26 72 30 L68 62 Q60 65 50 65 Q40 65 32 62 Z"/>
+  <!-- Left arm -->
+  <path d="M28 30 Q18 36 14 54 Q16 58 20 56 Q24 42 32 38 Z"/>
+  <!-- Right arm -->
+  <path d="M72 30 Q82 36 86 54 Q84 58 80 56 Q76 42 68 38 Z"/>
+  <!-- Left thigh -->
+  <path d="M32 62 Q30 80 28 92 Q34 94 38 92 Q38 78 42 64 Z"/>
+  <!-- Right thigh -->
+  <path d="M68 62 Q70 80 72 92 Q66 94 62 92 Q62 78 58 64 Z"/>
+  <!-- Left shin -->
+  <path d="M28 90 Q26 106 27 116 Q33 118 36 116 Q36 104 38 90 Z"/>
+  <!-- Right shin -->
+  <path d="M72 90 Q74 106 73 116 Q67 118 64 116 Q64 104 62 90 Z"/>
+  <!-- Left foot -->
+  <ellipse cx="31" cy="117" rx="8" ry="4"/>
+  <!-- Right foot -->
+  <ellipse cx="69" cy="117" rx="8" ry="4"/>
+</svg>`;
+
+function buildFifaCard(t){
+  const scores = state.current[t];
+  const total = scores.reduce((a,b)=>a+b,0);
+  const tier = (state.cardTier && state.cardTier[t]) || 'gold';
+  const tierObj = TIERS.find(x=>x.id===tier) || TIERS[2];
+
+  const stats = DOMAINS.map((d,di)=>`
+    <div class="card-stat">
+      <span class="card-stat-val">${scores[di]}</span>
+      <span class="card-stat-lbl">${DOMAIN_SHORT[di]}</span>
+    </div>`).join('');
+
+  return `<div class="trader-card-wrap">
+    <div class="trader-card ${tierObj.class}">
+      <div class="card-content">
+        <div class="card-top">
+          <div class="card-top-left">
+            <div class="card-rating">${total}</div>
+            <div class="card-position">TRADER</div>
+            <div class="card-badge">${MUSTARD_BADGE}</div>
+          </div>
+          <div class="card-portrait">${SILHOUETTE_SVG}</div>
+        </div>
+        <div class="card-name-bar"><div class="card-name">${t}</div></div>
+        <div class="card-stats">${stats}</div>
+      </div>
+    </div>
+    <div class="card-point ${tierObj.class}"></div>
+    <button class="tier-picker-btn" onclick="openTierModal('${t}')">Change card tier</button>
+  </div>`;
+}
+
+let tierModalTrader = null;
+let tierModalSelected = null;
+
+function openTierModal(t){
+  tierModalTrader = t;
+  tierModalSelected = (state.cardTier && state.cardTier[t]) || 'gold';
+  document.getElementById('tier-modal-title').textContent = `${t} â€” Choose card tier`;
+  renderTierGrid();
+  document.getElementById('tier-modal').style.display='flex';
+}
+
+function renderTierGrid(){
+  const grid = document.getElementById('tier-grid');
+  grid.innerHTML = TIERS.map(tier=>`
+    <div class="tier-option ${tier.class}${tierModalSelected===tier.id?' selected':''}" onclick="selectTier('${tier.id}')">
+      <svg width="20" height="28" viewBox="0 0 100 120" fill="rgba(255,255,255,0.5)">
+        <ellipse cx="50" cy="14" rx="10" ry="11"/>
+        <path d="M28 30 Q50 26 72 30 L68 62 Q50 65 32 62 Z"/>
+        <path d="M32 62 Q30 88 28 108 Q36 112 40 108 Q42 82 50 65 Q58 82 60 108 Q64 112 72 108 Q70 88 68 62 Z"/>
+      </svg>
+      <div class="tier-option-label" style="color:rgba(255,255,255,0.8)">${tier.label}</div>
+    </div>`).join('');
+}
+
+function selectTier(id){
+  tierModalSelected = id;
+  renderTierGrid();
+}
+
+function saveTier(){
+  if(!tierModalTrader)return;
+  if(!state.cardTier)state.cardTier={};
+  state.cardTier[tierModalTrader]=tierModalSelected;
+  const t=tierModalTrader;
+  closeTierModal();
+  renderProfile(t);
+  showToast(`Card: ${TIERS.find(x=>x.id===tierModalSelected)?.label}`);
+}
+
+function closeTierModal(){document.getElementById('tier-modal').style.display='none';tierModalTrader=null;}
+function handleTierModalBg(e){if(e.target===document.getElementById('tier-modal'))closeTierModal();}
+
 // ---- PROFILE ----
 function renderProfile(t){
   document.getElementById('profile-page-title').textContent=t+' - Profile';
@@ -894,7 +1141,7 @@ function renderProfile(t){
       <div><div class="profile-name">${t}</div><div class="profile-meta">${bn(Math.round(total/8))} overall &mdash; ${goals.filter(g=>g!==null).length} active goals ${reviewFlag}</div></div>
       <div class="profile-total"><div class="profile-total-num" style="color:${bc(Math.round(total/8))}">${total}</div><div class="profile-total-label">out of 64</div></div>
     </div>
-    <div class="profile-grid" style="grid-template-columns:1fr 1fr;margin-bottom:16px;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:16px;">
       <div class="profile-section" style="display:flex;flex-direction:column;align-items:center;">
         <div style="display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:10px;">
           <div class="profile-section-title" style="margin-bottom:0">Skill radar</div>
@@ -911,6 +1158,10 @@ function renderProfile(t){
         ${goalNote}
       </div>
       <div class="profile-section"><div class="profile-section-title">Current levels</div><div class="domain-bars">${bars}</div></div>
+      <div class="profile-section" style="display:flex;flex-direction:column;align-items:center;">
+        <div class="profile-section-title" style="align-self:flex-start">Trader card</div>
+        ${buildFifaCard(t)}
+      </div>
     </div>
     <div class="profile-grid">
       <div class="profile-section"><div class="profile-section-title">Goals</div><div class="goals-list">${goalsHtml}</div></div>
@@ -1147,6 +1398,7 @@ document.getElementById('file-input').addEventListener('change',e=>{
         if(!data.generalNotes){data.generalNotes={};TRADERS.forEach(t=>data.generalNotes[t]='');}
         if(!data.history){data.history={};TRADERS.forEach(t=>data.history[t]=[]);}
         if(!data.reviews){data.reviews={};TRADERS.forEach(t=>data.reviews[t]={last:'',next:''});}
+        if(!data.cardTier){data.cardTier={};TRADERS.forEach(t=>data.cardTier[t]='gold');}
         state=data;render();showToast('Data loaded successfully');
       }
     }catch{showToast('Error reading file');}
@@ -1154,7 +1406,49 @@ document.getElementById('file-input').addEventListener('change',e=>{
   reader.readAsText(file);e.target.value='';
 });
 
-function render(){renderSidebar();renderStats();renderSummary();renderGrid();}
+// ---- GOALS SUMMARY ----
+function renderGoalsSummary(){
+  const container=document.getElementById('goals-summary');
+  if(!container)return;
+  const statusColors={todo:'var(--text3)',inprogress:'var(--intermediate)',done:'var(--expert)'};
+  const hasAnyGoals=TRADERS.some(t=>state.goals[t].some(g=>g!==null));
+  if(!hasAnyGoals){container.innerHTML='';return;}
+
+  let html=`<div class="goals-summary-title">Active Goals</div><div class="goals-summary-grid">`;
+  TRADERS.forEach(t=>{
+    const goals=state.goals[t];
+    const hasGoals=goals.some(g=>g!==null);
+    const activeGoals=DOMAINS.map((d,di)=>{
+      const g=goals[di];if(!g)return null;
+      const meta=state.goalMeta[t][di];
+      const status=meta.status||'todo';
+      const isOverdue=meta.date&&new Date(meta.date)<new Date()&&status!=='done';
+      return{d,di,g,status,isOverdue};
+    }).filter(Boolean);
+
+    const goalsHtml=hasGoals?activeGoals.map(({d,g,status,isOverdue})=>{
+      const dotColor=isOverdue?'var(--beginner)':statusColors[status];
+      return `<div class="gs-goal">
+        <div class="gs-status-dot" style="background:${dotColor}"></div>
+        <span class="gs-goal-domain">${d}</span>
+        <span class="gs-goal-level" style="background:${bc(g)}22;color:${bc(g)}">${g}</span>
+      </div>`;
+    }).join(''):`<div class="gs-no-goals">No goals set</div>`;
+
+    html+=`<div class="gs-card" onclick="showPage('profile','${t}')">
+      <div class="gs-card-header">
+        <div class="gs-avatar" style="background:${COLORS[t]}">${t}</div>
+        <span class="gs-name">${t}</span>
+        <span class="gs-count">${activeGoals.length}</span>
+      </div>
+      ${goalsHtml}
+    </div>`;
+  });
+  html+='</div>';
+  container.innerHTML=html;
+}
+
+function render(){renderSidebar();renderStats();renderSummary();renderGrid();renderGoalsSummary();}
 initCompare();
 // Trigger initial transition
 const initPage=document.getElementById('page-dashboard');
