@@ -423,7 +423,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 
 .goals-summary{margin-top:20px;}
 .goals-summary-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;}
-.goals-summary-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
+.goals-summary-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;}
 .gs-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 14px;cursor:pointer;transition:border-color .15s;}
 .gs-card:hover{border-color:var(--gold-dim);}
 .gs-card-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
@@ -604,12 +604,14 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
     <canvas id="spider-canvas-big" style="max-width:100%;max-height:70vh;"></canvas>
   </div>
 </div>
+<div class="modal-bg" id="tier-modal" style="display:none" onclick="handleTierModalBg(event)">
   <div class="modal" style="width:480px;">
     <div class="modal-header"><div class="modal-title" id="tier-modal-title">Choose card tier</div><div class="modal-close" onclick="closeTierModal()">x</div></div>
     <div class="tier-grid" id="tier-grid"></div>
     <div class="modal-actions"><button class="btn" onclick="closeTierModal()">Cancel</button><button class="btn btn-primary" onclick="saveTier()">Apply</button></div>
   </div>
 </div>
+<div class="modal-bg" id="goal-modal" style="display:none" onclick="handleGoalModalBg(event)">
   <div class="modal">
     <div class="modal-header"><div class="modal-title" id="goal-modal-title"></div><div class="modal-close" onclick="closeGoalModal()">x</div></div>
     <div class="modal-field"><div class="modal-label">Notes (manager only)</div><textarea id="gm-notes" placeholder="Focus areas, context, development plan..."></textarea></div>
@@ -632,8 +634,9 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 
 <script>
 const DOMAINS=['Cricket Knowledge','Cricket Understanding','Pricing - Model biases','Pricing - Not in model','Execution - Confidence','Execution - Efficiency','Non-Trading Work','Comms & Professionalism'];
-const TRADERS=['EL','JR','HB','JLB','SM','AN','BM'];
-const COLORS={EL:'#a78bfa',JR:'#4a8ff5',HB:'#38bdf8',JLB:'#2ec090',SM:'#e8608a',AN:'#fb923c',BM:'#f472b6'};
+const TRADERS=['EL','JR','HB','JLB','SM','AN','BM','SG'];
+const COLORS={EL:'#a78bfa',JR:'#4a8ff5',HB:'#38bdf8',JLB:'#2ec090',SM:'#e8608a',AN:'#fb923c',BM:'#f472b6',SG:'#34d399'};
+const FULL_NAMES={EL:'Edward Lowe',JR:'John Robertson',HB:'Harry Bathhurst',JLB:'Jordan Le Boutillier',SM:'Sulaiman Mirza',AN:'Alec Nicholls',BM:'Bob McCann',SG:'Sam Goody'};
 const bc=v=>v<=2?'#e05555':v<=4?'#e8872a':v<=6?'#d4a017':'#3aaa5c';
 const bn=v=>v<=2?'Beginner':v<=4?'Intermediate':v<=6?'Advanced':'Expert';
 const emptyMeta=()=>({notes:'',date:'',quarter:'',status:'todo'});
@@ -641,13 +644,13 @@ const emptyMetas=()=>DOMAINS.map(()=>emptyMeta());
 const today=()=>new Date().toISOString().split('T')[0];
 
 let state={
-  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,3,3,3,4,3,4,5],SM:[7,6,2,3,2,2,1,2],AN:[2,2,2,2,2,3,4,4],BM:[3,3,2,2,3,3,4,3]},
-  goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,null,null,null,null],HB:[null,null,null,null,null,null,null,null],JLB:[null,null,null,null,null,null,null,null],SM:[null,null,null,null,null,null,null,null],AN:[null,null,null,null,null,null,null,null],BM:[null,null,null,null,null,null,null,null]},
-  goalMeta:{EL:emptyMetas(),JR:emptyMetas(),HB:emptyMetas(),JLB:emptyMetas(),SM:emptyMetas(),AN:emptyMetas(),BM:emptyMetas()},
-  generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:''},
-  history:{EL:[],JR:[],HB:[],JLB:[],SM:[],AN:[],BM:[]},
-  reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''}},
-  cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold'}
+  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,3,3,3,4,3,4,5],SM:[7,6,2,3,2,2,1,2],AN:[2,2,2,2,2,3,4,4],BM:[3,3,2,2,3,3,4,3],SG:[3,3,1,1,1,1,1,1]},
+  goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,null,null,null,null],HB:[null,null,null,null,null,null,null,null],JLB:[null,null,null,null,null,null,null,null],SM:[null,null,null,null,null,null,null,null],AN:[null,null,null,null,null,null,null,null],BM:[null,null,null,null,null,null,null,null],SG:[null,null,null,null,null,null,null,null]},
+  goalMeta:{EL:emptyMetas(),JR:emptyMetas(),HB:emptyMetas(),JLB:emptyMetas(),SM:emptyMetas(),AN:emptyMetas(),BM:emptyMetas(),SG:emptyMetas()},
+  generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:'',SG:''},
+  history:{EL:[],JR:[],HB:[],JLB:[],SM:[],AN:[],BM:[],SG:[]},
+  reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''},SG:{last:'',next:''}},
+  cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold',SG:'bronze'}
 };
 
 let activeTraders=new Set(TRADERS);
@@ -675,6 +678,7 @@ function activatePage(page,trader){
   if(page==='heatmap'){document.querySelectorAll('.nav-item')[0].classList.add('active');renderHeatmap();}
   if(page==='goalsdash'){document.querySelectorAll('.nav-item')[1].classList.add('active');renderGoalsDash();}
   if(page==='compare'){document.querySelectorAll('.nav-item')[2].classList.add('active');renderCompare();}
+  if(page==='dashboard'){renderTeamRadar();}
   if(page==='profile'&&trader){profileTrader=trader;renderProfile(trader);}
   if(page==='readonly'&&trader){renderReadonly(trader);}
 }
@@ -721,6 +725,9 @@ function renderSidebar(){
     // clicking the row itself goes to profile
     div.addEventListener('click',()=>showPage('profile',t));
     list.appendChild(div);
+    // Draw mini radar after element is in DOM
+    const miniCanvas=div.querySelector('.t-mini-radar');
+    if(miniCanvas) drawMiniRadar(miniCanvas, state.current[t], COLORS[t]);
   });
 }
 
@@ -1078,6 +1085,30 @@ const SILHOUETTE_SVG = `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns
   <ellipse cx="69" cy="117" rx="8" ry="4"/>
 </svg>`;
 
+// EL special portrait â€” eggman with blonde goatee
+const EL_PORTRAIT = `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body (egg shape) -->
+  <ellipse cx="50" cy="72" rx="28" ry="34" fill="rgba(0,0,0,0.35)"/>
+  <!-- Head (egg shape, wider at bottom) -->
+  <ellipse cx="50" cy="32" rx="19" ry="22" fill="rgba(0,0,0,0.4)"/>
+  <!-- Eyes -->
+  <ellipse cx="43" cy="28" rx="3" ry="3.5" fill="rgba(255,255,255,0.6)"/>
+  <ellipse cx="57" cy="28" rx="3" ry="3.5" fill="rgba(255,255,255,0.6)"/>
+  <ellipse cx="43.5" cy="28.5" rx="1.5" ry="2" fill="rgba(0,0,0,0.7)"/>
+  <ellipse cx="57.5" cy="28.5" rx="1.5" ry="2" fill="rgba(0,0,0,0.7)"/>
+  <!-- Smile -->
+  <path d="M44 37 Q50 43 56 37" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <!-- Blonde goatee -->
+  <ellipse cx="50" cy="50" rx="7" ry="4" fill="rgba(255,215,0,0.7)"/>
+  <path d="M46 50 Q50 60 54 50" fill="rgba(255,200,0,0.65)"/>
+  <!-- Arms -->
+  <path d="M22 68 Q14 75 16 85 Q20 82 24 78 Q26 72 28 68Z" fill="rgba(0,0,0,0.3)"/>
+  <path d="M78 68 Q86 75 84 85 Q80 82 76 78 Q74 72 72 68Z" fill="rgba(0,0,0,0.3)"/>
+  <!-- Legs -->
+  <path d="M38 100 Q34 112 36 118 Q42 118 43 112 Q44 104 44 100Z" fill="rgba(0,0,0,0.3)"/>
+  <path d="M62 100 Q66 112 64 118 Q58 118 57 112 Q56 104 56 100Z" fill="rgba(0,0,0,0.3)"/>
+</svg>`;
+
 function buildFifaCard(t){
   const scores = state.current[t];
   const total = scores.reduce((a,b)=>a+b,0);
@@ -1099,7 +1130,7 @@ function buildFifaCard(t){
             <div class="card-position">TRADER</div>
             <div class="card-badge">${MUSTARD_BADGE}</div>
           </div>
-          <div class="card-portrait">${SILHOUETTE_SVG}</div>
+          <div class="card-portrait">${t==='EL'?EL_PORTRAIT:SILHOUETTE_SVG}</div>
         </div>
         <div class="card-name-bar"><div class="card-name">${t}</div></div>
         <div class="card-stats">${stats}</div>
@@ -1154,8 +1185,8 @@ function handleTierModalBg(e){if(e.target===document.getElementById('tier-modal'
 
 // ---- PROFILE ----
 function renderProfile(t){
-  document.getElementById('profile-page-title').textContent=t+' - Profile';
-  document.getElementById('profile-breadcrumb').innerHTML=`<span onclick="showPage('dashboard')" style="cursor:pointer">Dashboard</span><span class="breadcrumb-sep">â€º</span><span>${t}</span>`;
+  document.getElementById('profile-page-title').textContent=(FULL_NAMES[t]||t)+' â€” Profile';
+  document.getElementById('profile-breadcrumb').innerHTML=`<span onclick="showPage('dashboard')" style="cursor:pointer">Dashboard</span><span class="breadcrumb-sep">â€º</span><span>${FULL_NAMES[t]||t}</span>`;
   const scores=state.current[t],goals=state.goals[t],total=scores.reduce((a,b)=>a+b,0),rev=state.reviews[t];
   spiderCompareTrader=null;
 
@@ -1205,7 +1236,7 @@ function renderProfile(t){
   document.getElementById('profile-content').innerHTML=`
     <div class="profile-header">
       <div class="profile-avatar" style="background:${COLORS[t]}">${t}</div>
-      <div><div class="profile-name">${t}</div><div class="profile-meta">${bn(Math.round(total/8))} overall &mdash; ${goals.filter(g=>g!==null).length} active goals ${reviewFlag}</div></div>
+      <div><div class="profile-name">${FULL_NAMES[t]||t}</div><div class="profile-meta">${bn(Math.round(total/8))} overall &mdash; ${goals.filter(g=>g!==null).length} active goals ${reviewFlag}</div></div>
       <div class="profile-total"><div class="profile-total-num" style="color:${bc(Math.round(total/8))}">${total}</div><div class="profile-total-label">out of 64</div></div>
     </div>
     <div style="display:grid;grid-template-columns:2fr 1.5fr 1fr;gap:14px;margin-bottom:16px;">
@@ -1236,7 +1267,7 @@ function renderProfile(t){
       <div class="profile-section"><div class="profile-section-title">Score history</div><div class="history-list">${histHtml}</div></div>
     </div>
     <div class="profile-section" style="margin-bottom:16px;">
-      <div class="profile-section-title">Next steps &mdash; what ${t} needs to progress</div>
+      <div class="profile-section-title">Next steps &mdash; what ${FULL_NAMES[t]||t} needs to progress</div>
       ${nextStepsHtml}
     </div>
     <div class="profile-grid">
@@ -1607,7 +1638,6 @@ function drawMiniRadar(canvas, scores, color){
 let teamRadarVisible=new Set(TRADERS);
 
 function renderTeamRadar(){
-  // Toggles
   const togglesEl=document.getElementById('team-radar-toggles');
   if(!togglesEl)return;
   togglesEl.innerHTML='';
@@ -1665,7 +1695,8 @@ function renderTeamRadar(){
 
 // ---- PDF EXPORT ----
 function exportPDF(){
-  const t=profileTrader;if(!t)return;
+  const t=profileTrader;
+  if(!t){showToast('Open a trader profile first');return;}
   const scores=state.current[t];
   const total=scores.reduce((a,b)=>a+b,0);
   const goals=state.goals[t];
@@ -1714,7 +1745,7 @@ function exportPDF(){
   setTimeout(()=>w.print(),400);
 }
 
-function render(){renderSidebar();renderStats();renderSummary();renderGrid();renderGoalsSummary();renderTeamRadar();}
+function render(){renderSidebar();renderStats();renderSummary();renderGrid();renderGoalsSummary();if(currentPage==='dashboard')renderTeamRadar();}
 initCompare();
 // Trigger initial transition
 const initPage=document.getElementById('page-dashboard');
