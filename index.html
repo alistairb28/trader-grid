@@ -144,6 +144,15 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .edit-bar{background:var(--surface2);border-bottom:1px solid var(--border);padding:8px 14px;font-size:12px;color:var(--text2);display:flex;align-items:center;gap:8px;}
 .edit-bar-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);}
 
+/* Criteria expand */
+.domain-cell-expandable{cursor:pointer;user-select:none;}
+.domain-cell-expandable:hover{color:var(--gold);}
+.expand-chevron{font-size:8px;color:var(--text3);flex-shrink:0;transition:color .15s;}
+.domain-cell-expandable:hover .expand-chevron{color:var(--gold);}
+.domain-row-expanded .domain-cell{color:var(--gold);}
+.domain-row-expanded .expand-chevron{color:var(--gold);}
+.criteria-row td{background:var(--surface2);border-top:none;border-bottom:2px solid var(--gold-dim);}
+
 /* Profile */
 .profile-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding:18px 22px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);border-top:3px solid var(--gold-dim);}
 .profile-avatar{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:17px;font-weight:500;color:#0e1628;flex-shrink:0;}
@@ -505,22 +514,32 @@ function renderSidebar(){
     let flagColor='transparent';
     if(rev.next){
       const diff=(new Date(rev.next)-new Date())/(1000*60*60*24);
-      if(diff<0)flagColor='#e05555';
+      if(diff<0)flagColor='#c94f3a';
       else if(diff<=14)flagColor='#e8872a';
     }
     const isFocused=focusTrader===t;
+    const isActive=activeTraders.has(t);
     const div=document.createElement('div');
-    div.className='trader-item'+(activeTraders.has(t)?' selected':' dim');
+    div.className='trader-item'+(isActive?' selected':' dim');
     if(isFocused)div.style.borderColor=COLORS[t];
-    div.innerHTML=`<div class="t-dot" style="background:${COLORS[t]}"></div><span class="t-name">${t}</span><span class="t-score">${total}</span>${flagColor!=='transparent'?`<div class="t-review-flag" style="background:${flagColor}" title="Review due"></div>`:''}<span class="t-btn${isFocused?' focused':''}" title="Focus on this trader">${isFocused?'focused':'focus'}</span><span class="t-btn" title="Open profile">&#8594;</span>`;
+    div.innerHTML=`
+      <div class="t-dot" style="background:${COLORS[t]}"></div>
+      <span class="t-name">${t}</span>
+      <span class="t-score">${total}</span>
+      ${flagColor!=='transparent'?`<div class="t-review-flag" style="background:${flagColor}" title="Review due"></div>`:''}
+      <span class="t-btn${isFocused?' focused':''}" title="Focus on this trader">${isFocused?'focused':'focus'}</span>
+      <span class="t-btn" title="${isActive?'Hide from grid':'Show on grid'}" style="opacity:${isActive?1:0.5}">${isActive?'hide':'show'}</span>`;
     const btns=div.querySelectorAll('.t-btn');
+    // focus button
     btns[0].addEventListener('click',e=>{e.stopPropagation();toggleFocus(t);});
-    btns[1].addEventListener('click',e=>{e.stopPropagation();showPage('profile',t);});
-    div.addEventListener('click',()=>{
-      if(currentPage!=='dashboard'){showPage('profile',t);return;}
+    // hide/show button
+    btns[1].addEventListener('click',e=>{
+      e.stopPropagation();
       if(activeTraders.has(t))activeTraders.delete(t);else activeTraders.add(t);
       render();
     });
+    // clicking the row itself goes to profile
+    div.addEventListener('click',()=>showPage('profile',t));
     list.appendChild(div);
   });
 }
@@ -537,16 +556,72 @@ function renderStats(){
   ].map(s=>`<div class="stat-card"><div class="stat-val" style="color:${s.color}">${s.val}</div><div class="stat-label">${s.label}</div></div>`).join('');
 }
 
+// ---- CRITERIA DATA ----
+const CRITERIA = [
+  { // Cricket Knowledge
+    1: 'Some knowledge of most mainstream cricket.\nSome knowledge of some other cricket.',
+    2: 'Some knowledge of all mainstream cricket.\nSome knowledge of most other cricket.',
+    3: 'Excellent knowledge of most cricket.',
+    4: 'Excellent knowledge of all cricket.\nIs a go-to resource for the team for cricket knowledge queries.'
+  },
+  { // Cricket Understanding
+    1: 'Some skill at detecting when a player or venue is deviating from expectation.',
+    2: 'Proficient at detecting when a player or venue is deviating from expectation.\nSome ability to anticipate future match developments by recognising relevant indicators.',
+    3: 'Proficient at anticipating future match developments by recognising relevant indicators.\nIs a go-to resource used by other members of the team for cricket understanding questions.',
+    4: 'N/A'
+  },
+  { // Pricing â€“ Model biases
+    1: 'Nothing expected.',
+    2: 'Trader has learned to spot all the currently known model biases and can implement a solution.',
+    3: 'Trader can innovate, or improve upon, a solution to a model bias, and implement it across the games they trade.\nPerforms well against other traders in pricing metrics in states of known biases.',
+    4: 'Leads team in pricing metrics in states of known biases.\nTrader has spotted and innovated a solution to a model bias.\nThis solution is either in team-wide use, or quants have proved its efficacy and are including it in the model.'
+  },
+  { // Pricing â€“ Not in model
+    1: 'Some aptitude at applying simple adjustments.\nCan crudely factor in the model opinion vs market when making these adjustments.',
+    2: 'Quick and accurate application of simple adjustments.\nDemonstrates some ability applying advanced adjustments.',
+    3: 'Adept at quickly quantifying their cricket knowledge and understanding.\nApplying these adjustments or communicating them effectively as a T2.\nPerforms well against other traders in pricing metrics.',
+    4: 'Leads team in pricing metrics.\nCan scale the value of their excellent ability to quantify adjustments team wide.'
+  },
+  { // Execution â€“ Confidence
+    1: 'Some skill to choose an appropriate risk for a market.\nUnderstands some of the key factors that inform product confidence.',
+    2: 'Has some understanding of product confidence and market strength in all potential match situations. Executes accordingly.',
+    3: 'Has excellent understanding of product and market strength in almost all match situations. Executes accordingly.',
+    4: 'Trader can scale their excellent ability to judge Mustard\'s edge to the rest of the team.'
+  },
+  { // Execution â€“ Efficiency
+    1: 'Use the AT with required speed and accuracy.\nSome awareness of positions, opinions and opportunities.',
+    2: 'Ability to make various adjustments to execution strategy to suit conditions.',
+    3: 'Ability to make advanced and accurate adjustment to execution strategy to suit conditions.\nSome ability to innovate new trading strategies.\nPerforms well against other traders in execution metrics.',
+    4: 'Trader formulates successful trading strategies, testable by execution metrics.\nTrader can scale their excellent ability to interact with the market to the wider team.'
+  },
+  { // Non-Trading Work
+    1: 'Nothing expected.',
+    2: 'Expresses an interest in work outside of trading.\nRequires direction and continuous management to complete tasks.',
+    3: 'Actively contributes to work outside of trading.\nCompletes project tasks with limited guidance and communicates progress effectively, delivering work that supports improvements to the Cricket Trading product.',
+    4: 'Proactively searches for, scopes, prioritises, communicates and completes work that demonstrably improves the Cricket Trading product.'
+  },
+  { // Comms & Professionalism
+    1: 'Can report problems in the appropriate Slack channel.\nMeets the necessary minimums for punctuality and conscientiousness.',
+    2: 'Understands which communication channels are best for various needs.\nAble to effectively convey written and verbal thoughts to leadership.\nContributes to a positive team environment.\nGood conscientiousness and punctuality.',
+    3: 'Leads in Trader Catchups.\nPrepares documents and sheets that are referred to team wide.\nAll traders happy to work with them.\nUses soft skills to lead on tasks effectively.',
+    4: 'Reliably coordinates short and long-term projects involving multiple departments at Mustard.\nExcels in all areas such that any value added from other rows is amplified significantly.\nAble to line manage other traders.'
+  }
+];
+
+// Band that a level 1-8 falls into (1=B,2=I,3=A,4=E mapped to 1-2,3-4,5-6,7-8)
+function criteriaLevel(lvl){ return lvl<=2?1:lvl<=4?2:lvl<=6?3:4; }
+
+let expandedDomain = null;
+
 // ---- SUMMARY BAR ----
 function renderSummary(){}
 
 // ---- MAIN GRID ----
-// Band column class: 1-2=col1, 3-4=col2, 5-6=col3, 7-8=col4
 function bandColClass(lvl){return lvl<=2?'band-col-1':lvl<=4?'band-col-2':lvl<=6?'band-col-3':'band-col-4';}
 
 function renderGrid(){
   const table=document.getElementById('main-table');
-  const BANDS=[{label:'Beginner',color:'#e05555'},{label:'Intermediate',color:'#e8872a'},{label:'Advanced',color:'#d4a017'},{label:'Expert',color:'#3aaa5c'}];
+  const BANDS=[{label:'Beginner',color:'#c94f3a'},{label:'Intermediate',color:'#e8872a'},{label:'Advanced',color:'#c9a227'},{label:'Expert',color:'#2a7f6f'}];
   let html='<thead><tr><th class="col-domain"></th>';
   BANDS.forEach((b,bi)=>{html+=`<th colspan="2" style="color:${b.color};border-bottom:2px solid ${b.color}50;${bi>0?'border-left:1px solid var(--border)':''}">${b.label}</th>`;});
   html+='</tr><tr><th class="col-domain">Domain</th>';
@@ -554,14 +629,21 @@ function renderGrid(){
   html+='</tr></thead><tbody>';
 
   DOMAINS.forEach((domain,di)=>{
-    html+=`<tr><td class="domain-cell">${domain}</td>`;
+    const isExpanded = expandedDomain === di;
+    // Main row â€” domain cell is clickable to expand criteria
+    html+=`<tr class="domain-row${isExpanded?' domain-row-expanded':''}">`;
+    html+=`<td class="domain-cell domain-cell-expandable" onclick="toggleExpand(${di})" title="Click to see criteria">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="expand-chevron">${isExpanded?'&#9660;':'&#9654;'}</span>
+        <span>${domain}</span>
+      </div>
+    </td>`;
     for(let lvl=1;lvl<=8;lvl++){
       const divClass=[3,5,7].includes(lvl)?'band-divider-left':'';
       const bgClass=bandColClass(lvl);
       const cl=mode!=='view'?'clickable':'';
       const focusHit=focusTrader&&(state.current[focusTrader][di]===lvl||state.goals[focusTrader][di]===lvl);
       html+=`<td class="level-cell ${divClass} ${bgClass} ${cl}${focusHit?' focus-hit':''}" data-di="${di}" data-lvl="${lvl}"><div class="cell-inner"><div class="pips">`;
-
       if(focusTrader){
         [...activeTraders].forEach(t=>{
           const cur=state.current[t][di],goal=state.goals[t][di];
@@ -591,6 +673,27 @@ function renderGrid(){
       html+='</div></div></td>';
     }
     html+='</tr>';
+
+    // Expand row â€” criteria panel
+    if(isExpanded){
+      const crit = CRITERIA[di];
+      const bandColors=['#c94f3a','#e8872a','#c9a227','#2a7f6f'];
+      const bandLabels=['Beginner (1-2)','Intermediate (3-4)','Advanced (5-6)','Expert (7-8)'];
+      let critCells = [1,2,3,4].map((band,bi)=>{
+        const text = (crit[band]||'').split('\n').map(l=>`<div style="margin-bottom:4px">${l}</div>`).join('');
+        return `<td colspan="2" style="padding:14px 12px;vertical-align:top;${bi>0?'border-left:1px solid var(--border)':''}">
+          <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:${bandColors[bi]};margin-bottom:8px;">${bandLabels[bi]}</div>
+          <div style="font-size:11px;color:var(--text2);line-height:1.6;">${text}</div>
+        </td>`;
+      }).join('');
+      html+=`<tr class="criteria-row">
+        <td style="padding:14px;background:var(--surface2);border-top:1px solid var(--border2);">
+          <div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:4px;">Criteria</div>
+          <div style="font-size:11px;color:var(--text3);">Click domain to collapse</div>
+        </td>
+        ${critCells}
+      </tr>`;
+    }
   });
   html+='</tbody>';
   table.innerHTML=html;
@@ -609,9 +712,15 @@ function renderGrid(){
   else{eb.style.display='flex';document.getElementById('edit-bar-text').textContent=mode==='edit'?"Click a cell to update a trader's current level":"Click a cell to set or clear a goal";}
 }
 
+function toggleExpand(di){
+  expandedDomain = expandedDomain === di ? null : di;
+  renderGrid();
+}
+
 // ---- FOCUS ----
 function toggleFocus(t){focusTrader=focusTrader===t?null:t;render();}
 function clearFocus(){focusTrader=null;render();}
+
 
 // ---- SPIDER DIAGRAM ----
 function drawSpider(canvasId, scores, goalScores, color, scores2, color2){
@@ -620,9 +729,9 @@ function drawSpider(canvasId, scores, goalScores, color, scores2, color2){
   const ctx=canvas.getContext('2d');
   const W=canvas.width,H=canvas.height;
   const cx=W/2,cy=H/2;
-  const R=Math.min(cx,cy)-48;
+  const R=Math.min(cx,cy)-56;
   const N=8;
-  const labels=['Cricket\nKnowledge','Cricket\nUnderstanding','Pricing\nModel','Pricing\nNot Model','Exec\nConfidence','Exec\nEfficiency','Non-Trading','Comms &\nProf.'];
+  const labels=['Cricket\nKnowledge','Cricket\nUnderstanding','Pricing\nModel biases','Pricing\nNot in model','Exec\nConfidence','Exec\nEfficiency','Non-Trading\nWork','Comms &\nProfessionalism'];
   ctx.clearRect(0,0,W,H);
 
   // Grid rings
@@ -704,7 +813,7 @@ function drawSpider(canvasId, scores, goalScores, color, scores2, color2){
   // Labels
   for(let i=0;i<N;i++){
     const a=(i/N)*Math.PI*2-Math.PI/2;
-    const lx=cx+(R+30)*Math.cos(a),ly=cy+(R+30)*Math.sin(a);
+    const lx=cx+(R+38)*Math.cos(a),ly=cy+(R+38)*Math.sin(a);
     ctx.fillStyle='rgba(144,144,160,0.9)';
     ctx.font='10px DM Sans,sans-serif';
     ctx.textAlign=lx<cx-5?'right':lx>cx+5?'left':'center';
@@ -798,7 +907,7 @@ function renderProfile(t){
             </select>
           </div>
         </div>
-        <canvas id="spider-canvas" width="340" height="340" style="max-width:100%;"></canvas>
+        <canvas id="spider-canvas" width="400" height="360" style="max-width:100%;"></canvas>
         ${goalNote}
       </div>
       <div class="profile-section"><div class="profile-section-title">Current levels</div><div class="domain-bars">${bars}</div></div>
