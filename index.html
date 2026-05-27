@@ -392,7 +392,24 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .tier-option.selected{border-color:rgba(255,255,255,0.8);box-shadow:0 0 0 3px var(--gold),0 8px 20px rgba(0,0,0,0.5);}
 .tier-option-label{font-size:8px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,0.75);}
 
-/* Mini radar in sidebar */
+/* Promotion tier badge */
+.promo-tier-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:600;border:1px solid;}
+.promo-tier-dot{width:7px;height:7px;border-radius:50%;}
+.promo-gap-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px;}
+.promo-gap-row:last-child{border-bottom:none;}
+.promo-gap-domain{color:var(--text2);flex:1;}
+.promo-gap-track{width:80px;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden;}
+.promo-gap-fill{height:100%;border-radius:3px;}
+.promo-gap-val{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);width:40px;text-align:right;}
+.promo-close-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:12px 14px;cursor:pointer;transition:border-color .15s;}
+.promo-close-card:hover{border-color:var(--gold-dim);}
+.promo-close-header{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.promo-close-name{font-size:13px;font-weight:600;}
+.promo-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:14px;}
+.promo-section-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;}
+
+/* Sidebar tier label */
+.t-tier-label{font-size:9px;font-weight:600;letter-spacing:.05em;padding:1px 5px;border-radius:4px;flex-shrink:0;}
 .t-mini-radar{flex-shrink:0;opacity:0.85;}
 
 /* Team radar section */
@@ -516,6 +533,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
           <canvas id="team-radar-canvas" width="700" height="560" style="max-width:100%;"></canvas>
         </div>
       </div>
+      <div id="promo-overview" style="margin-top:20px;"></div>
     </div>
 <div class="milestone-toast" id="milestone-toast"><div id="milestone-msg"></div><div class="milestone-toast-sub" id="milestone-sub"></div></div>
 
@@ -637,6 +655,61 @@ const DOMAINS=['Cricket Knowledge','Cricket Understanding','Pricing - Model bias
 const TRADERS=['EL','JR','HB','JLB','SM','AN','BM','SG'];
 const COLORS={EL:'#a78bfa',JR:'#4a8ff5',HB:'#38bdf8',JLB:'#2ec090',SM:'#e8608a',AN:'#fb923c',BM:'#f472b6',SG:'#34d399'};
 const FULL_NAMES={EL:'Edward Lowe',JR:'John Robertson',HB:'Harry Bathhurst',JLB:'Jordan Le Boutillier',SM:'Sulaiman Mirza',AN:'Alec Nicholls',BM:'Bob McCann',SG:'Sam Goody'};
+
+// ---- PROMOTION TIERS ----
+// Edit the 'mins' array to change promotion thresholds per domain
+// Order: CK, CU, PM, PNM, EC, EE, NTW, CP
+const TIERS_PROMO = [
+  { name: 'Probation',     short: 'Probation', color: '#e05555', mins: null, special: 'probation' },
+  { name: 'Junior Trader', short: 'Junior',    color: '#9ba3ae', mins: [0,0,0,0,0,0,0,0] },
+  { name: 'Trader',        short: 'Trader',    color: '#e8872a', mins: [4,4,4,4,4,4,0,0] },
+  { name: 'Senior Trader', short: 'Senior',    color: '#f5c518', mins: [6,6,6,6,6,6,6,6] },
+  { name: 'Team Lead',     short: 'Lead',      color: '#3aaa5c', mins: [7,7,7,7,7,7,7,7] },
+];
+
+function getPromoTier(scores){
+  // Probation: fewer than 5 domains at 3 or above
+  const domainsAt3Plus = scores.filter(s=>s>=2).length;
+  if(domainsAt3Plus < 5) return TIERS_PROMO[0];
+  // Otherwise highest qualifying tier
+  let tier = TIERS_PROMO[1];
+  for(const t of TIERS_PROMO.slice(1)){
+    if(t.mins.every((m,i)=>scores[i]>=m)) tier=t;
+  }
+  return tier;
+}
+
+function getNextPromoTier(scores){
+  const current = getPromoTier(scores);
+  const idx = TIERS_PROMO.indexOf(current);
+  return idx < TIERS_PROMO.length-1 ? TIERS_PROMO[idx+1] : null;
+}
+
+function getPromoGaps(scores){
+  const next = getNextPromoTier(scores);
+  if(!next) return null;
+  if(next.special === undefined && getPromoTier(scores).special === 'probation'){
+    return DOMAINS.map((d,i)=>({domain:d, current:scores[i], needed:2, gap:Math.max(0,2-scores[i])}))
+      .sort((a,b)=>a.gap-b.gap);
+  }
+  if(!next.mins) return null;
+  return DOMAINS.map((d,i)=>({domain:d, current:scores[i], needed:next.mins[i], gap:Math.max(0,next.mins[i]-scores[i])}));
+}
+
+function isCloseToPromotion(scores, threshold=1){
+  const current=getPromoTier(scores);
+  const next=getNextPromoTier(scores);
+  if(!next)return false;
+  if(current.special==='probation'){
+    const domainsAt2Plus=scores.filter(s=>s>=2).length;
+    const needed=5-domainsAt2Plus;
+    return needed>0 && needed<=3 && scores.filter(s=>s===1).every(s=>s>=1);
+  }
+  const gaps=getPromoGaps(scores);
+  if(!gaps)return false;
+  const blocking=gaps.filter(g=>g.gap>0);
+  return blocking.length>0 && blocking.length<=3 && blocking.every(g=>g.gap<=1);
+}
 const bc=v=>v<=2?'#e05555':v<=4?'#e8872a':v<=6?'#d4a017':'#3aaa5c';
 const bn=v=>v<=2?'Beginner':v<=4?'Intermediate':v<=6?'Advanced':'Expert';
 const emptyMeta=()=>({notes:'',date:'',quarter:'',status:'todo'});
@@ -678,7 +751,7 @@ function activatePage(page,trader){
   if(page==='heatmap'){document.querySelectorAll('.nav-item')[0].classList.add('active');renderHeatmap();}
   if(page==='goalsdash'){document.querySelectorAll('.nav-item')[1].classList.add('active');renderGoalsDash();}
   if(page==='compare'){document.querySelectorAll('.nav-item')[2].classList.add('active');renderCompare();}
-  if(page==='dashboard'){renderTeamRadar();}
+  if(page==='dashboard'){renderTeamRadar();renderPromoOverview();}
   if(page==='profile'&&trader){profileTrader=trader;renderProfile(trader);}
   if(page==='readonly'&&trader){renderReadonly(trader);}
 }
@@ -703,13 +776,14 @@ function renderSidebar(){
     }
     const isFocused=focusTrader===t;
     const isActive=activeTraders.has(t);
+    const promoTier=getPromoTier(state.current[t]);
     const div=document.createElement('div');
     div.className='trader-item'+(isActive?' selected':' dim');
     if(isFocused)div.style.borderColor=COLORS[t];
     div.innerHTML=`
       <canvas class="t-mini-radar" width="28" height="28"></canvas>
       <span class="t-name">${t}</span>
-      <span class="t-score">${total}</span>
+      <span class="t-tier-label" style="background:${promoTier.color}22;color:${promoTier.color};border:1px solid ${promoTier.color}44">${promoTier.short}</span>
       ${flagColor!=='transparent'?`<div class="t-review-flag" style="background:${flagColor}" title="Review due"></div>`:''}
       <span class="t-btn${isFocused?' focused':''}" title="Focus on this trader">${isFocused?'focused':'focus'}</span>
       <span class="t-btn" title="${isActive?'Hide from grid':'Show on grid'}" style="opacity:${isActive?1:0.5}">${isActive?'hide':'show'}</span>`;
@@ -736,10 +810,11 @@ function renderStats(){
   const strip=document.getElementById('stats-strip');
   const allGoals=TRADERS.flatMap(t=>state.goals[t].map((g,di)=>g?{t,di,g,meta:state.goalMeta[t][di]}:null).filter(Boolean));
   const overdueRevs=TRADERS.filter(t=>{const r=state.reviews[t];return r.next&&new Date(r.next)<new Date();}).length;
-
+  const nearPromo=TRADERS.filter(t=>isCloseToPromotion(state.current[t])).length;
   strip.innerHTML=[
     {val:allGoals.length,label:'Active goals',color:'var(--text)'},
     {val:overdueRevs,label:'Reviews due',color:overdueRevs>0?'var(--beginner)':'var(--expert)'},
+    {val:nearPromo,label:'Near promotion',color:nearPromo>0?'var(--gold)':'var(--text3)'},
   ].map(s=>`<div class="stat-card"><div class="stat-val" style="color:${s.color}">${s.val}</div><div class="stat-label">${s.label}</div></div>`).join('');
 }
 
@@ -1233,6 +1308,58 @@ function renderProfile(t){
     return `<div class="next-step-row"><div class="next-step-domain">${d}</div><span class="next-step-badge" style="background:${bc(cur+1)}22;color:${bc(cur+1)}">${cur+1}</span><div class="next-step-text">${firstLine}</div></div>`;
   }).join('');
 
+  // Promotion status
+  const currentPromo=getPromoTier(scores);
+  const nextPromo=getNextPromoTier(scores);
+  const promoGaps=getPromoGaps(scores);
+  const close=isCloseToPromotion(scores);
+
+  let promoHtml='';
+  if(!nextPromo){
+    promoHtml=`<div style="font-size:13px;color:var(--expert);font-weight:600">&#10003; Maximum tier reached â€” Team Lead</div>`;
+  } else if(currentPromo.special==='probation'){
+    const domainsAt3Plus=scores.filter(s=>s>=2).length;
+    const needed=5-domainsAt3Plus;
+    const domainRows=DOMAINS.map((d,i)=>{
+      const met=scores[i]>=2;
+      return `<div class="promo-gap-row">
+        <div class="promo-gap-domain">${d}</div>
+        <div class="promo-gap-track"><div class="promo-gap-fill" style="width:${met?100:Math.round(scores[i]/2*100)}%;background:${met?'var(--expert)':'var(--beginner)'}"></div></div>
+        <div class="promo-gap-val" style="color:${met?'var(--expert)':'var(--beginner)'}">${scores[i]}/2 ${met?'&#10003;':''}</div>
+      </div>`;
+    }).join('');
+    promoHtml=`
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+        <span class="promo-tier-badge" style="color:${currentPromo.color};border-color:${currentPromo.color}44;background:${currentPromo.color}18"><div class="promo-tier-dot" style="background:${currentPromo.color}"></div>${currentPromo.name}</span>
+        <span style="font-size:13px;color:var(--text3)">&#8594;</span>
+        <span class="promo-tier-badge" style="color:${nextPromo.color};border-color:${nextPromo.color}44;background:${nextPromo.color}18"><div class="promo-tier-dot" style="background:${nextPromo.color}"></div>${nextPromo.name}</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--beginner)">${domainsAt3Plus}/5 domains at 2+ &mdash; needs ${needed} more to exit probation</span>
+      </div>
+      ${domainRows}`;
+  } else {
+    const blockingDomains=promoGaps.filter(g=>g.gap>0);
+    const readyDomains=promoGaps.filter(g=>g.gap===0);
+    const gapRows=promoGaps.map(g=>{
+      const pct=Math.round((g.current/g.needed)*100);
+      const filled=Math.min(100,pct);
+      const col=g.gap===0?'var(--expert)':g.gap===1?'var(--gold)':'var(--intermediate)';
+      return `<div class="promo-gap-row">
+        <div class="promo-gap-domain">${g.domain}</div>
+        <div class="promo-gap-track"><div class="promo-gap-fill" style="width:${filled}%;background:${col}"></div></div>
+        <div class="promo-gap-val" style="color:${col}">${g.current}/${g.needed}</div>
+      </div>`;
+    }).join('');
+    promoHtml=`
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+        <span class="promo-tier-badge" style="color:${currentPromo.color};border-color:${currentPromo.color}44;background:${currentPromo.color}18"><div class="promo-tier-dot" style="background:${currentPromo.color}"></div>${currentPromo.name}</span>
+        <span style="font-size:13px;color:var(--text3)">&#8594;</span>
+        <span class="promo-tier-badge" style="color:${nextPromo.color};border-color:${nextPromo.color}44;background:${nextPromo.color}18"><div class="promo-tier-dot" style="background:${nextPromo.color}"></div>${nextPromo.name}</span>
+        ${close?`<span style="font-size:11px;background:var(--gold)22;color:var(--gold);padding:2px 8px;border-radius:8px;border:1px solid var(--gold)44">&#9733; Close to promotion</span>`:''}
+        <span style="margin-left:auto;font-size:11px;color:var(--text3)">${blockingDomains.length===0?'All thresholds met â€” ready for review!':blockingDomains.length+' domain'+( blockingDomains.length>1?'s':'')+' below threshold'}</span>
+      </div>
+      ${gapRows}`;
+  }
+
   document.getElementById('profile-content').innerHTML=`
     <div class="profile-header">
       <div class="profile-avatar" style="background:${COLORS[t]}">${t}</div>
@@ -1269,6 +1396,10 @@ function renderProfile(t){
     <div class="profile-section" style="margin-bottom:16px;">
       <div class="profile-section-title">Next steps &mdash; what ${FULL_NAMES[t]||t} needs to progress</div>
       ${nextStepsHtml}
+    </div>
+    <div class="promo-section">
+      <div class="promo-section-title">Promotion status &mdash; ${currentPromo.name} ${nextPromo?'&#8594; '+nextPromo.name:''}</div>
+      ${promoHtml}
     </div>
     <div class="profile-grid">
       <div class="profile-section">
@@ -1745,7 +1876,57 @@ function exportPDF(){
   setTimeout(()=>w.print(),400);
 }
 
-function render(){renderSidebar();renderStats();renderSummary();renderGrid();renderGoalsSummary();if(currentPage==='dashboard')renderTeamRadar();}
+// ---- PROMO OVERVIEW ----
+function renderPromoOverview(){
+  const el=document.getElementById('promo-overview');
+  if(!el)return;
+
+  // Tier breakdown
+  const tierGroups={};
+  TIERS_PROMO.forEach(t=>tierGroups[t.name]=[]);
+  TRADERS.forEach(t=>{const tier=getPromoTier(state.current[t]);tierGroups[tier.name].push(t);});
+
+  const tierSummary=TIERS_PROMO.map(tier=>{
+    const members=tierGroups[tier.name];
+    if(!members.length)return'';
+    const pips=members.map(t=>`<div style="display:flex;align-items:center;gap:5px;cursor:pointer;" onclick="showPage('profile','${t}')">
+      <div style="width:10px;height:10px;border-radius:50%;background:${COLORS[t]}"></div>
+      <span style="font-size:12px;color:var(--text2)">${FULL_NAMES[t]||t}</span>
+    </div>`).join('');
+    return `<div style="flex:1;min-width:160px;background:var(--surface2);border-radius:var(--radius);padding:12px 14px;border-left:3px solid ${tier.color}">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${tier.color};margin-bottom:8px">${tier.name}</div>
+      <div style="display:flex;flex-direction:column;gap:5px">${pips}</div>
+    </div>`;
+  }).filter(Boolean).join('');
+
+  // Near promotion
+  const nearTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t]));
+  const nearCards=nearTraders.map(t=>{
+    const next=getNextPromoTier(state.current[t]);
+    const gaps=getPromoGaps(state.current[t]).filter(g=>g.gap>0);
+    const gapStr=gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; ');
+    return `<div class="promo-close-card" onclick="showPage('profile','${t}')">
+      <div class="promo-close-header">
+        <div style="width:22px;height:22px;border-radius:50%;background:${COLORS[t]};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:#0e1628;font-weight:700">${t}</div>
+        <div class="promo-close-name">${FULL_NAMES[t]||t}</div>
+        <span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span>
+      </div>
+      <div style="font-size:10px;color:var(--text3);line-height:1.6">${gapStr||'All thresholds met â€” ready for review'}</div>
+    </div>`;
+  }).join('');
+
+  el.innerHTML=`
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:14px">Team Tiers</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:${nearTraders.length?'20px':'0'}">${tierSummary}</div>
+      ${nearTraders.length?`
+        <div style="font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:10px">&#9733; Near Promotion</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px">${nearCards}</div>
+      `:''}
+    </div>`;
+}
+
+function render(){renderSidebar();renderStats();renderSummary();renderGrid();renderGoalsSummary();if(currentPage==='dashboard'){renderTeamRadar();renderPromoOverview();}}
 initCompare();
 // Trigger initial transition
 const initPage=document.getElementById('page-dashboard');
