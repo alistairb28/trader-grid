@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trader Grid Tracker</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231a2744'/%3E%3Ctext x='16' y='38' text-anchor='middle' font-family='DM Sans%2C Arial%2C sans-serif' font-weight='800' font-size='26' fill='%23f5c518'%3EG%3C/text%3E%3Ctext x='48' y='38' text-anchor='middle' font-family='DM Sans%2C Arial%2C sans-serif' font-weight='800' font-size='26' fill='%23f5c518'%3ER%3C/text%3E%3Ctext x='48' y='60' text-anchor='middle' font-family='DM Sans%2C Arial%2C sans-serif' font-weight='800' font-size='26' fill='%23f5c518'%3EI%3C/text%3E%3Ctext x='16' y='60' text-anchor='middle' font-family='DM Sans%2C Arial%2C sans-serif' font-weight='800' font-size='26' fill='%23f5c518'%3ED%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -237,6 +238,25 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .gd-edit:hover{color:var(--text2);}
 .no-items{text-align:center;padding:32px;color:var(--text3);font-size:13px;font-style:italic;}
 
+/* Criteria page */
+.criteria-domain-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:16px;overflow:hidden;}
+.criteria-domain-header{padding:14px 20px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .15s;}
+.criteria-domain-header:hover{background:var(--surface2);}
+.criteria-domain-name{font-size:15px;font-weight:600;flex:1;}
+.criteria-domain-desc{font-size:12px;color:var(--text3);flex:2;}
+.criteria-expand-icon{font-size:11px;color:var(--text3);transition:transform .2s;}
+.criteria-domain-card.open .criteria-expand-icon{transform:rotate(90deg);}
+.criteria-bands{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--border);}
+.criteria-band{padding:16px 18px;border-right:1px solid var(--border);}
+.criteria-band:last-child{border-right:none;}
+.criteria-band-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+.criteria-band-levels{display:flex;flex-direction:column;gap:10px;}
+.criteria-level{display:flex;gap:8px;}
+.criteria-level-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;width:18px;flex-shrink:0;margin-top:1px;}
+.criteria-level-text{font-size:12px;color:var(--text2);line-height:1.6;}
+.criteria-domain-card .criteria-bands{display:none;}
+.criteria-domain-card.open .criteria-bands{display:grid;}
+
 /* Compare */
 .compare-selectors{display:flex;gap:10px;margin-bottom:20px;align-items:center;}
 .compare-select{background:var(--surface2);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 11px;outline:none;cursor:pointer;}
@@ -438,6 +458,25 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .export-pdf-btn{padding:5px 14px;border-radius:var(--radius);border:1px solid var(--gold-dim);background:transparent;color:var(--gold-dim);font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;}
 .export-pdf-btn:hover{background:var(--gold-faint);color:var(--gold);}
 
+/* Criteria page */
+.criteria-domain-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:14px;overflow:hidden;}
+.criteria-domain-header{padding:14px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:background .15s;user-select:none;}
+.criteria-domain-header:hover{background:var(--surface2);}
+.criteria-domain-name{font-size:14px;font-weight:600;flex:0 0 200px;}
+.criteria-domain-desc{font-size:11px;color:var(--text3);flex:1;line-height:1.4;}
+.criteria-chevron{font-size:10px;color:var(--text3);flex-shrink:0;transition:transform .2s;}
+.criteria-domain-card.open .criteria-chevron{transform:rotate(90deg);color:var(--gold);}
+.criteria-domain-card.open .criteria-domain-name{color:var(--gold);}
+.criteria-bands{display:none;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);}
+.criteria-domain-card.open .criteria-bands{display:grid;}
+.criteria-band{padding:16px;border-right:1px solid var(--border);}
+.criteria-band:last-child{border-right:none;}
+.criteria-band-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;}
+.criteria-band-levels{display:flex;flex-direction:column;gap:10px;}
+.criteria-level{display:flex;gap:8px;align-items:flex-start;}
+.criteria-level-num{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;width:16px;flex-shrink:0;margin-top:2px;}
+.criteria-level-text{font-size:11px;color:var(--text2);line-height:1.6;}
+
 .goals-summary{margin-top:20px;}
 .goals-summary-title{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;}
 .goals-summary-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:10px;}
@@ -488,6 +527,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
         <div class="nav-item" onclick="showPage('heatmap')"><span class="mode-icon">[#]</span>Team heatmap</div>
         <div class="nav-item" onclick="showPage('goalsdash')"><span class="mode-icon">[!]</span>All goals</div>
         <div class="nav-item" onclick="showPage('compare')"><span class="mode-icon">[=]</span>Compare</div>
+        <div class="nav-item" onclick="showPage('criteria')"><span class="mode-icon">[?]</span>Domain criteria</div>
       </div>
     </div>
     <div>
@@ -589,8 +629,16 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
       <div class="goals-dash-list" id="goals-dash-list"></div>
     </div>
 
-    <!-- COMPARE -->
-    <div class="page" id="page-compare">
+    <!-- CRITERIA PAGE -->
+    <div class="page" id="page-criteria">
+      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><span class="breadcrumb-sep">â€º</span><span>Domain Criteria</span></div>
+      <div class="page-header">
+        <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
+        <div class="page-title">Domain Criteria</div>
+        <div class="page-sub">Full breakdown of what is required at each level</div>
+      </div>
+      <div id="criteria-content"></div>
+    </div>
       <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><span class="breadcrumb-sep">â€º</span><span>Compare</span></div>
       <div class="page-header">
         <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
@@ -751,6 +799,7 @@ function activatePage(page,trader){
   if(page==='heatmap'){document.querySelectorAll('.nav-item')[0].classList.add('active');renderHeatmap();}
   if(page==='goalsdash'){document.querySelectorAll('.nav-item')[1].classList.add('active');renderGoalsDash();}
   if(page==='compare'){document.querySelectorAll('.nav-item')[2].classList.add('active');renderCompare();}
+  if(page==='criteria'){document.querySelectorAll('.nav-item')[3].classList.add('active');renderCriteria();}
   if(page==='dashboard'){renderTeamRadar();renderPromoOverview();}
   if(page==='profile'&&trader){profileTrader=trader;renderProfile(trader);}
   if(page==='readonly'&&trader){renderReadonly(trader);}
@@ -1874,6 +1923,163 @@ function exportPDF(){
   w.document.write(html);
   w.document.close();
   setTimeout(()=>w.print(),400);
+}
+
+// ---- FULL CRITERIA DATA ----
+const FULL_CRITERIA=[
+  {domain:'Cricket Knowledge',desc:'Knowledge of players, teams, venues and historic matches.',bands:[
+    {levels:[
+      {n:1,text:'Knows the player roles, rough abilities and play styles of most of the main players in world cricket.'},
+      {n:2,text:'Knows the player roles and rough abilities of some other tier 2 cricketers. Can sometimes recall historic matches that may be relevant to an inrunning situation.'}
+    ]},
+    {levels:[
+      {n:3,text:'Knows all the significant players from the major cricketing nations. Where players predominantly bat, what their matchups are (or should be), where they bowl, how much they bowl, play style.'},
+      {n:4,text:'Has in-depth knowledge of at least one lesser known country/franchise league and it\'s venues. Can sometimes recall historic matches that may be relevant to an inrunning situation.'}
+    ]},
+    {levels:[
+      {n:5,text:'Has specialised knowledge of multiple franchise leagues. Knows the majority of the main venues, what they suit, the ranges of how runny they can be, what to look out for.'},
+      {n:6,text:'Some skill at producing approximate ratings for unknown players. Can consistently recall recent notable performances from players they are trading.'}
+    ]},
+    {levels:[
+      {n:7,text:'Has in-depth knowledge of all franchise T20 players and venues. Adept at producing approximate ratings for unknown players. Is a go-to resource for the other members of the team for cricket knowledge queries.'},
+      {n:8,text:'Questions relating to obscure or junior cricketers. An informed, and up to date, opinion on any player, team or venue.'}
+    ]}
+  ]},
+  {domain:'Cricket Understanding',desc:'There are 100s of factors that can affect the outcome of any given ball. This section covers knowledge of these factors, how to spot them, and the ability to discern which are relevant and when.',bands:[
+    {levels:[
+      {n:1,text:'Some skill at: Detecting when players are displaying a different intent or ability to their rating. Detecting when a pitch is playing differently to rating.'},
+      {n:2,text:'Judging who is likely to bowl the next over. Judging how many overs each bowler will bowl in a match.'}
+    ]},
+    {levels:[
+      {n:3,text:'Proficient at the skills listed in Junior Trader. Some skill at: Estimating accurately who will bowl in each phase, factoring in live queues, matchups and match performance. Spotting what the ball is doing in the air and off the pitch. How does this line up with expectation and pitch ratings/adjustments. Does it vary by phase or bowl_style.'},
+      {n:4,text:'Begin to include more advanced factors into their pricing: weather before/during, speed of outfield, pitch deterioration, pitch abrasiveness, dew, injuries etc.'}
+    ]},
+    {levels:[
+      {n:5,text:'Proficient at skills listed in Trader. Is a go-to resource used by other members of the team for cricket understanding questions.'},
+      {n:6,text:'Is a go-to resource used by other members of the team for cricket understanding questions. \'Is it reverse swinging?\', \'how will 20 minutes of rain effect this pitch?\', etc.'}
+    ]},
+    {levels:[
+      {n:7,text:'N/A'},
+      {n:8,text:'N/A'}
+    ]}
+  ]},
+  {domain:'Pricing â€“ Model biases',desc:'The model carries biases that are both known and unknown. How well can the trader spot these biases, learn established solutions to mitigate, and innovate new solutions.',bands:[
+    {levels:[
+      {n:1,text:'Nothing expected.'},
+      {n:2,text:'Nothing expected.'}
+    ]},
+    {levels:[
+      {n:3,text:'Trader has learned to spot all the currently known model biases and can implement a solution. Effectively uses show diff in inns, show diff in wicket state. Good pitch/high chase, efficiency problem, bat deep, 2nd innings death, squishing ratings.'},
+      {n:4,text:'Whilst the solution may not be in team wide use yet, there is confidence from senior members of the team that the solution is appropriate. Performs well against other traders in pricing metrics in states of known biases.'}
+    ]},
+    {levels:[
+      {n:5,text:'Trader can innovate, or improve upon, a solution to a model bias. They are adept at implementing this solution across the games they trade.'},
+      {n:6,text:'Whilst the solution may not be in team wide use yet, there is confidence from senior members of the team that the solution is appropriate. Performs well against other traders in pricing metrics in states of known biases.'}
+    ]},
+    {levels:[
+      {n:7,text:'Leads team in pricing metrics in states of known biases. Trader has spotted, and innovated a solution to, a model bias. This solution is either in team wide use, or quants have proved its efficacy and are including it in the model.'},
+      {n:8,text:'Leads team in pricing metrics in states of known biases. Trader has spotted, and innovated a solution to, a model bias. This solution is either in team wide use, or quants have proved its efficacy and are including it in the model.'}
+    ]}
+  ]},
+  {domain:'Pricing â€“ Not in model',desc:'How effective is the trader at converting their cricket knowledge and understanding into consistent and accurate adjustments to prices.',bands:[
+    {levels:[
+      {n:1,text:'Some aptitude at applying: Simple bowling and batting order adjustments. Simple player ability adjustments. Simple player intent adjustments. Simple pitch adjustments.'},
+      {n:2,text:'Can crudely factor in the model opinion v market when making these adjustments.'}
+    ]},
+    {levels:[
+      {n:3,text:'Uses ball outcome percentages to sense check predictions and inform adjustments. Is aware of strength of bowling order selected and adjusts execution strategy appropriately. Understands \'fetch inplay kalman\', its usefulness and limitations.'},
+      {n:4,text:'Proficiency at the adjustments listed for Junior Trader. Skill at applying complex adjustments in some of these categories. Some aptitude at applying: Adjustments to players\' matchups. Pitch adjustments to overs or phases of the game.'}
+    ]},
+    {levels:[
+      {n:5,text:'Adept at quickly quantifying their cricket knowledge and understanding. Applying these adjustments or communicating them effectively as a T2. Is aware of potential bowling order outcomes, the effect these will have on prices and is prepared to execute quickly when information becomes available.'},
+      {n:6,text:'Proficient using all the tools beefy has to offer. Makes adjustment presets that are used by the entire team. Actively considers price, not simply opinion compared to market. Performs well against other traders in pricing metrics.'}
+    ]},
+    {levels:[
+      {n:7,text:'Leads team in pricing metrics. Can scale the value of their excellent ability to quantify adjustments by: Teaching other members of the team their process. Working with CRKT to innovate new tools to help systemise, or speed up the application of, their adjustments.'},
+      {n:8,text:'Working with quants to include new features in the model, if required data is available.'}
+    ]}
+  ]},
+  {domain:'Execution â€“ Confidence',desc:'Knowledge of market strength and trader+model pricing strength, and how that varies or is likely to vary throughout a match.',bands:[
+    {levels:[
+      {n:1,text:'Some skill to choose an appropriate risk for a market. Understand some of the key factors that inform product confidence: Quantity of data, Quality of data, Size of any trader adjustments, Size of opinion v market, Confidence of trader, Gamestate.'},
+      {n:2,text:'Some skill to choose an appropriate risk for a market. Understands some of the key factors that inform product confidence.'}
+    ]},
+    {levels:[
+      {n:3,text:'Has some understanding of product confidence and market strength in all potential match situations. Can spot when the factors listed in junior trader change, and what impact that should have. Uses max liab, risk, min spread and max move appropriately.'},
+      {n:4,text:'A good understanding of how positions and risk affect neutral price, and how a high confidence true price may be attached to a low confidence neutral price in some situations. Use tick boxes to cease trading selections or markets with low confidence whilst continuing to trade others. Is aware of all current positions and opinions.'}
+    ]},
+    {levels:[
+      {n:5,text:'Has excellent understanding of product confidence in most situations of a match. Has good understanding of when the market is strong and weak. Adept at changing paxman settings accurately and quickly to reflect their knowledge.'},
+      {n:6,text:'Effectively communicates understanding of product confidence into actionable advice when T2ing. Performs well against other traders in risk model metrics.'}
+    ]},
+    {levels:[
+      {n:7,text:'Continuously use ball % outcomes and other beefy tools to ensure they have the most accurate and upto date understanding of confidence in the model output.'},
+      {n:8,text:'Trader can scale their excellent ability to judge mustard\'s edge by teaching other traders their process or by working with EXE to automate paxman settings adjustments or innovating tools to help traders.'}
+    ]}
+  ]},
+  {domain:'Execution â€“ Efficiency',desc:'Given a desired risk appetite, how efficient is the trader at interacting with the liquidity available to maximise profit.',bands:[
+    {levels:[
+      {n:1,text:'Avoids being sniped by leaving the trader on too long or taking bets with the wrong score or active players. Turns the AT on at a reasonable speed following ball outcome information.'},
+      {n:2,text:'Spots when offers are not going up and can solve when this is caused by max liab, max spread, min spread, tgtbt, min EV. Some skill at spotting where value bets are available. Some awareness of the positions/opinions they have.'}
+    ]},
+    {levels:[
+      {n:3,text:'Understands that feed speed and reliability have an effect on execution strategy. Uses max move, min spread and max spread to achieve desired swings efficiently. Understands what makes CTB appropriate and implements accordingly.'},
+      {n:4,text:'Gives some consideration to market impact when choosing when and how to interact with different liquidity sources. Proficient at taking phone bets and interacting with the phone bet trader.'}
+    ]},
+    {levels:[
+      {n:5,text:'Have an understanding of market volatility and be able to use n offers, sleep, max move, stake mult to interact efficiently. Shows some ability to predict a market\'s movements in given situations, and changes their execution strategy to take advantage of that.'},
+      {n:6,text:'Is able to communicate market knowledge into actionable advice when T2ing. Some ability to innovate new trading strategies. Aware of which markets can continue to be traded whilst adjustments are being made (and keeps them on). Performs well against other traders in execution metrics.'}
+    ]},
+    {levels:[
+      {n:7,text:'Trader formulates successful trading strategies, testable by execution metrics. Trader can scale their excellent ability to interact with the market by: Teaching other traders their process/strategies.'},
+      {n:8,text:'Working with EXE to automate paxman settings adjustments. Innovating new paxman tools/features to help traders.'}
+    ]}
+  ]},
+  {domain:'Non-Trading Work',desc:'Includes, but not restricted to, competency with: Python, Google Sheets, Analytics, Report Writing, Presentations, Research.',bands:[
+    {levels:[{n:1,text:'Nothing expected.'},{n:2,text:'Nothing expected.'}]},
+    {levels:[{n:3,text:'Expresses an interest in work outside of trading.'},{n:4,text:'Requires direction and continuous management to complete tasks.'}]},
+    {levels:[{n:5,text:'Actively contributes to work outside of trading. Completes project tasks with limited guidance and communicates progress effectively.'},{n:6,text:'Delivering work that supports improvements to the Cricket Trading product.'}]},
+    {levels:[{n:7,text:'Proactively searches for, scopes, prioritises, communicates and completes work that demonstrably improves the Cricket Trading product.'},{n:8,text:'Proactively searches for, scopes, prioritises, communicates and completes work that demonstrably improves the Cricket Trading product at a senior level.'}]}
+  ]},
+  {domain:'Communication / Professionalism / Soft Skills',desc:'Written and verbal communication, punctuality, conscientiousness, affability, empathy, assertiveness.',bands:[
+    {levels:[{n:1,text:'Can report problems in the appropriate Slack channel.'},{n:2,text:'Meets the necessary minimums for punctuality and conscientiousness.'}]},
+    {levels:[{n:3,text:'Understands which communication channels are best for various needs. Able to effectively convey written and verbal thoughts to leadership.'},{n:4,text:'Contributes to a positive team environment. Good conscientiousness and punctuality.'}]},
+    {levels:[{n:5,text:'Leads in Trader Catchups. Prepares documents and sheets that are referred to team wide.'},{n:6,text:'All traders happy to work with them. Uses soft skills to lead on tasks effectively.'}]},
+    {levels:[{n:7,text:'Reliably coordinates short and long-term projects involving multiple departments at Mustard. Excels in all areas such that any value added from other rows is amplified significantly.'},{n:8,text:'Able to line manage other traders.'}]}
+  ]}
+];
+
+const BAND_LABELS=['Beginner (1â€“2)','Intermediate (3â€“4)','Advanced (5â€“6)','Expert (7â€“8)'];
+const BAND_COLORS_CRITERIA=['#e05555','#e8872a','#d4a017','#3aaa5c'];
+let openCriteriaDomains=new Set();
+
+function renderCriteria(){
+  const el=document.getElementById('criteria-content');
+  if(!el)return;
+  el.innerHTML=FULL_CRITERIA.map((d,di)=>{
+    const isOpen=openCriteriaDomains.has(di);
+    const bands=d.bands.map((band,bi)=>`
+      <div class="criteria-band">
+        <div class="criteria-band-title" style="color:${BAND_COLORS_CRITERIA[bi]}">${BAND_LABELS[bi]}</div>
+        <div class="criteria-band-levels">
+          ${band.levels.map(l=>`<div class="criteria-level"><div class="criteria-level-num" style="color:${BAND_COLORS_CRITERIA[bi]}">${l.n}</div><div class="criteria-level-text">${l.text}</div></div>`).join('')}
+        </div>
+      </div>`).join('');
+    return `<div class="criteria-domain-card${isOpen?' open':''}" id="criteria-card-${di}">
+      <div class="criteria-domain-header" onclick="toggleCriteriaCard(${di})">
+        <div class="criteria-domain-name">${d.domain}</div>
+        <div class="criteria-domain-desc">${d.desc}</div>
+        <span class="criteria-chevron">&#9654;</span>
+      </div>
+      <div class="criteria-bands">${bands}</div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCriteriaCard(di){
+  if(openCriteriaDomains.has(di))openCriteriaDomains.delete(di);
+  else openCriteriaDomains.add(di);
+  renderCriteria();
 }
 
 // ---- PROMO OVERVIEW ----
