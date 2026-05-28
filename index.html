@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trader Grid Tracker</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231a2744'/%3E%3Ctext x='16' y='38' text-anchor='middle' font-family='DM Sans%2C Arial%2C sans-serif' font-weight='800' font-size='26' fill='%23f5c518'%3EG%3C/text%3E%3Ctext x='48' y='38' text-anchor='middle' font-family='DM Sans%2C Arial%2C sans-serif' font-weight='800' font-size='26' fill='%23f5c518'%3ER%3C/text%3E%3Ctext x='48' y='60' text-anchor='middle' font-family='DM Sans%2C Arial%2C sans-serif' font-weight='800' font-size='26' fill='%23f5c518'%3EI%3C/text%3E%3Ctext x='16' y='60' text-anchor='middle' font-family='DM Sans%2C Arial%2C sans-serif' font-weight='800' font-size='26' fill='%23f5c518'%3ED%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%231a2744'/%3E%3Ccircle cx='18' cy='22' r='5' fill='%23e05555' opacity='.8'/%3E%3Ccircle cx='30' cy='22' r='5' fill='%23e8872a' opacity='.8'/%3E%3Ccircle cx='42' cy='22' r='5' fill='%23d4a017' opacity='.8'/%3E%3Ccircle cx='54' cy='22' r='5' fill='%233aaa5c' opacity='.8'/%3E%3Ccircle cx='18' cy='34' r='5' fill='%23e05555' opacity='.8'/%3E%3Ccircle cx='30' cy='34' r='5' fill='%23e8872a' opacity='.8'/%3E%3Ccircle cx='42' cy='34' r='6.5' fill='%23f5c518'/%3E%3Ccircle cx='54' cy='34' r='5' fill='%233aaa5c' opacity='.8'/%3E%3Ccircle cx='18' cy='46' r='5' fill='%23e05555' opacity='.8'/%3E%3Ccircle cx='30' cy='46' r='5' fill='%23e8872a' opacity='.8'/%3E%3Ccircle cx='42' cy='46' r='5' fill='%23d4a017' opacity='.8'/%3E%3Ccircle cx='54' cy='46' r='5' fill='%233aaa5c' opacity='.8'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 :root{
   --bg:#0e1628;--surface:#1a2744;--surface2:#1e2f52;--surface3:#263660;
@@ -51,7 +52,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .mode-item,.nav-item{padding:7px 10px;border-radius:var(--radius);cursor:pointer;font-size:13px;color:var(--text2);display:flex;align-items:center;gap:8px;transition:all .15s;}
 .mode-item:hover,.nav-item:hover{background:var(--surface2);color:var(--text);}
 .mode-item.active,.nav-item.active{background:var(--gold-faint);color:var(--gold);font-weight:500;border:1px solid var(--border2);}
-.mode-icon{font-size:12px;font-family:'DM Mono',monospace;width:20px;}
+.mode-icon{font-size:16px;width:20px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
 .band-legend{display:flex;flex-direction:column;gap:5px;}
 .band-item{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text2);padding:0 4px;}
 .band-bar{width:22px;height:3px;border-radius:2px;}
@@ -68,7 +69,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .breadcrumb{font-size:11px;color:var(--text3);margin-bottom:16px;display:flex;align-items:center;gap:6px;}
 .breadcrumb span{cursor:pointer;transition:color .12s;}
 .breadcrumb span:hover{color:var(--gold);}
-.breadcrumb-sep{color:var(--text3);}
+.breadcrumb-sep{color:var(--text3);font-size:10px;}
 
 /* Stats strip */
 .stats-strip{display:flex;gap:10px;margin-bottom:18px;}
@@ -501,7 +502,28 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
   .profile-grid{grid-template-columns:1fr;}
   .stats-strip{grid-template-columns:repeat(3,1fr);}
   .goals-summary-grid{grid-template-columns:repeat(2,1fr);}
+  .promo-guide-tiers{grid-template-columns:1fr 1fr;}
 }
+/* Promotion guide page */
+.promo-guide-tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.promo-guide-tier-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
+.promo-guide-tier-header{padding:16px 18px;border-bottom:1px solid var(--border);}
+.promo-guide-tier-name{font-size:16px;font-weight:700;}
+.promo-guide-tier-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+.promo-guide-tier-body{padding:16px 18px;}
+.promo-guide-rule{display:flex;align-items:flex-start;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.promo-guide-rule:last-child{border-bottom:none;}
+.promo-guide-rule-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.promo-guide-rule-text{color:var(--text2);line-height:1.5;flex:1;}
+.promo-guide-domain-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 12px;margin-top:12px;}
+.promo-guide-domain-row{display:flex;align-items:center;gap:7px;font-size:11px;}
+.promo-guide-domain-name{color:var(--text2);flex:1;}
+.promo-guide-domain-score{font-family:'DM Mono',monospace;font-size:12px;font-weight:600;padding:1px 7px;border-radius:4px;}
+.promo-guide-team-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;margin-bottom:14px;}
+.promo-guide-team-title{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;}
+.promo-guide-trader-list{display:flex;flex-wrap:wrap;gap:8px;}
+.promo-guide-trader-pill{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;}
+.promo-guide-trader-pill:hover{opacity:.8;}
 </style>
 </head>
 <body>
@@ -516,18 +538,19 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
     <div id="sidebar-modes">
       <div class="section-title">Mode</div>
       <div class="mode-list">
-        <div class="mode-item active" data-mode="view" id="mode-view"><span class="mode-icon">[o]</span>View</div>
-        <div class="mode-item" data-mode="edit" id="mode-edit"><span class="mode-icon">[/]</span>Edit levels</div>
-        <div class="mode-item" data-mode="goal" id="mode-goal"><span class="mode-icon">[*]</span>Set goals</div>
+        <div class="mode-item active" data-mode="view" id="mode-view"><i class="ti ti-eye mode-icon" aria-hidden="true"></i>View</div>
+        <div class="mode-item" data-mode="edit" id="mode-edit"><i class="ti ti-pencil mode-icon" aria-hidden="true"></i>Edit levels</div>
+        <div class="mode-item" data-mode="goal" id="mode-goal"><i class="ti ti-target mode-icon" aria-hidden="true"></i>Set goals</div>
       </div>
     </div>
     <div>
       <div class="section-title">Views</div>
       <div class="nav-list">
-        <div class="nav-item" onclick="showPage('heatmap')"><span class="mode-icon">[#]</span>Team heatmap</div>
-        <div class="nav-item" onclick="showPage('goalsdash')"><span class="mode-icon">[!]</span>All goals</div>
-        <div class="nav-item" onclick="showPage('compare')"><span class="mode-icon">[=]</span>Compare</div>
-        <div class="nav-item" onclick="showPage('criteria')"><span class="mode-icon">[?]</span>Domain criteria</div>
+        <div class="nav-item" onclick="showPage('heatmap')"><i class="ti ti-layout-grid mode-icon" aria-hidden="true"></i>Team heatmap</div>
+        <div class="nav-item" onclick="showPage('goalsdash')"><i class="ti ti-checklist mode-icon" aria-hidden="true"></i>All goals</div>
+        <div class="nav-item" onclick="showPage('compare')"><i class="ti ti-layout-columns mode-icon" aria-hidden="true"></i>Compare</div>
+        <div class="nav-item" onclick="showPage('criteria')"><i class="ti ti-book mode-icon" aria-hidden="true"></i>Domain criteria</div>
+        <div class="nav-item" onclick="showPage('promotion')"><i class="ti ti-arrow-up-circle mode-icon" aria-hidden="true"></i>Promotion guide</div>
       </div>
     </div>
     <div>
@@ -541,8 +564,8 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
     </div>
     <div style="margin-top:auto;">
       <div class="section-title">Data</div>
-      <div class="mode-item" id="btn-export"><span class="mode-icon">[-]</span>Save JSON</div>
-      <div class="mode-item" id="btn-import"><span class="mode-icon">[+]</span>Load JSON</div>
+      <div class="mode-item" id="btn-export"><i class="ti ti-download mode-icon" aria-hidden="true"></i>Save JSON</div>
+      <div class="mode-item" id="btn-import"><i class="ti ti-upload mode-icon" aria-hidden="true"></i>Load JSON</div>
       <input type="file" id="file-input" accept=".json" style="display:none">
     </div>
   </aside>
@@ -602,7 +625,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 
     <!-- HEATMAP -->
     <div class="page" id="page-heatmap">
-      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><span class="breadcrumb-sep">â€º</span><span>Team Heatmap</span></div>
+      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>Team Heatmap</span></div>
       <div class="page-header">
         <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
         <div class="page-title">Team Heatmap</div>
@@ -613,7 +636,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 
     <!-- GOALS DASHBOARD -->
     <div class="page" id="page-goalsdash">
-      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><span class="breadcrumb-sep">â€º</span><span>All Goals</span></div>
+      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>All Goals</span></div>
       <div class="page-header">
         <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
         <div class="page-title">All Goals</div>
@@ -631,7 +654,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 
     <!-- CRITERIA PAGE -->
     <div class="page" id="page-criteria">
-      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><span class="breadcrumb-sep">â€º</span><span>Domain Criteria</span></div>
+      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>Domain Criteria</span></div>
       <div class="page-header">
         <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
         <div class="page-title">Domain Criteria</div>
@@ -639,7 +662,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
       </div>
       <div id="criteria-content"></div>
     </div>
-      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><span class="breadcrumb-sep">â€º</span><span>Compare</span></div>
+      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>Compare</span></div>
       <div class="page-header">
         <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
         <div class="page-title">Compare Traders</div>
@@ -650,6 +673,17 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
         <select class="compare-select" id="compare-b"></select>
       </div>
       <div id="compare-content"></div>
+    </div>
+
+    <!-- PROMOTION GUIDE -->
+    <div class="page" id="page-promotion">
+      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>Promotion Guide</span></div>
+      <div class="page-header">
+        <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
+        <div class="page-title">Promotion Guide</div>
+        <div class="page-sub">What is required at each tier</div>
+      </div>
+      <div id="promotion-guide-content"></div>
     </div>
   </main>
 </div>
@@ -800,6 +834,7 @@ function activatePage(page,trader){
   if(page==='goalsdash'){document.querySelectorAll('.nav-item')[1].classList.add('active');renderGoalsDash();}
   if(page==='compare'){document.querySelectorAll('.nav-item')[2].classList.add('active');renderCompare();}
   if(page==='criteria'){document.querySelectorAll('.nav-item')[3].classList.add('active');renderCriteria();}
+  if(page==='promotion'){document.querySelectorAll('.nav-item')[4].classList.add('active');renderPromotionGuide();}
   if(page==='dashboard'){renderTeamRadar();renderPromoOverview();}
   if(page==='profile'&&trader){profileTrader=trader;renderProfile(trader);}
   if(page==='readonly'&&trader){renderReadonly(trader);}
@@ -807,7 +842,7 @@ function activatePage(page,trader){
 function showReadonlyView(){
   showPage('readonly',profileTrader);
   document.getElementById('readonly-back-btn').onclick=()=>showPage('profile',profileTrader);
-  document.getElementById('readonly-breadcrumb').innerHTML=`<span onclick="showPage('dashboard')">Dashboard</span><span class="breadcrumb-sep">â€º</span><span onclick="showPage('profile','${profileTrader}')" style="cursor:pointer">${profileTrader}</span><span class="breadcrumb-sep">â€º</span><span>Trader View</span>`;
+  document.getElementById('readonly-breadcrumb').innerHTML=`<span onclick="showPage('dashboard')">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span onclick="showPage('profile','${profileTrader}')" style="cursor:pointer">${profileTrader}</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>Trader View</span>`;
 }
 
 // ---- SIDEBAR ----
@@ -1310,7 +1345,7 @@ function handleTierModalBg(e){if(e.target===document.getElementById('tier-modal'
 // ---- PROFILE ----
 function renderProfile(t){
   document.getElementById('profile-page-title').textContent=(FULL_NAMES[t]||t)+' â€” Profile';
-  document.getElementById('profile-breadcrumb').innerHTML=`<span onclick="showPage('dashboard')" style="cursor:pointer">Dashboard</span><span class="breadcrumb-sep">â€º</span><span>${FULL_NAMES[t]||t}</span>`;
+  document.getElementById('profile-breadcrumb').innerHTML=`<span onclick="showPage('dashboard')" style="cursor:pointer">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>${FULL_NAMES[t]||t}</span>`;
   const scores=state.current[t],goals=state.goals[t],total=scores.reduce((a,b)=>a+b,0),rev=state.reviews[t];
   spiderCompareTrader=null;
 
@@ -2083,6 +2118,33 @@ function toggleCriteriaCard(di){
 }
 
 // ---- PROMO OVERVIEW ----
+function renderPromotionGuide(){
+  const el=document.getElementById('promotion-guide-content');
+  if(!el)return;
+  const tierInfo=[
+    {tier:TIERS_PROMO[0],description:'Starting tier for all new traders.',exit:'Exit requires 5 or more domains at level 2+.',rules:['Minimum 5 domains must reach level 2 or above','No minimum score in any specific domain','Focus: getting familiar with the fundamentals across all areas'],domainMins:null,special:'probation'},
+    {tier:TIERS_PROMO[1],description:'Core trading role. Must demonstrate competence across all 6 trading domains.',exit:'Exit requires all 6 core trading domains at level 4+.',rules:['All 6 core trading domains must reach level 4 (Intermediate)','Non-Trading Work and Comms have no minimum requirement at this tier'],domainMins:TIERS_PROMO[1].mins},
+    {tier:TIERS_PROMO[2],description:'Senior role. Placeholder thresholds â€” to be confirmed.',exit:'Exit requires all domains at level 6+ (placeholder).',rules:['All 8 domains must reach level 6 (Advanced)','Thresholds subject to review'],domainMins:TIERS_PROMO[2].mins},
+    {tier:TIERS_PROMO[3],description:'Leadership role. Placeholder thresholds â€” to be confirmed.',exit:'Requires all domains at level 7+ (placeholder).',rules:['All 8 domains must reach level 7 (Expert band)','Thresholds subject to review'],domainMins:TIERS_PROMO[3].mins}
+  ];
+  const tierCards=tierInfo.map(({tier,description,exit,rules,domainMins,special})=>{
+    const ruleItems=rules.map(r=>`<div class="promo-guide-rule"><div class="promo-guide-rule-dot" style="background:${tier.color}"></div><div class="promo-guide-rule-text">${r}</div></div>`).join('');
+    let domainSection='';
+    if(domainMins){
+      const rows=DOMAINS.map((d,i)=>{const min=domainMins[i];return min===0?`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:var(--surface3);color:var(--text3)">â€”</span></div>`:`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:${bc(min)}22;color:${bc(min)}">${min}+</span></div>`;}).join('');
+      domainSection=`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)"><div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Minimum scores</div><div class="promo-guide-domain-grid">${rows}</div></div>`;
+    } else if(special==='probation'){
+      const rows=DOMAINS.map(d=>`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:${bc(2)}22;color:${bc(2)}">2+</span></div>`).join('');
+      domainSection=`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)"><div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Need 5 of these at 2+</div><div class="promo-guide-domain-grid">${rows}</div></div>`;
+    }
+    const traders=TRADERS.filter(t=>getPromoTier(state.current[t])===tier);
+    const pills=traders.length?traders.map(t=>`<div class="promo-guide-trader-pill" style="background:${COLORS[t]}22;border-color:${COLORS[t]}44;color:${COLORS[t]}" onclick="showPage('profile','${t}')"><div style="width:7px;height:7px;border-radius:50%;background:${COLORS[t]}"></div>${FULL_NAMES[t]||t}</div>`).join(''):`<span style="font-size:12px;color:var(--text3);font-style:italic">No traders at this tier</span>`;
+    return`<div class="promo-guide-tier-card"><div class="promo-guide-tier-header" style="border-left:4px solid ${tier.color}"><div class="promo-guide-tier-name" style="color:${tier.color}">${tier.name}</div><div class="promo-guide-tier-sub">${description}</div></div><div class="promo-guide-tier-body"><div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-style:italic">${exit}</div>${ruleItems}${domainSection}<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)"><div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Current traders</div><div class="promo-guide-trader-list">${pills}</div></div></div></div>`;
+  }).join('');
+  const nearTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t]));
+  const nearSection=nearTraders.length?`<div class="promo-guide-team-section"><div class="promo-guide-team-title">&#9733; Close to promotion</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">${nearTraders.map(t=>{const next=getNextPromoTier(state.current[t]);const gaps=(getPromoGaps(state.current[t])||[]).filter(g=>g.gap>0);return`<div class="promo-close-card" onclick="showPage('profile','${t}')"><div class="promo-close-header"><div style="width:24px;height:24px;border-radius:50%;background:${COLORS[t]};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:#0e1628;font-weight:700">${t}</div><div class="promo-close-name">${FULL_NAMES[t]||t}</div><span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span></div><div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:4px">${gaps.length?gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; '):'All thresholds met â€” ready for review'}</div></div>`;}).join('')}</div></div>`:'';
+  el.innerHTML=`<div class="promo-guide-tiers">${tierCards}</div>${nearSection}`;
+}
 function renderPromoOverview(){
   const el=document.getElementById('promo-overview');
   if(!el)return;
