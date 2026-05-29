@@ -525,7 +525,26 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .promo-guide-trader-pill{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;}
 .promo-guide-trader-pill:hover{opacity:.8;}
 
-/* Recruitment page */
+/* Experience page */
+.exp-table-wrap{overflow-x:auto;margin-bottom:20px;}
+.exp-table{width:100%;border-collapse:collapse;min-width:600px;background:var(--surface);border-radius:var(--radius-lg);overflow:hidden;}
+.exp-table th{padding:9px 12px;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);text-align:center;border-bottom:1px solid var(--border);background:var(--surface2);}
+.exp-table th.exp-th-label{text-align:left;padding-left:16px;width:160px;}
+.exp-table td{padding:8px 6px;text-align:center;border-bottom:1px solid var(--border);border-right:1px solid var(--border);font-size:11px;vertical-align:middle;}
+.exp-table td.exp-td-label{text-align:left;padding-left:16px;font-size:12px;font-weight:500;color:var(--text2);border-right:1px solid var(--border2);background:var(--surface);}
+.exp-table td.exp-year-group{background:var(--surface2);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);text-align:left;padding-left:16px;border-right:none;}
+.exp-table tr:last-child td{border-bottom:none;}
+.exp-cell{display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;padding:4px 6px;border-radius:5px;transition:background .12s;min-height:40px;justify-content:center;}
+.exp-cell:hover{background:var(--surface3);}
+.exp-cell.has-data{background:var(--gold-faint);}
+.exp-cell-games{font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--gold);}
+.exp-cell-role{font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;letter-spacing:.04em;}
+.exp-cell-rank{font-size:9px;color:var(--text3);}
+.exp-cell-empty{font-size:16px;color:var(--surface3);line-height:1;}
+.exp-section-title{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin:20px 0 10px;}
+.exp-trader-header{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;}
+.exp-trader-dot{width:8px;height:8px;border-radius:50%;}
+.country-badge{display:inline-block;font-size:9px;color:var(--text3);background:var(--surface3);border-radius:3px;padding:1px 5px;margin-left:4px;}
 .recruit-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;}
 .recruit-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;}
 .recruit-card-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:14px;}
@@ -587,6 +606,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
         <div class="nav-item" onclick="showPage('criteria')"><i class="ti ti-book mode-icon" aria-hidden="true"></i>Domain criteria</div>
         <div class="nav-item" onclick="showPage('promotion')"><i class="ti ti-arrow-up-circle mode-icon" aria-hidden="true"></i>Promotion guide</div>
         <div class="nav-item" onclick="showPage('recruitment')"><i class="ti ti-users mode-icon" aria-hidden="true"></i>Recruitment</div>
+        <div class="nav-item" onclick="showPage('experience')"><i class="ti ti-trophy mode-icon" aria-hidden="true"></i>Experience</div>
       </div>
     </div>
     <div>
@@ -734,6 +754,18 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
       </div>
       <div id="recruitment-content"></div>
     </div>
+    <!-- EXPERIENCE -->
+    <div class="page" id="page-experience">
+      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>Experience</span></div>
+      <div class="page-header">
+        <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
+        <div class="page-title">Trading Experience</div>
+        <div class="page-sub">Tournaments and countries traded by each trader</div>
+        <button class="btn" style="margin-left:auto" onclick="openImportModal()"><i class="ti ti-clipboard-data" style="margin-right:4px"></i>Paste schedule</button>
+        <button class="btn" style="margin-left:8px" onclick="openAddTournamentModal()"><i class="ti ti-plus" style="margin-right:4px"></i>Add tournament</button>
+      </div>
+      <div id="experience-content"></div>
+    </div>
   </main>
 </div>
 
@@ -760,7 +792,56 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
     <div class="modal-actions"><button class="btn" onclick="closeTierModal()">Cancel</button><button class="btn btn-primary" onclick="saveTier()">Apply</button></div>
   </div>
 </div>
-<div class="modal-bg" id="goal-modal" style="display:none" onclick="handleGoalModalBg(event)">
+<div class="modal-bg" id="import-modal" style="display:none" onclick="handleImportModalBg(event)">
+  <div class="modal" style="width:560px">
+    <div class="modal-header"><div class="modal-title">Paste schedule</div><div class="modal-close" onclick="closeImportModal()">x</div></div>
+    <div class="modal-field">
+      <div class="modal-label">Paste your schedule from a spreadsheet below</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">Expected columns: Date, Tournament, T1 Trader, T2 Trader (column names can vary — the parser will try to detect them). Tab-separated or comma-separated both work.</div>
+      <textarea id="import-paste-area" style="width:100%;height:200px;background:var(--surface3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:'DM Mono',monospace;font-size:11px;padding:10px;outline:none;resize:vertical" placeholder="Paste spreadsheet data here..."></textarea>
+    </div>
+    <div id="import-preview" style="margin-top:8px;font-size:11px;color:var(--text2)"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeImportModal()">Cancel</button>
+      <button class="btn" onclick="previewImport()">Preview</button>
+      <button class="btn btn-primary" onclick="confirmImport()">Import</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="add-tournament-modal" style="display:none" onclick="handleAddTournamentBg(event)">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title">Add tournament</div><div class="modal-close" onclick="closeAddTournamentModal()">x</div></div>
+    <div class="modal-row">
+      <div class="modal-field"><div class="modal-label">Tournament name</div><input type="text" id="new-tourn-name" placeholder="e.g. WPL"></div>
+      <div class="modal-field"><div class="modal-label">Country / region</div><input type="text" id="new-tourn-country" placeholder="e.g. India"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeAddTournamentModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="confirmAddTournament()">Add</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="exp-entry-modal" style="display:none" onclick="handleExpEntryBg(event)">
+  <div class="modal">
+    <div class="modal-header"><div class="modal-title" id="exp-entry-title">Edit experience</div><div class="modal-close" onclick="closeExpEntryModal()">x</div></div>
+    <div class="modal-field"><div class="modal-label">Year</div><input type="number" id="exp-year" min="2010" max="2035" placeholder="e.g. 2024" style="width:100px"></div>
+    <div class="modal-row">
+      <div class="modal-field"><div class="modal-label">Games traded</div><input type="number" id="exp-games" min="0" placeholder="0"></div>
+      <div class="modal-field"><div class="modal-label">Role</div>
+        <select id="exp-role"><option value="">— none —</option><option value="T1">T1</option><option value="T2">T2</option><option value="T1/T2">T1 &amp; T2</option></select>
+      </div>
+    </div>
+    <div class="modal-field"><div class="modal-label">Rank within role (e.g. 1st, 2nd)</div><input type="number" id="exp-rank" min="1" max="20" placeholder="1"></div>
+    <div class="modal-field"><div class="modal-label">Notes</div><input type="text" id="exp-notes" placeholder="e.g. Led T1 for playoffs"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeExpEntryModal()">Cancel</button>
+      <button class="btn" style="color:var(--beginner)" onclick="deleteExpEntry()">Delete</button>
+      <button class="btn btn-primary" onclick="saveExpEntry()">Save</button>
+    </div>
+  </div>
+</div>
   <div class="modal">
     <div class="modal-header"><div class="modal-title" id="goal-modal-title"></div><div class="modal-close" onclick="closeGoalModal()">x</div></div>
     <div class="modal-field"><div class="modal-label">Notes (manager only)</div><textarea id="gm-notes" placeholder="Focus areas, context, development plan..."></textarea></div>
@@ -785,7 +866,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 const DOMAINS=['Cricket Knowledge','Cricket Understanding','Pricing - Model biases','Pricing - Not in model','Execution - Confidence','Execution - Efficiency','Non-Trading Work','Comms & Professionalism'];
 const TRADERS=['EL','JR','HB','JLB','SM','AN','BM','SG'];
 const COLORS={EL:'#a78bfa',JR:'#4a8ff5',HB:'#38bdf8',JLB:'#2ec090',SM:'#e8608a',AN:'#fb923c',BM:'#f472b6',SG:'#34d399'};
-const FULL_NAMES={EL:'Edward Lowe',JR:'John Robertson',HB:'Harry Bathhurst',JLB:'Jordan Le Boutillier',SM:'Sulaiman Mirza',AN:'Alec Nicholls',BM:'Bob McCann',SG:'Sam Goody'};
+const FULL_NAMES={EL:'Edward Lowe',JR:'John Robertson',HB:'Harry Bathurst',JLB:'Jordan Le Boutillier',SM:'Sulaiman Mirza',AN:'Alec Nicholls',BM:'Bob McCann',SG:'Sam Goody'};
 
 // ---- PROMOTION TIERS ----
 // Edit the 'mins' array to change promotion thresholds per domain
@@ -855,7 +936,149 @@ let state={
   history:{EL:[],JR:[],HB:[],JLB:[],SM:[],AN:[],BM:[],SG:[]},
   reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''},SG:{last:'',next:''}},
   cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold',SG:'bronze'},
-  recruitmentNotes:{overview:'',hiring:'',timeline:'',idealProfile:''}
+  recruitmentNotes:{overview:'',hiring:'',timeline:'',idealProfile:''},
+  experience:{
+    tournaments:[
+      {id:'ipl',        name:'IPL',                    country:'India'},
+      {id:'bbl',        name:'BBL',                    country:'Australia'},
+      {id:'hundred',    name:'The Hundred',             country:'England'},
+      {id:'w_hundred',  name:"Women's Hundred",         country:'England'},
+      {id:'t20wc',      name:'T20 World Cup',           country:'International'},
+      {id:'sa20',       name:'SA20',                    country:'South Africa'},
+      {id:'ilt20',      name:'ILT20',                   country:'UAE'},
+      {id:'cpl',        name:'CPL',                     country:'Caribbean'},
+      {id:'wcpl',       name:'WCPL',                    country:'Caribbean'},
+      {id:'gsl',        name:'GSL',                     country:'Caribbean'},
+      {id:'psl',        name:'PSL',                     country:'Pakistan'},
+      {id:'lpl',        name:'LPL',                     country:'Sri Lanka'},
+      {id:'ct',         name:'Champions Trophy',        country:'International'},
+      {id:'t20blast',   name:'T20 Blast',               country:'England'},
+      {id:'w_blast',    name:"Women's Blast",           country:'England'},
+      {id:'wpl',        name:'WPL',                     country:'India'},
+      {id:'bpl',        name:'BPL',                     country:'Bangladesh'},
+      {id:'mlc',        name:'MLC',                     country:'USA'},
+      {id:'adt10',      name:'Abu Dhabi T10',           country:'UAE'},
+      {id:'wbbl',       name:'WBBL',                    country:'Australia'},
+      {id:'csa',        name:'CSA Challenge',           country:'South Africa'},
+      {id:'smat',       name:'SMAT',                    country:'India'},
+      {id:'tnpl',       name:'TNPL',                    country:'India'},
+      {id:'odc',        name:'One Day Cup',             country:'England'},
+      {id:'w_odc',      name:"Women's One Day Cup",     country:'England'},
+      {id:'aus_odc',    name:'Australia One Day Cup',   country:'Australia'},
+      {id:'nz_odc',     name:'New Zealand One Day Cup', country:'New Zealand'},
+      {id:'slct20',     name:'Sri Lanka CT20',          country:'Sri Lanka'},
+      {id:'scl',        name:'SCL',                     country:'Afghanistan'},
+      {id:'vht',        name:'Vijay Hazare Trophy',     country:'India'},
+      {id:'eac',        name:'Emirates AC',             country:'UAE'},
+      {id:'npl',        name:'Nepal Premier League',    country:'Nepal'},
+      {id:'supersmash', name:'Super Smash',             country:'New Zealand'},
+      {id:'odi_intl',   name:'ODI International',       country:'International'},
+      {id:'t20_intl',   name:'T20 International',       country:'International'},
+      {id:'w_odi_intl', name:'Women's ODI International', country:'International'},
+      {id:'w_t20_intl', name:'Women's T20 International', country:'International'},
+    ],
+    records:{
+      // 2025 Season — full parse, all tournaments, JR from Oct only
+      'EL|sa20|2025':       {games:20,role:'T1',   rank:1,notes:'Jan & Dec'},
+      'EL|ct|2025':         {games:9, role:'T1/T2',rank:1,notes:'Feb-Mar'},
+      'EL|psl|2025':        {games:19,role:'T1/T2',rank:1,notes:'Apr-May'},
+      'EL|w_blast|2025':    {games:18,role:'T1/T2',rank:1,notes:'May-Jul'},
+      'EL|w_odi_intl|2025': {games:26,role:'T1/T2',rank:1,notes:'Various'},
+      'EL|hundred|2025':    {games:13,role:'T1/T2',rank:1,notes:'Aug'},
+      'EL|t20_intl|2025':   {games:13,role:'T1/T2',rank:1,notes:'Various'},
+      'EL|odi_intl|2025':   {games:10,role:'T1/T2',rank:1,notes:'Various'},
+      'EL|bbl|2025':        {games:8, role:'T1/T2',rank:2,notes:'Jan-Feb & Dec'},
+      'EL|t20blast|2025':   {games:4, role:'T1/T2',rank:2,notes:'Jun-Jul'},
+      'EL|adt10|2025':      {games:4, role:'T1',   rank:1,notes:'Nov'},
+      'EL|eac|2025':        {games:3, role:'T1',   rank:1,notes:'Nov'},
+      'EL|w_hundred|2025':  {games:2, role:'T2',   rank:3,notes:'Aug'},
+      'EL|w_odc|2025':      {games:2, role:'T1',   rank:2,notes:'Sep'},
+      'EL|wpl|2025':        {games:2, role:'T1/T2',rank:2,notes:'Feb-Mar'},
+      'EL|w_t20_intl|2025': {games:5, role:'T1/T2',rank:1,notes:'Various'},
+      'EL|wbbl|2025':       {games:1, role:'T1',   rank:2,notes:'Dec'},
+      'HB|bpl|2025':        {games:18,role:'T1',   rank:1,notes:'Jan-Feb — sole T1'},
+      'HB|ipl|2025':        {games:43,role:'T1/T2',rank:1,notes:'Mar-Jun'},
+      'HB|cpl|2025':        {games:14,role:'T1',   rank:1,notes:'Aug-Sep — primary T1'},
+      'HB|ct|2025':         {games:9, role:'T1/T2',rank:1,notes:'Feb-Mar'},
+      'HB|t20_intl|2025':   {games:22,role:'T1/T2',rank:1,notes:'Various'},
+      'HB|csa|2025':        {games:6, role:'T1',   rank:1,notes:'Oct-Nov'},
+      'HB|ilt20|2025':      {games:6, role:'T1/T2',rank:2,notes:'Jan-Feb'},
+      'HB|odi_intl|2025':   {games:9, role:'T1/T2',rank:1,notes:'Various'},
+      'HB|smat|2025':       {games:4, role:'T1/T2',rank:1,notes:'Nov-Dec'},
+      'HB|sa20|2025':       {games:3, role:'T1',   rank:2,notes:'Jan'},
+      'HB|t20blast|2025':   {games:3, role:'T1/T2',rank:2,notes:'Jun-Jul'},
+      'HB|wpl|2025':        {games:2, role:'T2',   rank:3,notes:'Feb-Mar'},
+      'HB|eac|2025':        {games:1, role:'T1',   rank:2,notes:'Nov'},
+      'HB|hundred|2025':    {games:1, role:'T1',   rank:2,notes:'Aug'},
+      'HB|odc|2025':        {games:1, role:'T2',   rank:3,notes:'Aug'},
+      'HB|w_blast|2025':    {games:1, role:'T2',   rank:3,notes:'Jun'},
+      'HB|w_odi_intl|2025': {games:1, role:'T2',   rank:3,notes:'Oct'},
+      'HB|wbbl|2025':       {games:1, role:'T2',   rank:3,notes:'Nov'},
+      'BM|ipl|2025':        {games:38,role:'T1/T2',rank:1,notes:'Mar-Jun'},
+      'BM|t20blast|2025':   {games:27,role:'T1',   rank:1,notes:'May-Sep — primary Blast trader'},
+      'BM|supersmash|2025': {games:23,role:'T1',   rank:1,notes:'Jan-Feb — primary SS trader'},
+      'BM|odc|2025':        {games:20,role:'T1',   rank:1,notes:'Aug-Sep — primary ODC trader'},
+      'BM|wpl|2025':        {games:10,role:'T1/T2',rank:1,notes:'Feb-Mar'},
+      'BM|ilt20|2025':      {games:8, role:'T1/T2',rank:2,notes:'Jan-Feb'},
+      'BM|t20_intl|2025':   {games:8, role:'T1/T2',rank:2,notes:'Various'},
+      'BM|odi_intl|2025':   {games:6, role:'T1/T2',rank:2,notes:'Various'},
+      'BM|w_odi_intl|2025': {games:13,role:'T1/T2',rank:1,notes:'Various'},
+      'BM|wbbl|2025':       {games:2, role:'T2',   rank:3,notes:'Nov-Dec'},
+      'BM|csa|2025':        {games:1, role:'T1',   rank:2,notes:'Nov'},
+      'BM|scl|2025':        {games:1, role:'T1',   rank:2,notes:'Jul'},
+      'BM|w_blast|2025':    {games:1, role:'T1',   rank:2,notes:'Jun'},
+      'BM|wcpl|2025':       {games:1, role:'T1',   rank:1,notes:'Sep'},
+      'AN|ilt20|2025':      {games:38,role:'T1/T2',rank:1,notes:'Jan-Feb & Dec — primary ILT20 trader'},
+      'AN|t20_intl|2025':   {games:25,role:'T1/T2',rank:1,notes:'Various'},
+      'AN|psl|2025':        {games:19,role:'T1/T2',rank:2,notes:'Apr-May'},
+      'AN|odi_intl|2025':   {games:6, role:'T1/T2',rank:1,notes:'Various'},
+      'AN|csa|2025':        {games:2, role:'T1',   rank:2,notes:'Oct-Nov'},
+      'AN|ipl|2025':        {games:2, role:'T2',   rank:3,notes:'Apr'},
+      'AN|t20blast|2025':   {games:2, role:'T1',   rank:2,notes:'Jun'},
+      'AN|wpl|2025':        {games:2, role:'T2',   rank:3,notes:'Feb-Mar'},
+      'AN|odc|2025':        {games:1, role:'T2',   rank:3,notes:'Sep'},
+      'JLB|t20_intl|2025':  {games:27,role:'T1/T2',rank:1,notes:'Various'},
+      'JLB|bbl|2025':       {games:24,role:'T1/T2',rank:1,notes:'Jan-Feb & Dec'},
+      'JLB|psl|2025':       {games:21,role:'T1/T2',rank:1,notes:'Apr-May — primary PSL trader'},
+      'JLB|w_hundred|2025': {games:19,role:'T1/T2',rank:1,notes:'Aug — primary W Hundred trader'},
+      'JLB|mlc|2025':       {games:14,role:'T1',   rank:1,notes:'Jun-Jul — primary MLC trader'},
+      'JLB|wbbl|2025':      {games:14,role:'T1/T2',rank:1,notes:'Nov-Dec'},
+      'JLB|sa20|2025':      {games:11,role:'T1/T2',rank:2,notes:'Jan & Dec'},
+      'JLB|odi_intl|2025':  {games:11,role:'T1/T2',rank:1,notes:'Various'},
+      'JLB|hundred|2025':   {games:8, role:'T2',   rank:2,notes:'Aug'},
+      'JLB|ct|2025':        {games:4, role:'T1/T2',rank:2,notes:'Feb-Mar'},
+      'JLB|adt10|2025':     {games:2, role:'T1',   rank:2,notes:'Nov'},
+      'JLB|gsl|2025':       {games:2, role:'T1',   rank:2,notes:'Jul'},
+      'JLB|supersmash|2025':{games:2, role:'T1',   rank:2,notes:'Jan'},
+      'JLB|bpl|2025':       {games:1, role:'T2',   rank:3,notes:'Jan'},
+      'JLB|ilt20|2025':     {games:1, role:'T2',   rank:3,notes:'Jan'},
+      'JLB|w_odi_intl|2025':{games:1, role:'T1',   rank:2,notes:'Oct'},
+      'SM|ipl|2025':        {games:41,role:'T2',   rank:1,notes:'Mar-Jun — primary IPL T2'},
+      'SM|w_odi_intl|2025': {games:26,role:'T1/T2',rank:1,notes:'Various'},
+      'SM|w_blast|2025':    {games:18,role:'T1',   rank:1,notes:'May-Jul — primary W Blast trader'},
+      'SM|w_hundred|2025':  {games:18,role:'T1/T2',rank:1,notes:'Aug — primary W Hundred trader'},
+      'SM|wbbl|2025':       {games:15,role:'T1',   rank:1,notes:'Nov — primary WBBL trader'},
+      'SM|sa20|2025':       {games:13,role:'T1/T2',rank:1,notes:'Jan & Dec'},
+      'SM|hundred|2025':    {games:9, role:'T2',   rank:2,notes:'Aug'},
+      'SM|t20_intl|2025':   {games:10,role:'T1',   rank:1,notes:'Various'},
+      'SM|w_t20_intl|2025': {games:5, role:'T1/T2',rank:1,notes:'Various'},
+      'SM|odi_intl|2025':   {games:5, role:'T1',   rank:1,notes:'Various'},
+      'SM|ilt20|2025':      {games:4, role:'T2',   rank:2,notes:'Jan-Feb'},
+      'SM|bbl|2025':        {games:3, role:'T2',   rank:3,notes:'Dec'},
+      'SM|gsl|2025':        {games:2, role:'T1',   rank:1,notes:'Jul'},
+      'SM|scl|2025':        {games:1, role:'T1',   rank:2,notes:'Jul'},
+      'SM|supersmash|2025': {games:3, role:'T2',   rank:3,notes:'Jan'},
+      'SM|t20blast|2025':   {games:3, role:'T2',   rank:3,notes:'Jun-Jul'},
+      'SM|w_odc|2025':      {games:2, role:'T1',   rank:1,notes:'Sep'},
+      'SM|wpl|2025':        {games:1, role:'T2',   rank:3,notes:'Feb'},
+      'SM|psl|2025':        {games:1, role:'T2',   rank:3,notes:'Apr'},
+      'JR|npl|2025':        {games:19,role:'T1',   rank:1,notes:'Nov-Dec — sole T1'},
+      'JR|t20_intl|2025':   {games:4, role:'T2',   rank:3,notes:'Oct'},
+      'JR|odi_intl|2025':   {games:3, role:'T2',   rank:3,notes:'Oct'},
+      'JR|w_odi_intl|2025': {games:2, role:'T2',   rank:3,notes:'Oct'},
+      'JR|csa|2025':        {games:1, role:'T2',   rank:3,notes:'Nov'},
+    }
+  }
 };
 
 let activeTraders=new Set(TRADERS);
@@ -886,6 +1109,7 @@ function activatePage(page,trader){
   if(page==='criteria'){document.querySelectorAll('.nav-item')[3].classList.add('active');renderCriteria();}
   if(page==='promotion'){document.querySelectorAll('.nav-item')[4].classList.add('active');renderPromotionGuide();}
   if(page==='recruitment'){document.querySelectorAll('.nav-item')[5].classList.add('active');renderRecruitment();}
+  if(page==='experience'){document.querySelectorAll('.nav-item')[6].classList.add('active');renderExperience();}
   if(page==='dashboard'){renderTeamRadar();renderPromoOverview();}
   if(page==='profile'&&trader){profileTrader=trader;renderProfile(trader);}
   if(page==='readonly'&&trader){renderReadonly(trader);}
@@ -1538,6 +1762,11 @@ function renderProfile(t){
     </div>
     <div class="profile-grid">
       <div class="profile-section">
+        <div class="profile-section-title">Tournament experience</div>
+        ${buildProfileExperience(t)}
+        <button class="save-notes-btn" style="margin-top:8px" onclick="showPage('experience')">Manage experience</button>
+      </div>
+      <div class="profile-section">
         <div class="profile-section-title">Review schedule</div>
         <div class="review-row"><span class="review-label">Last review</span><input class="review-input" type="date" id="rev-last" value="${rev.last||''}" onchange="saveReview('${t}')"></div>
         <div class="review-row"><span class="review-label">Next review</span><input class="review-input" type="date" id="rev-next" value="${rev.next||''}" onchange="saveReview('${t}')"></div>
@@ -1824,6 +2053,7 @@ document.getElementById('file-input').addEventListener('change',e=>{
         if(!data.reviews){data.reviews={};TRADERS.forEach(t=>data.reviews[t]={last:'',next:''});}
         if(!data.cardTier){data.cardTier={};TRADERS.forEach(t=>data.cardTier[t]='gold');}
         if(!data.recruitmentNotes){data.recruitmentNotes={overview:'',hiring:'',timeline:'',simTier:'junior'};}
+        if(!data.experience){data.experience={tournaments:[],records:{}};}
         state=data;render();showToast('Data loaded successfully');
       }
     }catch{showToast('Error reading file');}
@@ -2526,6 +2756,310 @@ function saveRecruitNotes(){
   showToast('Recruitment notes saved');
 }
 
+
+// ---- EXPERIENCE ----
+function ensureExperience(){
+  if(!state.experience) state.experience={tournaments:[],records:{}};
+  if(!state.experience.tournaments) state.experience.tournaments=[];
+  if(!state.experience.records) state.experience.records={};
+}
+
+function expKey(trader,tournId,year){ return `${trader}|${tournId}|${year}`; }
+
+function getExpEntry(trader,tournId,year){
+  ensureExperience();
+  return state.experience.records[expKey(trader,tournId,year)]||null;
+}
+
+function setExpEntry(trader,tournId,year,data){
+  ensureExperience();
+  if(!data) delete state.experience.records[expKey(trader,tournId,year)];
+  else state.experience.records[expKey(trader,tournId,year)]=data;
+}
+
+function getExpYears(){
+  ensureExperience();
+  const years=new Set();
+  Object.keys(state.experience.records).forEach(k=>{const parts=k.split('|');if(parts[2])years.add(parseInt(parts[2]));});
+  if(!years.size){const y=new Date().getFullYear();years.add(y);years.add(y-1);}
+  return [...years].sort((a,b)=>b-a);
+}
+
+function renderExperience(){
+  const el=document.getElementById('experience-content');
+  if(!el)return;
+  ensureExperience();
+  const tournaments=state.experience.tournaments;
+  const years=getExpYears();
+
+  // Group tournaments by country
+  const countries=[...new Set(tournaments.map(t=>t.country))].sort();
+
+  // Build table HTML per year group
+  const traderHeaders=TRADERS.map(t=>`<th><div class="exp-trader-header"><div class="exp-trader-dot" style="background:${COLORS[t]}"></div>${t}</div></th>`).join('');
+
+  let tableHtml='';
+  years.forEach(year=>{
+    tableHtml+=`<tr><td class="exp-year-group" colspan="${TRADERS.length+1}">${year}</td></tr>`;
+    tournaments.forEach(tourn=>{
+      const cells=TRADERS.map(t=>{
+        const entry=getExpEntry(t,tourn.id,year);
+        if(entry&&entry.games>0){
+          const roleColor=entry.role==='T1'?'var(--expert)':entry.role==='T2'?'var(--intermediate)':'var(--gold)';
+          return `<td><div class="exp-cell has-data" onclick="openExpEntry('${t}','${tourn.id}',${year})">
+            <div class="exp-cell-games">${entry.games}</div>
+            ${entry.role?`<div class="exp-cell-role" style="background:${roleColor}22;color:${roleColor}">${entry.role}</div>`:''}
+            ${entry.rank?`<div class="exp-cell-rank">#${entry.rank}</div>`:''}
+          </div></td>`;
+        }
+        return `<td><div class="exp-cell" onclick="openExpEntry('${t}','${tourn.id}',${year})"><div class="exp-cell-empty">+</div></div></td>`;
+      }).join('');
+      tableHtml+=`<tr>
+        <td class="exp-td-label">${tourn.name}<span class="country-badge">${tourn.country}</span></td>
+        ${cells}
+      </tr>`;
+    });
+  });
+
+  // Country experience summary
+  const countryRows=countries.map(country=>{
+    const countryTourns=tournaments.filter(t=>t.country===country);
+    const cells=TRADERS.map(t=>{
+      let totalGames=0;
+      countryTourns.forEach(tourn=>{
+        years.forEach(y=>{
+          const e=getExpEntry(t,tourn.id,y);
+          if(e) totalGames+=e.games||0;
+        });
+      });
+      return `<td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:${totalGames>0?600:400};color:${totalGames>0?'var(--gold)':'var(--text3)'}">${totalGames>0?totalGames:'—'}</td>`;
+    }).join('');
+    return `<tr><td class="exp-td-label">${country}</td>${cells}</tr>`;
+  }).join('');
+
+  el.innerHTML=`
+    <div class="exp-section-title">Games traded by tournament &amp; year — click any cell to edit</div>
+    <div class="exp-table-wrap">
+      <table class="exp-table">
+        <thead><tr><th class="exp-th-label">Tournament</th>${traderHeaders}</tr></thead>
+        <tbody>${tableHtml}</tbody>
+      </table>
+    </div>
+    <div class="exp-section-title">Total games by country</div>
+    <div class="exp-table-wrap">
+      <table class="exp-table">
+        <thead><tr><th class="exp-th-label">Country</th>${traderHeaders}</tr></thead>
+        <tbody>${countryRows}</tbody>
+      </table>
+    </div>
+    <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn" onclick="openAddYearModal()"><i class="ti ti-plus" style="margin-right:4px"></i>Add year</button>
+    </div>`;
+}
+
+// Profile experience panel (compact)
+function buildProfileExperience(t){
+  ensureExperience();
+  const tournaments=state.experience.tournaments;
+  const years=getExpYears();
+  let entries=[];
+  tournaments.forEach(tourn=>{
+    years.forEach(y=>{
+      const e=getExpEntry(t,tourn.id,y);
+      if(e&&e.games>0) entries.push({...e,tourn,year:y});
+    });
+  });
+  if(!entries.length) return `<div style="font-size:12px;color:var(--text3);font-style:italic;padding:8px 0">No experience recorded yet.</div>`;
+  // Group by tournament
+  const byTourn={};
+  entries.forEach(e=>{
+    if(!byTourn[e.tourn.id]) byTourn[e.tourn.id]={tourn:e.tourn,years:[]};
+    byTourn[e.tourn.id].years.push(e);
+  });
+  return Object.values(byTourn).map(({tourn,years:ys})=>{
+    const totalGames=ys.reduce((s,e)=>s+e.games,0);
+    const roles=[...new Set(ys.map(e=>e.role).filter(Boolean))];
+    const yearStrs=ys.map(e=>{
+      const roleColor=e.role==='T1'?'var(--expert)':e.role==='T2'?'var(--intermediate)':'var(--gold)';
+      return `<span style="font-size:10px;color:var(--text3)">${e.year}</span>${e.role?`<span style="font-size:9px;padding:1px 4px;border-radius:3px;background:${roleColor}22;color:${roleColor}">${e.role}</span>`:''}${e.rank?`<span style="font-size:9px;color:var(--text3)">#${e.rank}</span>`:''}`;
+    }).join(' ');
+    return `<div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;">
+      <div style="flex:1;font-weight:500;color:var(--text2)">${tourn.name}<span class="country-badge">${tourn.country}</span></div>
+      <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--gold)">${totalGames}</div>
+      <div style="display:flex;flex-direction:column;gap:2px;align-items:flex-end">${yearStrs}</div>
+    </div>`;
+  }).join('');
+}
+
+// Exp entry modal
+let expEntryCtx={t:null,tournId:null,year:null};
+
+function openExpEntry(t,tournId,year){
+  expEntryCtx={t,tournId,year};
+  const tourn=state.experience.tournaments.find(x=>x.id===tournId);
+  const entry=getExpEntry(t,tournId,year)||{};
+  document.getElementById('exp-entry-title').textContent=`${FULL_NAMES[t]||t} — ${tourn?.name||tournId} ${year}`;
+  document.getElementById('exp-year').value=year;
+  document.getElementById('exp-games').value=entry.games||'';
+  document.getElementById('exp-role').value=entry.role||'';
+  document.getElementById('exp-rank').value=entry.rank||'';
+  document.getElementById('exp-notes').value=entry.notes||'';
+  document.getElementById('exp-entry-modal').style.display='flex';
+}
+
+function closeExpEntryModal(){ document.getElementById('exp-entry-modal').style.display='none'; }
+function handleExpEntryBg(e){ if(e.target===document.getElementById('exp-entry-modal')) closeExpEntryModal(); }
+
+function saveExpEntry(){
+  const {t,tournId,year}=expEntryCtx;
+  const newYear=parseInt(document.getElementById('exp-year').value)||year;
+  const games=parseInt(document.getElementById('exp-games').value)||0;
+  const role=document.getElementById('exp-role').value;
+  const rank=parseInt(document.getElementById('exp-rank').value)||null;
+  const notes=document.getElementById('exp-notes').value;
+  // If year changed, remove old
+  if(newYear!==year) setExpEntry(t,tournId,year,null);
+  setExpEntry(t,tournId,newYear,{games,role,rank,notes});
+  closeExpEntryModal();
+  if(currentPage==='experience') renderExperience();
+  if(currentPage==='profile') renderProfile(profileTrader);
+  showToast('Experience saved');
+}
+
+function deleteExpEntry(){
+  const {t,tournId,year}=expEntryCtx;
+  setExpEntry(t,tournId,year,null);
+  closeExpEntryModal();
+  if(currentPage==='experience') renderExperience();
+  if(currentPage==='profile') renderProfile(profileTrader);
+  showToast('Entry deleted');
+}
+
+// Add tournament modal
+function openAddTournamentModal(){ document.getElementById('add-tournament-modal').style.display='flex'; document.getElementById('new-tourn-name').value=''; document.getElementById('new-tourn-country').value=''; }
+function closeAddTournamentModal(){ document.getElementById('add-tournament-modal').style.display='none'; }
+function handleAddTournamentBg(e){ if(e.target===document.getElementById('add-tournament-modal')) closeAddTournamentModal(); }
+
+function confirmAddTournament(){
+  const name=document.getElementById('new-tourn-name').value.trim();
+  const country=document.getElementById('new-tourn-country').value.trim();
+  if(!name) return;
+  const id=name.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  ensureExperience();
+  if(!state.experience.tournaments.find(t=>t.id===id)){
+    state.experience.tournaments.push({id,name,country:country||'Unknown'});
+  }
+  closeAddTournamentModal();
+  if(currentPage==='experience') renderExperience();
+  showToast(`Tournament added: ${name}`);
+}
+
+// Add year
+function openAddYearModal(){
+  const year=prompt('Add year (e.g. 2025):');
+  if(!year||isNaN(parseInt(year))) return;
+  // Just re-render — the year will appear once data is entered for it
+  showToast(`Year ${year} will appear when you add entries for it`);
+}
+
+// Paste import
+let importParsed=null;
+
+function openImportModal(){ document.getElementById('import-modal').style.display='flex'; document.getElementById('import-paste-area').value=''; document.getElementById('import-preview').innerHTML=''; importParsed=null; }
+function closeImportModal(){ document.getElementById('import-modal').style.display='none'; }
+function handleImportModalBg(e){ if(e.target===document.getElementById('import-modal')) closeImportModal(); }
+
+function previewImport(){
+  const raw=document.getElementById('import-paste-area').value.trim();
+  if(!raw){ document.getElementById('import-preview').innerHTML='<span style="color:var(--beginner)">Nothing pasted.</span>'; return; }
+  const result=parseSchedulePaste(raw);
+  importParsed=result;
+  if(!result.rows.length){ document.getElementById('import-preview').innerHTML='<span style="color:var(--beginner)">Could not parse any rows. Make sure the data includes columns for Date, Tournament/Competition, and trader names (T1/T2).</span>'; return; }
+  document.getElementById('import-preview').innerHTML=`
+    <div style="color:var(--expert);font-weight:600;margin-bottom:6px">Found ${result.rows.length} game${result.rows.length>1?'s':''} across ${result.tournaments.size} tournament${result.tournaments.size>1?'s':''}</div>
+    <div style="color:var(--text2)">Traders detected: ${[...result.traders].join(', ')}</div>
+    <div style="color:var(--text3);margin-top:4px;font-size:10px">Click Import to apply</div>`;
+}
+
+function parseSchedulePaste(raw){
+  // Split into rows, detect separator
+  const lines=raw.split('\n').filter(l=>l.trim());
+  const sep=lines[0].includes('\t')?'\t':',';
+  const rows=lines.map(l=>l.split(sep).map(c=>c.trim().replace(/^"|"$/g,'')));
+  const header=rows[0].map(h=>h.toLowerCase());
+
+  // Detect column indices
+  const dateIdx=header.findIndex(h=>h.includes('date'));
+  const tournIdx=header.findIndex(h=>h.includes('tournament')||h.includes('competition')||h.includes('league')||h.includes('match'));
+  // Find T1/T2 columns — look for trader names or T1/T2 labels
+  const t1Idx=header.findIndex(h=>h==='t1'||h.includes('t1 trader')||h.includes('primary'));
+  const t2Idx=header.findIndex(h=>h==='t2'||h.includes('t2 trader')||h.includes('secondary'));
+
+  const result={rows:[],tournaments:new Set(),traders:new Set()};
+  if(tournIdx===-1) return result;
+
+  for(let i=1;i<rows.length;i++){
+    const row=rows[i];
+    if(row.length<2) continue;
+    const tourn=row[tournIdx]?.trim();
+    if(!tourn) continue;
+    const date=dateIdx>=0?row[dateIdx]:'';
+    const year=date?new Date(date).getFullYear()||new Date().getFullYear():new Date().getFullYear();
+    const t1=t1Idx>=0?row[t1Idx]?.trim():'';
+    const t2=t2Idx>=0?row[t2Idx]?.trim():'';
+    result.tournaments.add(tourn);
+    if(t1){result.traders.add(t1);result.rows.push({tourn,year,trader:t1,role:'T1',date});}
+    if(t2){result.traders.add(t2);result.rows.push({tourn,year,trader:t2,role:'T2',date});}
+  }
+  return result;
+}
+
+function matchTraderName(name){
+  // Try to match pasted name to a trader initial or full name
+  const lower=name.toLowerCase();
+  for(const t of TRADERS){
+    if(lower===t.toLowerCase()) return t;
+    if(lower===FULL_NAMES[t].toLowerCase()) return t;
+    const parts=FULL_NAMES[t].toLowerCase().split(' ');
+    if(parts.some(p=>p===lower)) return t;
+  }
+  return null;
+}
+
+function matchTournamentId(name){
+  ensureExperience();
+  const lower=name.toLowerCase();
+  const existing=state.experience.tournaments.find(t=>t.name.toLowerCase()===lower||t.id===lower.replace(/\s+/g,'_'));
+  if(existing) return existing.id;
+  // Auto-create
+  const id=lower.replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
+  state.experience.tournaments.push({id,name,country:'Unknown'});
+  return id;
+}
+
+function confirmImport(){
+  if(!importParsed||!importParsed.rows.length){ showToast('Nothing to import — click Preview first'); return; }
+  ensureExperience();
+  let imported=0;
+  // Count games per trader/tournament/year/role
+  const counts={};
+  importParsed.rows.forEach(({tourn,year,trader,role})=>{
+    const t=matchTraderName(trader);
+    if(!t) return;
+    const tid=matchTournamentId(tourn);
+    const k=`${t}|${tid}|${year}|${role}`;
+    counts[k]=(counts[k]||0)+1;
+  });
+  Object.entries(counts).forEach(([k,games])=>{
+    const [t,tid,year,role]=k.split('|');
+    const existing=getExpEntry(t,tid,parseInt(year))||{games:0,role:'',rank:null,notes:''};
+    setExpEntry(t,tid,parseInt(year),{...existing,games:existing.games+games,role:role||existing.role});
+    imported++;
+  });
+  closeImportModal();
+  if(currentPage==='experience') renderExperience();
+  showToast(`Imported ${imported} entries`);
+}
 
 function render(){renderSidebar();renderStats();renderSummary();renderGrid();renderGoalsSummary();if(currentPage==='dashboard'){renderTeamRadar();renderPromoOverview();}}
 initCompare();
