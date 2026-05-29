@@ -337,7 +337,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
   border-top-width:32px;border-top-style:solid;
 }
 .trader-card:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 24px 60px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,255,255,0.2);}
-/* Tier backgrounds â€” scoped to card and picker only */
+/* Tier backgrounds — scoped to card and picker only */
 .trader-card.tier-bronze,.tier-option.tier-bronze{background:linear-gradient(160deg,#5c2800 0%,#a0521a 25%,#d4843c 45%,#f0b060 55%,#d4843c 70%,#8a3c10 85%,#5c2800 100%);}
 .trader-card.tier-silver,.tier-option.tier-silver{background:linear-gradient(160deg,#2a2d33 0%,#6b7585 25%,#b0bcc8 45%,#dce4ec 55%,#b0bcc8 70%,#5a6475 85%,#2a2d33 100%);}
 .trader-card.tier-gold,.tier-option.tier-gold{background:linear-gradient(160deg,#3d2500 0%,#8a5c00 25%,#d4960c 45%,#f5c518 55%,#d4960c 70%,#7a4e00 85%,#3d2500 100%);}
@@ -377,7 +377,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .card-stat:nth-last-child(-n+2){border-bottom:none;}
 .card-stat-val{font-size:18px;font-weight:900;min-width:22px;text-align:right;text-shadow:0 2px 6px rgba(0,0,0,0.5);line-height:1;}
 .card-stat-lbl{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.8;line-height:1;}
-/* Text colors â€” scoped to card */
+/* Text colors — scoped to card */
 .trader-card.tier-bronze .card-rating,.trader-card.tier-bronze .card-position,.trader-card.tier-bronze .card-name,.trader-card.tier-bronze .card-stat-val,.trader-card.tier-bronze .card-stat-lbl{color:#ffecd6;}
 .trader-card.tier-silver .card-rating,.trader-card.tier-silver .card-position,.trader-card.tier-silver .card-name,.trader-card.tier-silver .card-stat-val,.trader-card.tier-silver .card-stat-lbl{color:#f0f5fa;}
 .trader-card.tier-gold .card-rating,.trader-card.tier-gold .card-position,.trader-card.tier-gold .card-name,.trader-card.tier-gold .card-stat-val,.trader-card.tier-gold .card-stat-lbl{color:#fffae0;}
@@ -662,6 +662,9 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
       </div>
       <div id="criteria-content"></div>
     </div>
+
+    <!-- COMPARE -->
+    <div class="page" id="page-compare">
       <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>Compare</span></div>
       <div class="page-header">
         <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
@@ -916,25 +919,25 @@ const CRITERIA = [
     3: 'Proficient at anticipating future match developments by recognising relevant indicators.\nIs a go-to resource used by other members of the team for cricket understanding questions.',
     4: 'N/A'
   },
-  { // Pricing â€“ Model biases
+  { // Pricing – Model biases
     1: 'Nothing expected.',
     2: 'Trader has learned to spot all the currently known model biases and can implement a solution.',
     3: 'Trader can innovate, or improve upon, a solution to a model bias, and implement it across the games they trade.\nPerforms well against other traders in pricing metrics in states of known biases.',
     4: 'Leads team in pricing metrics in states of known biases.\nTrader has spotted and innovated a solution to a model bias.\nThis solution is either in team-wide use, or quants have proved its efficacy and are including it in the model.'
   },
-  { // Pricing â€“ Not in model
+  { // Pricing – Not in model
     1: 'Some aptitude at applying simple adjustments.\nCan crudely factor in the model opinion vs market when making these adjustments.',
     2: 'Quick and accurate application of simple adjustments.\nDemonstrates some ability applying advanced adjustments.',
     3: 'Adept at quickly quantifying their cricket knowledge and understanding.\nApplying these adjustments or communicating them effectively as a T2.\nPerforms well against other traders in pricing metrics.',
     4: 'Leads team in pricing metrics.\nCan scale the value of their excellent ability to quantify adjustments team wide.'
   },
-  { // Execution â€“ Confidence
+  { // Execution – Confidence
     1: 'Some skill to choose an appropriate risk for a market.\nUnderstands some of the key factors that inform product confidence.',
     2: 'Has some understanding of product confidence and market strength in all potential match situations. Executes accordingly.',
     3: 'Has excellent understanding of product and market strength in almost all match situations. Executes accordingly.',
     4: 'Trader can scale their excellent ability to judge Mustard\'s edge to the rest of the team.'
   },
-  { // Execution â€“ Efficiency
+  { // Execution – Efficiency
     1: 'Use the AT with required speed and accuracy.\nSome awareness of positions, opinions and opportunities.',
     2: 'Ability to make various adjustments to execution strategy to suit conditions.',
     3: 'Ability to make advanced and accurate adjustment to execution strategy to suit conditions.\nSome ability to innovate new trading strategies.\nPerforms well against other traders in execution metrics.',
@@ -976,7 +979,7 @@ function renderGrid(){
 
   DOMAINS.forEach((domain,di)=>{
     const isExpanded = expandedDomain === di;
-    // Main row â€” domain cell is clickable to expand criteria
+    // Main row — domain cell is clickable to expand criteria
     html+=`<tr class="domain-row${isExpanded?' domain-row-expanded':''}">`;
     html+=`<td class="domain-cell domain-cell-expandable" onclick="toggleExpand(${di})" title="Click to see criteria">
       <div style="display:flex;align-items:center;gap:6px;">
@@ -1022,7 +1025,7 @@ function renderGrid(){
     }
     html+='</tr>';
 
-    // Expand row â€” criteria panel
+    // Expand row — criteria panel
     if(isExpanded){
       const crit = CRITERIA[di];
       const bandColors=['#c94f3a','#e8872a','#c9a227','#2a7f6f'];
@@ -1244,7 +1247,7 @@ const SILHOUETTE_SVG = `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns
   <ellipse cx="69" cy="117" rx="8" ry="4"/>
 </svg>`;
 
-// EL special portrait â€” eggman with blonde goatee
+// EL special portrait — eggman with blonde goatee
 const EL_PORTRAIT = `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
   <!-- Body (egg shape) -->
   <ellipse cx="50" cy="72" rx="28" ry="34" fill="rgba(0,0,0,0.35)"/>
@@ -1306,7 +1309,7 @@ let tierModalSelected = null;
 function openTierModal(t){
   tierModalTrader = t;
   tierModalSelected = (state.cardTier && state.cardTier[t]) || 'gold';
-  document.getElementById('tier-modal-title').textContent = `${t} â€” Choose card tier`;
+  document.getElementById('tier-modal-title').textContent = `${t} — Choose card tier`;
   renderTierGrid();
   document.getElementById('tier-modal').style.display='flex';
 }
@@ -1344,7 +1347,7 @@ function handleTierModalBg(e){if(e.target===document.getElementById('tier-modal'
 
 // ---- PROFILE ----
 function renderProfile(t){
-  document.getElementById('profile-page-title').textContent=(FULL_NAMES[t]||t)+' â€” Profile';
+  document.getElementById('profile-page-title').textContent=(FULL_NAMES[t]||t)+' — Profile';
   document.getElementById('profile-breadcrumb').innerHTML=`<span onclick="showPage('dashboard')" style="cursor:pointer">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>${FULL_NAMES[t]||t}</span>`;
   const scores=state.current[t],goals=state.goals[t],total=scores.reduce((a,b)=>a+b,0),rev=state.reviews[t];
   spiderCompareTrader=null;
@@ -1400,7 +1403,7 @@ function renderProfile(t){
 
   let promoHtml='';
   if(!nextPromo){
-    promoHtml=`<div style="font-size:13px;color:var(--expert);font-weight:600">&#10003; Maximum tier reached â€” Team Lead</div>`;
+    promoHtml=`<div style="font-size:13px;color:var(--expert);font-weight:600">&#10003; Maximum tier reached — Team Lead</div>`;
   } else if(currentPromo.special==='probation'){
     const domainsAt3Plus=scores.filter(s=>s>=2).length;
     const needed=5-domainsAt3Plus;
@@ -1439,7 +1442,7 @@ function renderProfile(t){
         <span style="font-size:13px;color:var(--text3)">&#8594;</span>
         <span class="promo-tier-badge" style="color:${nextPromo.color};border-color:${nextPromo.color}44;background:${nextPromo.color}18"><div class="promo-tier-dot" style="background:${nextPromo.color}"></div>${nextPromo.name}</span>
         ${close?`<span style="font-size:11px;background:var(--gold)22;color:var(--gold);padding:2px 8px;border-radius:8px;border:1px solid var(--gold)44">&#9733; Close to promotion</span>`:''}
-        <span style="margin-left:auto;font-size:11px;color:var(--text3)">${blockingDomains.length===0?'All thresholds met â€” ready for review!':blockingDomains.length+' domain'+( blockingDomains.length>1?'s':'')+' below threshold'}</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text3)">${blockingDomains.length===0?'All thresholds met — ready for review!':blockingDomains.length+' domain'+( blockingDomains.length>1?'s':'')+' below threshold'}</span>
       </div>
       ${gapRows}`;
   }
@@ -1514,7 +1517,7 @@ function openSpiderModal(t){
   canvas.width = size;
   canvas.height = size * 0.88;
 
-  document.getElementById('spider-modal-title').textContent = t + ' â€” Skill Radar';
+  document.getElementById('spider-modal-title').textContent = t + ' — Skill Radar';
 
   // Populate compare dropdown
   const sel = document.getElementById('spider-modal-compare');
@@ -1826,7 +1829,7 @@ function showMilestone(t, domain, from, to){
   const fromBand=bn(from), toBand=bn(to);
   if(fromBand===toBand)return;
   const el=document.getElementById('milestone-toast');
-  document.getElementById('milestone-msg').textContent=`ðŸŽ‰ ${t} reached ${toBand}!`;
+  document.getElementById('milestone-msg').textContent=`🎉 ${t} reached ${toBand}!`;
   document.getElementById('milestone-sub').textContent=`${domain} moved from ${fromBand} to ${toBand}`;
   el.classList.add('show');
   setTimeout(()=>el.classList.remove('show'),3500);
@@ -1929,7 +1932,7 @@ function exportPDF(){
   const scoreRows=DOMAINS.map((d,di)=>`<tr><td>${d}</td><td style="color:${bc(scores[di])};font-weight:600">${scores[di]}/8</td><td>${bn(scores[di])}</td></tr>`).join('');
 
   const html=`<!DOCTYPE html><html><head><meta charset="UTF-8">
-  <title>${t} â€” Trader Profile</title>
+  <title>${t} — Trader Profile</title>
   <style>
     body{font-family:'DM Sans',Arial,sans-serif;color:#1a2744;margin:0;padding:32px;background:#fff;}
     h1{font-size:28px;color:#1a2744;margin:0;}
@@ -1998,7 +2001,7 @@ const FULL_CRITERIA=[
       {n:8,text:'N/A'}
     ]}
   ]},
-  {domain:'Pricing â€“ Model biases',desc:'The model carries biases that are both known and unknown. How well can the trader spot these biases, learn established solutions to mitigate, and innovate new solutions.',bands:[
+  {domain:'Pricing – Model biases',desc:'The model carries biases that are both known and unknown. How well can the trader spot these biases, learn established solutions to mitigate, and innovate new solutions.',bands:[
     {levels:[
       {n:1,text:'Nothing expected.'},
       {n:2,text:'Nothing expected.'}
@@ -2016,7 +2019,7 @@ const FULL_CRITERIA=[
       {n:8,text:'Leads team in pricing metrics in states of known biases. Trader has spotted, and innovated a solution to, a model bias. This solution is either in team wide use, or quants have proved its efficacy and are including it in the model.'}
     ]}
   ]},
-  {domain:'Pricing â€“ Not in model',desc:'How effective is the trader at converting their cricket knowledge and understanding into consistent and accurate adjustments to prices.',bands:[
+  {domain:'Pricing – Not in model',desc:'How effective is the trader at converting their cricket knowledge and understanding into consistent and accurate adjustments to prices.',bands:[
     {levels:[
       {n:1,text:'Some aptitude at applying: Simple bowling and batting order adjustments. Simple player ability adjustments. Simple player intent adjustments. Simple pitch adjustments.'},
       {n:2,text:'Can crudely factor in the model opinion v market when making these adjustments.'}
@@ -2034,7 +2037,7 @@ const FULL_CRITERIA=[
       {n:8,text:'Working with quants to include new features in the model, if required data is available.'}
     ]}
   ]},
-  {domain:'Execution â€“ Confidence',desc:'Knowledge of market strength and trader+model pricing strength, and how that varies or is likely to vary throughout a match.',bands:[
+  {domain:'Execution – Confidence',desc:'Knowledge of market strength and trader+model pricing strength, and how that varies or is likely to vary throughout a match.',bands:[
     {levels:[
       {n:1,text:'Some skill to choose an appropriate risk for a market. Understand some of the key factors that inform product confidence: Quantity of data, Quality of data, Size of any trader adjustments, Size of opinion v market, Confidence of trader, Gamestate.'},
       {n:2,text:'Some skill to choose an appropriate risk for a market. Understands some of the key factors that inform product confidence.'}
@@ -2052,7 +2055,7 @@ const FULL_CRITERIA=[
       {n:8,text:'Trader can scale their excellent ability to judge mustard\'s edge by teaching other traders their process or by working with EXE to automate paxman settings adjustments or innovating tools to help traders.'}
     ]}
   ]},
-  {domain:'Execution â€“ Efficiency',desc:'Given a desired risk appetite, how efficient is the trader at interacting with the liquidity available to maximise profit.',bands:[
+  {domain:'Execution – Efficiency',desc:'Given a desired risk appetite, how efficient is the trader at interacting with the liquidity available to maximise profit.',bands:[
     {levels:[
       {n:1,text:'Avoids being sniped by leaving the trader on too long or taking bets with the wrong score or active players. Turns the AT on at a reasonable speed following ball outcome information.'},
       {n:2,text:'Spots when offers are not going up and can solve when this is caused by max liab, max spread, min spread, tgtbt, min EV. Some skill at spotting where value bets are available. Some awareness of the positions/opinions they have.'}
@@ -2084,7 +2087,7 @@ const FULL_CRITERIA=[
   ]}
 ];
 
-const BAND_LABELS=['Beginner (1â€“2)','Intermediate (3â€“4)','Advanced (5â€“6)','Expert (7â€“8)'];
+const BAND_LABELS=['Beginner (1–2)','Intermediate (3–4)','Advanced (5–6)','Expert (7–8)'];
 const BAND_COLORS_CRITERIA=['#e05555','#e8872a','#d4a017','#3aaa5c'];
 let openCriteriaDomains=new Set();
 
@@ -2124,14 +2127,14 @@ function renderPromotionGuide(){
   const tierInfo=[
     {tier:TIERS_PROMO[0],description:'Starting tier for all new traders.',exit:'Exit requires 5 or more domains at level 2+.',rules:['Minimum 5 domains must reach level 2 or above','No minimum score in any specific domain','Focus: getting familiar with the fundamentals across all areas'],domainMins:null,special:'probation'},
     {tier:TIERS_PROMO[1],description:'Core trading role. Must demonstrate competence across all 6 trading domains.',exit:'Exit requires all 6 core trading domains at level 4+.',rules:['All 6 core trading domains must reach level 4 (Intermediate)','Non-Trading Work and Comms have no minimum requirement at this tier'],domainMins:TIERS_PROMO[1].mins},
-    {tier:TIERS_PROMO[2],description:'Senior role. Placeholder thresholds â€” to be confirmed.',exit:'Exit requires all domains at level 6+ (placeholder).',rules:['All 8 domains must reach level 6 (Advanced)','Thresholds subject to review'],domainMins:TIERS_PROMO[2].mins},
-    {tier:TIERS_PROMO[3],description:'Leadership role. Placeholder thresholds â€” to be confirmed.',exit:'Requires all domains at level 7+ (placeholder).',rules:['All 8 domains must reach level 7 (Expert band)','Thresholds subject to review'],domainMins:TIERS_PROMO[3].mins}
+    {tier:TIERS_PROMO[2],description:'Senior role. Placeholder thresholds — to be confirmed.',exit:'Exit requires all domains at level 6+ (placeholder).',rules:['All 8 domains must reach level 6 (Advanced)','Thresholds subject to review'],domainMins:TIERS_PROMO[2].mins},
+    {tier:TIERS_PROMO[3],description:'Leadership role. Placeholder thresholds — to be confirmed.',exit:'Requires all domains at level 7+ (placeholder).',rules:['All 8 domains must reach level 7 (Expert band)','Thresholds subject to review'],domainMins:TIERS_PROMO[3].mins}
   ];
   const tierCards=tierInfo.map(({tier,description,exit,rules,domainMins,special})=>{
     const ruleItems=rules.map(r=>`<div class="promo-guide-rule"><div class="promo-guide-rule-dot" style="background:${tier.color}"></div><div class="promo-guide-rule-text">${r}</div></div>`).join('');
     let domainSection='';
     if(domainMins){
-      const rows=DOMAINS.map((d,i)=>{const min=domainMins[i];return min===0?`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:var(--surface3);color:var(--text3)">â€”</span></div>`:`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:${bc(min)}22;color:${bc(min)}">${min}+</span></div>`;}).join('');
+      const rows=DOMAINS.map((d,i)=>{const min=domainMins[i];return min===0?`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:var(--surface3);color:var(--text3)">—</span></div>`:`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:${bc(min)}22;color:${bc(min)}">${min}+</span></div>`;}).join('');
       domainSection=`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)"><div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Minimum scores</div><div class="promo-guide-domain-grid">${rows}</div></div>`;
     } else if(special==='probation'){
       const rows=DOMAINS.map(d=>`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:${bc(2)}22;color:${bc(2)}">2+</span></div>`).join('');
@@ -2142,7 +2145,7 @@ function renderPromotionGuide(){
     return`<div class="promo-guide-tier-card"><div class="promo-guide-tier-header" style="border-left:4px solid ${tier.color}"><div class="promo-guide-tier-name" style="color:${tier.color}">${tier.name}</div><div class="promo-guide-tier-sub">${description}</div></div><div class="promo-guide-tier-body"><div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-style:italic">${exit}</div>${ruleItems}${domainSection}<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)"><div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Current traders</div><div class="promo-guide-trader-list">${pills}</div></div></div></div>`;
   }).join('');
   const nearTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t]));
-  const nearSection=nearTraders.length?`<div class="promo-guide-team-section"><div class="promo-guide-team-title">&#9733; Close to promotion</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">${nearTraders.map(t=>{const next=getNextPromoTier(state.current[t]);const gaps=(getPromoGaps(state.current[t])||[]).filter(g=>g.gap>0);return`<div class="promo-close-card" onclick="showPage('profile','${t}')"><div class="promo-close-header"><div style="width:24px;height:24px;border-radius:50%;background:${COLORS[t]};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:#0e1628;font-weight:700">${t}</div><div class="promo-close-name">${FULL_NAMES[t]||t}</div><span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span></div><div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:4px">${gaps.length?gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; '):'All thresholds met â€” ready for review'}</div></div>`;}).join('')}</div></div>`:'';
+  const nearSection=nearTraders.length?`<div class="promo-guide-team-section"><div class="promo-guide-team-title">&#9733; Close to promotion</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">${nearTraders.map(t=>{const next=getNextPromoTier(state.current[t]);const gaps=(getPromoGaps(state.current[t])||[]).filter(g=>g.gap>0);return`<div class="promo-close-card" onclick="showPage('profile','${t}')"><div class="promo-close-header"><div style="width:24px;height:24px;border-radius:50%;background:${COLORS[t]};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:#0e1628;font-weight:700">${t}</div><div class="promo-close-name">${FULL_NAMES[t]||t}</div><span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span></div><div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:4px">${gaps.length?gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; '):'All thresholds met — ready for review'}</div></div>`;}).join('')}</div></div>`:'';
   el.innerHTML=`<div class="promo-guide-tiers">${tierCards}</div>${nearSection}`;
 }
 function renderPromoOverview(){
@@ -2179,7 +2182,7 @@ function renderPromoOverview(){
         <div class="promo-close-name">${FULL_NAMES[t]||t}</div>
         <span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span>
       </div>
-      <div style="font-size:10px;color:var(--text3);line-height:1.6">${gapStr||'All thresholds met â€” ready for review'}</div>
+      <div style="font-size:10px;color:var(--text3);line-height:1.6">${gapStr||'All thresholds met — ready for review'}</div>
     </div>`;
   }).join('');
 
