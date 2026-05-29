@@ -37,15 +37,15 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;fon
 .logo-sub{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--text3);padding:0 4px;margin-top:-14px;}
 .section-title{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:0 4px;margin-bottom:6px;}
 .trader-list{display:flex;flex-direction:column;gap:3px;}
-.trader-item{display:flex;align-items:center;gap:7px;padding:7px 9px;border-radius:var(--radius);cursor:pointer;border:1px solid transparent;transition:all .15s;}
+.trader-item{display:flex;align-items:center;gap:5px;padding:7px 9px;border-radius:var(--radius);cursor:pointer;border:1px solid transparent;transition:all .15s;min-width:0;overflow:hidden;}
 .trader-item:hover{background:var(--surface2);}
 .trader-item.selected{background:var(--surface2);border-color:var(--border2);}
 .trader-item.dim{opacity:.35;}
 .t-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.t-name{font-weight:500;font-size:13px;flex:1;}
+.t-name{font-weight:500;font-size:13px;flex:1;min-width:0;}
 .t-score{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);}
 .t-review-flag{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-.t-btn{font-size:10px;color:var(--text3);padding:1px 5px;border-radius:3px;border:1px solid var(--border);cursor:pointer;flex-shrink:0;transition:all .12s;}
+.t-btn{font-size:9px;color:var(--text3);padding:1px 4px;border-radius:3px;border:1px solid var(--border);cursor:pointer;flex-shrink:0;transition:all .12s;white-space:nowrap;}
 .t-btn:hover{color:var(--gold);border-color:var(--gold-dim);}
 .t-btn.focused{background:var(--gold);border-color:var(--gold);color:#0e1628;font-weight:600;}
 .mode-list,.nav-list{display:flex;flex-direction:column;gap:3px;}
@@ -430,7 +430,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .promo-section-title{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:12px;}
 
 /* Sidebar tier label */
-.t-tier-label{font-size:9px;font-weight:600;letter-spacing:.05em;padding:1px 5px;border-radius:4px;flex-shrink:0;}
+.t-tier-label{font-size:9px;font-weight:600;letter-spacing:.04em;padding:1px 4px;border-radius:4px;flex-shrink:0;white-space:nowrap;max-width:58px;overflow:hidden;text-overflow:ellipsis;}
 .t-mini-radar{flex-shrink:0;opacity:0.85;}
 
 /* Team radar section */
@@ -842,6 +842,8 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
     </div>
   </div>
 </div>
+
+<div class="modal-bg" id="goal-modal" style="display:none" onclick="handleGoalModalBg(event)">
   <div class="modal">
     <div class="modal-header"><div class="modal-title" id="goal-modal-title"></div><div class="modal-close" onclick="closeGoalModal()">x</div></div>
     <div class="modal-field"><div class="modal-label">Notes (manager only)</div><textarea id="gm-notes" placeholder="Focus areas, context, development plan..."></textarea></div>
@@ -872,7 +874,7 @@ const FULL_NAMES={EL:'Edward Lowe',JR:'John Robertson',HB:'Harry Bathurst',JLB:'
 // Edit the 'mins' array to change promotion thresholds per domain
 // Order: CK, CU, PM, PNM, EC, EE, NTW, CP
 const TIERS_PROMO = [
-  { name: 'Probation',     short: 'Probation', color: '#e05555', mins: null, special: 'probation' },
+  { name: 'Probation',     short: 'Prob', color: '#e05555', mins: null, special: 'probation' },
   { name: 'Junior Trader', short: 'Junior',    color: '#9ba3ae', mins: [0,0,0,0,0,0,0,0] },
   { name: 'Trader',        short: 'Trader',    color: '#e8872a', mins: [4,4,4,4,4,4,0,0] },
   { name: 'Senior Trader', short: 'Senior',    color: '#f5c518', mins: [6,6,6,6,6,6,6,6] },
@@ -939,144 +941,226 @@ let state={
   recruitmentNotes:{overview:'',hiring:'',timeline:'',idealProfile:''},
   experience:{
     tournaments:[
-      {id:'ipl',        name:'IPL',                    country:'India'},
-      {id:'bbl',        name:'BBL',                    country:'Australia'},
-      {id:'hundred',    name:'The Hundred',             country:'England'},
-      {id:'w_hundred',  name:"Women's Hundred",         country:'England'},
-      {id:'t20wc',      name:'T20 World Cup',           country:'International'},
-      {id:'sa20',       name:'SA20',                    country:'South Africa'},
-      {id:'ilt20',      name:'ILT20',                   country:'UAE'},
-      {id:'cpl',        name:'CPL',                     country:'Caribbean'},
-      {id:'wcpl',       name:'WCPL',                    country:'Caribbean'},
-      {id:'gsl',        name:'GSL',                     country:'Caribbean'},
-      {id:'psl',        name:'PSL',                     country:'Pakistan'},
-      {id:'lpl',        name:'LPL',                     country:'Sri Lanka'},
-      {id:'ct',         name:'Champions Trophy',        country:'International'},
-      {id:'t20blast',   name:'T20 Blast',               country:'England'},
-      {id:'w_blast',    name:"Women's Blast",           country:'England'},
-      {id:'wpl',        name:'WPL',                     country:'India'},
-      {id:'bpl',        name:'BPL',                     country:'Bangladesh'},
-      {id:'mlc',        name:'MLC',                     country:'USA'},
-      {id:'adt10',      name:'Abu Dhabi T10',           country:'UAE'},
-      {id:'wbbl',       name:'WBBL',                    country:'Australia'},
-      {id:'csa',        name:'CSA Challenge',           country:'South Africa'},
-      {id:'smat',       name:'SMAT',                    country:'India'},
-      {id:'tnpl',       name:'TNPL',                    country:'India'},
-      {id:'odc',        name:'One Day Cup',             country:'England'},
-      {id:'w_odc',      name:"Women's One Day Cup",     country:'England'},
-      {id:'aus_odc',    name:'Australia One Day Cup',   country:'Australia'},
-      {id:'nz_odc',     name:'New Zealand One Day Cup', country:'New Zealand'},
-      {id:'slct20',     name:'Sri Lanka CT20',          country:'Sri Lanka'},
-      {id:'scl',        name:'SCL',                     country:'Afghanistan'},
-      {id:'vht',        name:'Vijay Hazare Trophy',     country:'India'},
-      {id:'eac',        name:'Emirates AC',             country:'UAE'},
-      {id:'npl',        name:'Nepal Premier League',    country:'Nepal'},
-      {id:'supersmash', name:'Super Smash',             country:'New Zealand'},
-      {id:'odi_intl',   name:'ODI International',       country:'International'},
-      {id:'t20_intl',   name:'T20 International',       country:'International'},
-      {id:'w_odi_intl', name:"Women's ODI International", country:'International'},
-      {id:'w_t20_intl', name:"Women's T20 International", country:'International'},
+      {id:'ipl',         name:'IPL',                     country:'India'},
+      {id:'ipl2',        name:'IPL2 (Training)',          country:'India'},
+      {id:'bbl',         name:'BBL',                     country:'Australia'},
+      {id:'hundred',     name:'The Hundred',              country:'England'},
+      {id:'w_hundred',   name:"Women's Hundred",          country:'England'},
+      {id:'t20wc',       name:'T20 World Cup',            country:'International'},
+      {id:'wct20_2026',  name:'WCT20 2026',               country:'International'},
+      {id:'sa20',        name:'SA20',                     country:'South Africa'},
+      {id:'ilt20',       name:'ILT20',                    country:'UAE'},
+      {id:'cpl',         name:'CPL',                      country:'Caribbean'},
+      {id:'wcpl',        name:'WCPL',                     country:'Caribbean'},
+      {id:'gsl',         name:'GSL',                      country:'Caribbean'},
+      {id:'psl',         name:'PSL',                      country:'Pakistan'},
+      {id:'lpl',         name:'LPL',                      country:'Sri Lanka'},
+      {id:'ct',          name:'Champions Trophy',         country:'International'},
+      {id:'t20blast',    name:'T20 Blast',                country:'England'},
+      {id:'w_blast',     name:"Women's Blast",            country:'England'},
+      {id:'wpl',         name:'WPL',                      country:'India'},
+      {id:'bpl',         name:'BPL',                      country:'Bangladesh'},
+      {id:'bdt20',       name:'BAN T20',                 country:'Bangladesh'},
+      {id:'mlc',         name:'MLC',                      country:'USA'},
+      {id:'adt10',       name:'Abu Dhabi T10',            country:'UAE'},
+      {id:'wbbl',        name:'WBBL',                     country:'Australia'},
+      {id:'csa',         name:'CSA Challenge',            country:'South Africa'},
+      {id:'csa50',       name:'CSA 50-over',              country:'South Africa'},
+      {id:'smat',        name:'SMAT',                     country:'India'},
+      {id:'tnpl',        name:'TNPL',                     country:'India'},
+      {id:'odc',         name:'One Day Cup',              country:'England'},
+      {id:'w_odc',       name:"Women's One Day Cup",      country:'England'},
+      {id:'aus_odc',     name:'Australia One Day Cup',    country:'Australia'},
+      {id:'nz_odc',      name:'New Zealand One Day Cup',  country:'New Zealand'},
+      {id:'national_cup',name:'National Cup',             country:'New Zealand'},
+      {id:'slct20',      name:'Sri Lanka CT20',           country:'Sri Lanka'},
+      {id:'scl',         name:'SCL',                      country:'Afghanistan'},
+      {id:'vht',         name:'Vijay Hazare Trophy',      country:'India'},
+      {id:'eac',         name:'Emirates AC',              country:'UAE'},
+      {id:'npl',         name:'Nepal Premier League',     country:'Nepal'},
+      {id:'supersmash',  name:'Super Smash',              country:'New Zealand'},
+      {id:'odi_intl',    name:'ODI International',        country:'International'},
+      {id:'t20_intl',    name:'T20 International',        country:'International'},
+      {id:'w_odi_intl',  name:"Women's ODI International",country:'International'},
+      {id:'w_t20_intl',  name:"Women's T20 International",country:'International'},
     ],
     records:{
-      // 2025 Season — full parse, all tournaments, JR from Oct only
-      'EL|sa20|2025':       {games:20,role:'T1',   rank:1,notes:'Jan & Dec'},
-      'EL|ct|2025':         {games:9, role:'T1/T2',rank:1,notes:'Feb-Mar'},
-      'EL|psl|2025':        {games:19,role:'T1/T2',rank:1,notes:'Apr-May'},
-      'EL|w_blast|2025':    {games:18,role:'T1/T2',rank:1,notes:'May-Jul'},
-      'EL|w_odi_intl|2025': {games:26,role:'T1/T2',rank:1,notes:'Various'},
-      'EL|hundred|2025':    {games:13,role:'T1/T2',rank:1,notes:'Aug'},
-      'EL|t20_intl|2025':   {games:13,role:'T1/T2',rank:1,notes:'Various'},
-      'EL|odi_intl|2025':   {games:10,role:'T1/T2',rank:1,notes:'Various'},
-      'EL|bbl|2025':        {games:8, role:'T1/T2',rank:2,notes:'Jan-Feb & Dec'},
-      'EL|t20blast|2025':   {games:4, role:'T1/T2',rank:2,notes:'Jun-Jul'},
-      'EL|adt10|2025':      {games:4, role:'T1',   rank:1,notes:'Nov'},
-      'EL|eac|2025':        {games:3, role:'T1',   rank:1,notes:'Nov'},
-      'EL|w_hundred|2025':  {games:2, role:'T2',   rank:3,notes:'Aug'},
-      'EL|w_odc|2025':      {games:2, role:'T1',   rank:2,notes:'Sep'},
-      'EL|wpl|2025':        {games:2, role:'T1/T2',rank:2,notes:'Feb-Mar'},
-      'EL|w_t20_intl|2025': {games:5, role:'T1/T2',rank:1,notes:'Various'},
-      'EL|wbbl|2025':       {games:1, role:'T1',   rank:2,notes:'Dec'},
-      'HB|bpl|2025':        {games:18,role:'T1',   rank:1,notes:'Jan-Feb — sole T1'},
-      'HB|ipl|2025':        {games:43,role:'T1/T2',rank:1,notes:'Mar-Jun'},
-      'HB|cpl|2025':        {games:14,role:'T1',   rank:1,notes:'Aug-Sep — primary T1'},
-      'HB|ct|2025':         {games:9, role:'T1/T2',rank:1,notes:'Feb-Mar'},
-      'HB|t20_intl|2025':   {games:22,role:'T1/T2',rank:1,notes:'Various'},
-      'HB|csa|2025':        {games:6, role:'T1',   rank:1,notes:'Oct-Nov'},
-      'HB|ilt20|2025':      {games:6, role:'T1/T2',rank:2,notes:'Jan-Feb'},
-      'HB|odi_intl|2025':   {games:9, role:'T1/T2',rank:1,notes:'Various'},
-      'HB|smat|2025':       {games:4, role:'T1/T2',rank:1,notes:'Nov-Dec'},
-      'HB|sa20|2025':       {games:3, role:'T1',   rank:2,notes:'Jan'},
-      'HB|t20blast|2025':   {games:3, role:'T1/T2',rank:2,notes:'Jun-Jul'},
-      'HB|wpl|2025':        {games:2, role:'T2',   rank:3,notes:'Feb-Mar'},
-      'HB|eac|2025':        {games:1, role:'T1',   rank:2,notes:'Nov'},
-      'HB|hundred|2025':    {games:1, role:'T1',   rank:2,notes:'Aug'},
-      'HB|odc|2025':        {games:1, role:'T2',   rank:3,notes:'Aug'},
-      'HB|w_blast|2025':    {games:1, role:'T2',   rank:3,notes:'Jun'},
-      'HB|w_odi_intl|2025': {games:1, role:'T2',   rank:3,notes:'Oct'},
-      'HB|wbbl|2025':       {games:1, role:'T2',   rank:3,notes:'Nov'},
-      'BM|ipl|2025':        {games:38,role:'T1/T2',rank:1,notes:'Mar-Jun'},
-      'BM|t20blast|2025':   {games:27,role:'T1',   rank:1,notes:'May-Sep — primary Blast trader'},
-      'BM|supersmash|2025': {games:23,role:'T1',   rank:1,notes:'Jan-Feb — primary SS trader'},
-      'BM|odc|2025':        {games:20,role:'T1',   rank:1,notes:'Aug-Sep — primary ODC trader'},
-      'BM|wpl|2025':        {games:10,role:'T1/T2',rank:1,notes:'Feb-Mar'},
-      'BM|ilt20|2025':      {games:8, role:'T1/T2',rank:2,notes:'Jan-Feb'},
-      'BM|t20_intl|2025':   {games:8, role:'T1/T2',rank:2,notes:'Various'},
-      'BM|odi_intl|2025':   {games:6, role:'T1/T2',rank:2,notes:'Various'},
-      'BM|w_odi_intl|2025': {games:13,role:'T1/T2',rank:1,notes:'Various'},
-      'BM|wbbl|2025':       {games:2, role:'T2',   rank:3,notes:'Nov-Dec'},
-      'BM|csa|2025':        {games:1, role:'T1',   rank:2,notes:'Nov'},
-      'BM|scl|2025':        {games:1, role:'T1',   rank:2,notes:'Jul'},
-      'BM|w_blast|2025':    {games:1, role:'T1',   rank:2,notes:'Jun'},
-      'BM|wcpl|2025':       {games:1, role:'T1',   rank:1,notes:'Sep'},
-      'AN|ilt20|2025':      {games:38,role:'T1/T2',rank:1,notes:'Jan-Feb & Dec — primary ILT20 trader'},
-      'AN|t20_intl|2025':   {games:25,role:'T1/T2',rank:1,notes:'Various'},
-      'AN|psl|2025':        {games:19,role:'T1/T2',rank:2,notes:'Apr-May'},
-      'AN|odi_intl|2025':   {games:6, role:'T1/T2',rank:1,notes:'Various'},
-      'AN|csa|2025':        {games:2, role:'T1',   rank:2,notes:'Oct-Nov'},
-      'AN|ipl|2025':        {games:2, role:'T2',   rank:3,notes:'Apr'},
-      'AN|t20blast|2025':   {games:2, role:'T1',   rank:2,notes:'Jun'},
-      'AN|wpl|2025':        {games:2, role:'T2',   rank:3,notes:'Feb-Mar'},
-      'AN|odc|2025':        {games:1, role:'T2',   rank:3,notes:'Sep'},
-      'JLB|t20_intl|2025':  {games:27,role:'T1/T2',rank:1,notes:'Various'},
-      'JLB|bbl|2025':       {games:24,role:'T1/T2',rank:1,notes:'Jan-Feb & Dec'},
-      'JLB|psl|2025':       {games:21,role:'T1/T2',rank:1,notes:'Apr-May — primary PSL trader'},
-      'JLB|w_hundred|2025': {games:19,role:'T1/T2',rank:1,notes:'Aug — primary W Hundred trader'},
-      'JLB|mlc|2025':       {games:14,role:'T1',   rank:1,notes:'Jun-Jul — primary MLC trader'},
-      'JLB|wbbl|2025':      {games:14,role:'T1/T2',rank:1,notes:'Nov-Dec'},
-      'JLB|sa20|2025':      {games:11,role:'T1/T2',rank:2,notes:'Jan & Dec'},
-      'JLB|odi_intl|2025':  {games:11,role:'T1/T2',rank:1,notes:'Various'},
-      'JLB|hundred|2025':   {games:8, role:'T2',   rank:2,notes:'Aug'},
-      'JLB|ct|2025':        {games:4, role:'T1/T2',rank:2,notes:'Feb-Mar'},
-      'JLB|adt10|2025':     {games:2, role:'T1',   rank:2,notes:'Nov'},
-      'JLB|gsl|2025':       {games:2, role:'T1',   rank:2,notes:'Jul'},
-      'JLB|supersmash|2025':{games:2, role:'T1',   rank:2,notes:'Jan'},
-      'JLB|bpl|2025':       {games:1, role:'T2',   rank:3,notes:'Jan'},
-      'JLB|ilt20|2025':     {games:1, role:'T2',   rank:3,notes:'Jan'},
-      'JLB|w_odi_intl|2025':{games:1, role:'T1',   rank:2,notes:'Oct'},
-      'SM|ipl|2025':        {games:41,role:'T2',   rank:1,notes:'Mar-Jun — primary IPL T2'},
-      'SM|w_odi_intl|2025': {games:26,role:'T1/T2',rank:1,notes:'Various'},
-      'SM|w_blast|2025':    {games:18,role:'T1',   rank:1,notes:'May-Jul — primary W Blast trader'},
-      'SM|w_hundred|2025':  {games:18,role:'T1/T2',rank:1,notes:'Aug — primary W Hundred trader'},
-      'SM|wbbl|2025':       {games:15,role:'T1',   rank:1,notes:'Nov — primary WBBL trader'},
-      'SM|sa20|2025':       {games:13,role:'T1/T2',rank:1,notes:'Jan & Dec'},
-      'SM|hundred|2025':    {games:9, role:'T2',   rank:2,notes:'Aug'},
-      'SM|t20_intl|2025':   {games:10,role:'T1',   rank:1,notes:'Various'},
-      'SM|w_t20_intl|2025': {games:5, role:'T1/T2',rank:1,notes:'Various'},
-      'SM|odi_intl|2025':   {games:5, role:'T1',   rank:1,notes:'Various'},
-      'SM|ilt20|2025':      {games:4, role:'T2',   rank:2,notes:'Jan-Feb'},
-      'SM|bbl|2025':        {games:3, role:'T2',   rank:3,notes:'Dec'},
-      'SM|gsl|2025':        {games:2, role:'T1',   rank:1,notes:'Jul'},
-      'SM|scl|2025':        {games:1, role:'T1',   rank:2,notes:'Jul'},
-      'SM|supersmash|2025': {games:3, role:'T2',   rank:3,notes:'Jan'},
-      'SM|t20blast|2025':   {games:3, role:'T2',   rank:3,notes:'Jun-Jul'},
-      'SM|w_odc|2025':      {games:2, role:'T1',   rank:1,notes:'Sep'},
-      'SM|wpl|2025':        {games:1, role:'T2',   rank:3,notes:'Feb'},
-      'SM|psl|2025':        {games:1, role:'T2',   rank:3,notes:'Apr'},
-      'JR|npl|2025':        {games:19,role:'T1',   rank:1,notes:'Nov-Dec — sole T1'},
-      'JR|t20_intl|2025':   {games:4, role:'T2',   rank:3,notes:'Oct'},
-      'JR|odi_intl|2025':   {games:3, role:'T2',   rank:3,notes:'Oct'},
-      'JR|w_odi_intl|2025': {games:2, role:'T2',   rank:3,notes:'Oct'},
-      'JR|csa|2025':        {games:1, role:'T2',   rank:3,notes:'Nov'},
+      // 2025 Season — full parse with T1/T2 counts
+      'EL|sa20|2025':       {games:20,t1:20,t2:0, role:'T1',   rank:1,notes:'Jan & Dec'},
+      'EL|ct|2025':         {games:9, t1:5, t2:4, role:'T1/T2',rank:1,notes:'Feb-Mar'},
+      'EL|psl|2025':        {games:19,t1:11,t2:8, role:'T1/T2',rank:1,notes:'Apr-May'},
+      'EL|w_blast|2025':    {games:18,t1:5, t2:13,role:'T1/T2',rank:1,notes:'May-Jul'},
+      'EL|w_odi_intl|2025': {games:26,t1:19,t2:7, role:'T1/T2',rank:1,notes:'Various'},
+      'EL|hundred|2025':    {games:13,t1:9, t2:4, role:'T1/T2',rank:1,notes:'Aug'},
+      'EL|t20_intl|2025':   {games:13,t1:9, t2:4, role:'T1/T2',rank:1,notes:'Various'},
+      'EL|odi_intl|2025':   {games:10,t1:7, t2:3, role:'T1/T2',rank:1,notes:'Various'},
+      'EL|bbl|2025':        {games:8, t1:4, t2:4, role:'T1/T2',rank:2,notes:'Jan-Feb & Dec'},
+      'EL|w_t20_intl|2025': {games:5, t1:3, t2:2, role:'T1/T2',rank:1,notes:'Various'},
+      'EL|t20blast|2025':   {games:4, t1:2, t2:2, role:'T1/T2',rank:2,notes:'Jun-Jul'},
+      'EL|adt10|2025':      {games:4, t1:4, t2:0, role:'T1',   rank:1,notes:'Nov'},
+      'EL|eac|2025':        {games:3, t1:3, t2:0, role:'T1',   rank:1,notes:'Nov'},
+      'EL|w_hundred|2025':  {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Aug'},
+      'EL|w_odc|2025':      {games:2, t1:2, t2:0, role:'T1',   rank:2,notes:'Sep'},
+      'EL|wpl|2025':        {games:2, t1:1, t2:1, role:'T1/T2',rank:2,notes:'Feb-Mar'},
+      'EL|wbbl|2025':       {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Dec'},
+      'HB|bpl|2025':        {games:18,t1:18,t2:0, role:'T1',   rank:1,notes:'Jan-Feb — sole T1'},
+      'HB|ipl2|2025':       {games:40,t1:23,t2:17,role:'T1/T2',rank:1,notes:'Mar-Jun — training tournament'},
+      'HB|cpl|2025':        {games:14,t1:14,t2:0, role:'T1',   rank:1,notes:'Aug-Sep — primary T1'},
+      'HB|ct|2025':         {games:9, t1:5, t2:4, role:'T1/T2',rank:1,notes:'Feb-Mar'},
+      'HB|t20_intl|2025':   {games:22,t1:11,t2:11,role:'T1/T2',rank:1,notes:'Various'},
+      'HB|odi_intl|2025':   {games:9, t1:5, t2:4, role:'T1/T2',rank:1,notes:'Various'},
+      'HB|csa|2025':        {games:6, t1:6, t2:0, role:'T1',   rank:1,notes:'Oct-Nov'},
+      'HB|ilt20|2025':      {games:6, t1:3, t2:3, role:'T1/T2',rank:2,notes:'Jan-Feb'},
+      'HB|smat|2025':       {games:4, t1:2, t2:2, role:'T1/T2',rank:1,notes:'Nov-Dec'},
+      'HB|ipl|2025':        {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Mar-Jun — real IPL games'},
+      'HB|sa20|2025':       {games:3, t1:3, t2:0, role:'T1',   rank:2,notes:'Jan'},
+      'HB|t20blast|2025':   {games:3, t1:1, t2:2, role:'T1/T2',rank:2,notes:'Jun-Jul'},
+      'HB|wpl|2025':        {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Feb-Mar'},
+      'HB|eac|2025':        {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Nov'},
+      'HB|hundred|2025':    {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Aug'},
+      'HB|odc|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Aug'},
+      'HB|w_blast|2025':    {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Jun'},
+      'HB|w_odi_intl|2025': {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Oct'},
+      'HB|wbbl|2025':       {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Nov'},
+      'BM|ipl2|2025':       {games:33,t1:19,t2:14,role:'T1/T2',rank:1,notes:'Mar-Jun — training tournament'},
+      'BM|t20blast|2025':   {games:27,t1:24,t2:3, role:'T1',   rank:1,notes:'May-Sep — primary Blast trader'},
+      'BM|supersmash|2025': {games:23,t1:23,t2:0, role:'T1',   rank:1,notes:'Jan-Feb — primary SS trader'},
+      'BM|odc|2025':        {games:20,t1:20,t2:0, role:'T1',   rank:1,notes:'Aug-Sep — primary ODC trader'},
+      'BM|w_odi_intl|2025': {games:13,t1:4, t2:9, role:'T1/T2',rank:1,notes:'Various'},
+      'BM|wpl|2025':        {games:10,t1:9, t2:1, role:'T1/T2',rank:1,notes:'Feb-Mar'},
+      'BM|ilt20|2025':      {games:8, t1:2, t2:6, role:'T1/T2',rank:2,notes:'Jan-Feb'},
+      'BM|t20_intl|2025':   {games:8, t1:5, t2:3, role:'T1/T2',rank:2,notes:'Various'},
+      'BM|odi_intl|2025':   {games:6, t1:4, t2:2, role:'T1/T2',rank:2,notes:'Various'},
+      'BM|ipl|2025':        {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Mar-Jun — real IPL games'},
+      'BM|wbbl|2025':       {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Nov-Dec'},
+      'BM|csa|2025':        {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Nov'},
+      'BM|scl|2025':        {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Jul'},
+      'BM|w_blast|2025':    {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Jun'},
+      'BM|wcpl|2025':       {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Sep'},
+      'AN|ilt20|2025':      {games:38,t1:28,t2:10,role:'T1/T2',rank:1,notes:'Jan-Feb & Dec — primary ILT20 trader'},
+      'AN|t20_intl|2025':   {games:25,t1:12,t2:13,role:'T1/T2',rank:1,notes:'Various'},
+      'AN|psl|2025':        {games:19,t1:8, t2:11,role:'T1/T2',rank:2,notes:'Apr-May'},
+      'AN|odi_intl|2025':   {games:6, t1:4, t2:2, role:'T1/T2',rank:1,notes:'Various'},
+      'AN|csa|2025':        {games:2, t1:2, t2:0, role:'T1',   rank:2,notes:'Oct-Nov'},
+      'AN|t20blast|2025':   {games:2, t1:2, t2:0, role:'T1',   rank:2,notes:'Jun'},
+      'AN|wpl|2025':        {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Feb-Mar'},
+      'AN|ipl|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Apr — real IPL'},
+      'AN|odc|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Sep'},
+      'JLB|t20_intl|2025':  {games:27,t1:15,t2:12,role:'T1/T2',rank:1,notes:'Various'},
+      'JLB|bbl|2025':       {games:24,t1:13,t2:11,role:'T1/T2',rank:1,notes:'Jan-Feb & Dec'},
+      'JLB|psl|2025':       {games:21,t1:7, t2:14,role:'T1/T2',rank:1,notes:'Apr-May — primary PSL trader'},
+      'JLB|w_hundred|2025': {games:19,t1:13,t2:6, role:'T1/T2',rank:1,notes:'Aug — primary W Hundred trader'},
+      'JLB|mlc|2025':       {games:14,t1:13,t2:1, role:'T1',   rank:1,notes:'Jun-Jul — primary MLC trader'},
+      'JLB|wbbl|2025':      {games:14,t1:13,t2:1, role:'T1/T2',rank:1,notes:'Nov-Dec'},
+      'JLB|sa20|2025':      {games:11,t1:3, t2:8, role:'T1/T2',rank:2,notes:'Jan & Dec'},
+      'JLB|odi_intl|2025':  {games:11,t1:9, t2:2, role:'T1/T2',rank:1,notes:'Various'},
+      'JLB|hundred|2025':   {games:8, t1:0, t2:8, role:'T2',   rank:2,notes:'Aug'},
+      'JLB|ct|2025':        {games:4, t1:1, t2:3, role:'T1/T2',rank:2,notes:'Feb-Mar'},
+      'JLB|adt10|2025':     {games:2, t1:2, t2:0, role:'T1',   rank:2,notes:'Nov'},
+      'JLB|gsl|2025':       {games:2, t1:2, t2:0, role:'T1',   rank:2,notes:'Jul'},
+      'JLB|supersmash|2025':{games:2, t1:2, t2:0, role:'T1',   rank:2,notes:'Jan'},
+      'JLB|bpl|2025':       {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Jan'},
+      'JLB|ilt20|2025':     {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Jan'},
+      'JLB|w_odi_intl|2025':{games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Oct'},
+      'SM|ipl|2025':        {games:37,t1:0, t2:37,role:'T2',   rank:1,notes:'Mar-Jun — primary IPL T2'},
+      'SM|w_odi_intl|2025': {games:26,t1:16,t2:10,role:'T1/T2',rank:1,notes:'Various'},
+      'SM|w_blast|2025':    {games:18,t1:18,t2:0, role:'T1',   rank:1,notes:'May-Jul — primary W Blast trader'},
+      'SM|w_hundred|2025':  {games:18,t1:12,t2:6, role:'T1/T2',rank:1,notes:'Aug'},
+      'SM|wbbl|2025':       {games:15,t1:15,t2:0, role:'T1',   rank:1,notes:'Nov — primary WBBL trader'},
+      'SM|sa20|2025':       {games:13,t1:2, t2:11,role:'T1/T2',rank:1,notes:'Jan & Dec'},
+      'SM|t20_intl|2025':   {games:10,t1:9, t2:1, role:'T1',   rank:1,notes:'Various'},
+      'SM|hundred|2025':    {games:9, t1:0, t2:9, role:'T2',   rank:2,notes:'Aug'},
+      'SM|w_t20_intl|2025': {games:5, t1:4, t2:1, role:'T1/T2',rank:1,notes:'Various'},
+      'SM|odi_intl|2025':   {games:5, t1:5, t2:0, role:'T1',   rank:1,notes:'Various'},
+      'SM|ipl2|2025':       {games:4, t1:0, t2:4, role:'T2',   rank:2,notes:'Mar-Jun — training tournament'},
+      'SM|ilt20|2025':      {games:4, t1:0, t2:4, role:'T2',   rank:2,notes:'Jan-Feb'},
+      'SM|supersmash|2025': {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Jan'},
+      'SM|t20blast|2025':   {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Jun-Jul'},
+      'SM|bbl|2025':        {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Dec'},
+      'SM|gsl|2025':        {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'Jul'},
+      'SM|w_odc|2025':      {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'Sep'},
+      'SM|scl|2025':        {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Jul'},
+      'SM|psl|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Apr'},
+      'SM|wpl|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Feb'},
+      'JR|npl|2025':        {games:19,t1:19,t2:0, role:'T1',   rank:1,notes:'Nov-Dec — sole T1'},
+      'JR|t20_intl|2025':   {games:4, t1:0, t2:4, role:'T2',   rank:3,notes:'Oct'},
+      'JR|odi_intl|2025':   {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Oct'},
+      'JR|w_odi_intl|2025': {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Oct'},
+      'JR|csa|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Nov'},
+      // 2026 Season (Jan-May, schedule to date)
+      'EL|ipl|2026':        {games:43,t1:22,t2:21,role:'T1/T2',rank:1,notes:'Mar-May — primary IPL trader'},
+      'EL|wct20_2026|2026': {games:14,t1:7, t2:7, role:'T1/T2',rank:1,notes:'Feb-Mar'},
+      'EL|wpl|2026':        {games:12,t1:12,t2:0, role:'T1',   rank:1,notes:'Jan — primary WPL trader'},
+      'EL|t20_intl|2026':   {games:8, t1:7, t2:1, role:'T1',   rank:1,notes:'Various'},
+      'EL|sa20|2026':       {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'Jan'},
+      'EL|supersmash|2026': {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'Jan'},
+      'EL|bbl|2026':        {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Jan'},
+      'EL|ipl2|2026':   {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Mar'},
+      'EL|odi_intl|2026':   {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Jan'},
+      'HB|psl|2026':        {games:21,t1:9, t2:12,role:'T1/T2',rank:1,notes:'Mar-May'},
+      'HB|wct20_2026|2026': {games:14,t1:5, t2:9, role:'T1/T2',rank:2,notes:'Feb-Mar'},
+      'HB|t20_intl|2026':   {games:10,t1:9, t2:1, role:'T1',   rank:1,notes:'Various'},
+      'HB|supersmash|2026': {games:7, t1:7, t2:0, role:'T1',   rank:1,notes:'Jan-Feb'},
+      'HB|sa20|2026':       {games:6, t1:5, t2:1, role:'T1',   rank:1,notes:'Jan'},
+      'HB|national_cup|2026':{games:5,t1:5, t2:0, role:'T1',   rank:1,notes:'Mar'},
+      'HB|odi_intl|2026':   {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'Jan'},
+      'HB|w_blast|2026':    {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'May'},
+      'HB|w_odc|2026':      {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'May'},
+      'HB|t20blast|2026':   {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'May'},
+      'HB|bbl|2026':        {games:1, t1:0, t2:1, role:'T2',   rank:2,notes:'Jan'},
+      'HB|npl|2026':        {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Apr'},
+      'BM|supersmash|2026': {games:15,t1:15,t2:0, role:'T1',   rank:1,notes:'Jan-Feb — primary SS trader'},
+      'BM|psl|2026':        {games:15,t1:9, t2:6, role:'T1/T2',rank:1,notes:'Mar-May'},
+      'BM|wct20_2026|2026': {games:10,t1:7, t2:3, role:'T1/T2',rank:1,notes:'Feb-Mar'},
+      'BM|odi_intl|2026':   {games:10,t1:10,t2:0, role:'T1',   rank:1,notes:'Various'},
+      'BM|t20blast|2026':   {games:6, t1:6, t2:0, role:'T1',   rank:1,notes:'May'},
+      'BM|csa50|2026':      {games:4, t1:2, t2:2, role:'T1/T2',rank:1,notes:'Mar'},
+      'BM|sa20|2026':       {games:2, t1:1, t2:1, role:'T1/T2',rank:2,notes:'Jan'},
+      'BM|w_odc|2026':      {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'May'},
+      'BM|t20_intl|2026':   {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Jan'},
+      'AN|psl|2026':        {games:20,t1:11,t2:9, role:'T1/T2',rank:1,notes:'Mar-May'},
+      'AN|wct20_2026|2026': {games:11,t1:4, t2:7, role:'T1/T2',rank:2,notes:'Feb-Mar'},
+      'AN|t20_intl|2026':   {games:6, t1:6, t2:0, role:'T1',   rank:1,notes:'Various'},
+      'AN|ilt20|2026':      {games:3, t1:3, t2:0, role:'T1',   rank:1,notes:'Jan'},
+      'AN|national_cup|2026':{games:3,t1:3, t2:0, role:'T1',   rank:1,notes:'Mar'},
+      'AN|odi_intl|2026':   {games:3, t1:3, t2:0, role:'T1',   rank:1,notes:'Various'},
+      'AN|sa20|2026':       {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Jan'},
+      'AN|t20blast|2026':   {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'May'},
+      'AN|wpl|2026':        {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'Jan'},
+      'JLB|bbl|2026':       {games:16,t1:13,t2:3, role:'T1',   rank:1,notes:'Jan-Feb'},
+      'JLB|ipl2|2026':  {games:20,t1:9, t2:11,role:'T1/T2',rank:1,notes:'Mar-May — training'},
+      'JLB|t20_intl|2026':  {games:12,t1:12,t2:0, role:'T1',   rank:1,notes:'Various'},
+      'JLB|wct20_2026|2026':{games:7, t1:5, t2:2, role:'T1/T2',rank:2,notes:'Feb-Mar'},
+      'JLB|odi_intl|2026':  {games:5, t1:5, t2:0, role:'T1',   rank:1,notes:'Various'},
+      'JLB|aus_odc|2026':   {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'Feb & Mar'},
+      'JLB|w_blast|2026':   {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'May'},
+      'JLB|csa50|2026':     {games:1, t1:0, t2:1, role:'T2',   rank:2,notes:'Mar'},
+      'JLB|npl|2026':       {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Apr'},
+      'JLB|wpl|2026':       {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Jan'},
+      'SM|ipl|2026':        {games:40,t1:11,t2:29,role:'T1/T2',rank:1,notes:'Mar-May'},
+      'SM|sa20|2026':       {games:17,t1:15,t2:2, role:'T1',   rank:1,notes:'Jan-Feb — primary SA20 trader'},
+      'SM|t20_intl|2026':   {games:16,t1:12,t2:4, role:'T1',   rank:1,notes:'Various'},
+      'SM|odi_intl|2026':   {games:5, t1:4, t2:1, role:'T1',   rank:1,notes:'Various'},
+      'SM|ipl2|2026':   {games:3, t1:3, t2:0, role:'T1',   rank:1,notes:'Mar — training'},
+      'SM|bdt20|2026':      {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Feb'},
+      'JR|bdt20|2026':      {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Feb'},
+      'SM|wct20_2026|2026': {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Feb'},
+      'SM|t20blast|2026':   {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'May'},
+      'JR|ipl2|2026':   {games:20,t1:20,t2:0, role:'T1',   rank:1,notes:'Mar-May — training'},
+      'JR|csa50|2026':      {games:14,t1:14,t2:0, role:'T1',   rank:1,notes:'Mar — primary CSA50 trader'},
+      'JR|t20_intl|2026':   {games:12,t1:5, t2:7, role:'T1/T2',rank:1,notes:'Various'},
+      'JR|odi_intl|2026':   {games:9, t1:7, t2:2, role:'T1',   rank:1,notes:'Various'},
+      'JR|bpl|2026':        {games:9, t1:9, t2:0, role:'T1',   rank:1,notes:'Jan — primary BPL trader'},
+      'JR|t20blast|2026':   {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'May'},
+      'JR|w_blast|2026':    {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'May'},
+      'JR|wct20_2026|2026': {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Feb'},
+      'SG|ipl2|2026':   {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Apr-May — training'},
+      'SG|ipl|2026':        {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Apr-May'},
+      'SG|psl|2026':        {games:4, t1:0, t2:4, role:'T2',   rank:3,notes:'Apr-May'},
+      'SG|t20_intl|2026':   {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Apr-May'},
+      'SG|odi_intl|2026':   {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Apr-May'},
+      'SG|w_blast|2026':    {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'May'},
+      'SG|w_odc|2026':      {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'May'},
     }
   }
 };
@@ -1111,7 +1195,7 @@ function activatePage(page,trader){
   if(page==='recruitment'){document.querySelectorAll('.nav-item')[5].classList.add('active');renderRecruitment();}
   if(page==='experience'){document.querySelectorAll('.nav-item')[6].classList.add('active');renderExperience();}
   if(page==='dashboard'){renderTeamRadar();renderPromoOverview();}
-  if(page==='profile'&&trader){profileTrader=trader;renderProfile(trader);}
+  if(page==='profile'&&trader){profileTrader=trader;window._profExpExpanded=false;window._profExpFilter='all';renderProfile(trader);}
   if(page==='readonly'&&trader){renderReadonly(trader);}
 }
 function showReadonlyView(){
@@ -1764,17 +1848,11 @@ function renderProfile(t){
       <div class="profile-section">
         <div class="profile-section-title">Tournament experience</div>
         ${buildProfileExperience(t)}
-        <button class="save-notes-btn" style="margin-top:8px" onclick="showPage('experience')">Manage experience</button>
       </div>
       <div class="profile-section">
         <div class="profile-section-title">Review schedule</div>
         <div class="review-row"><span class="review-label">Last review</span><input class="review-input" type="date" id="rev-last" value="${rev.last||''}" onchange="saveReview('${t}')"></div>
         <div class="review-row"><span class="review-label">Next review</span><input class="review-input" type="date" id="rev-next" value="${rev.next||''}" onchange="saveReview('${t}')"></div>
-      </div>
-      <div class="profile-section">
-        <div class="profile-section-title">Manager notes (private)</div>
-        <textarea class="general-notes-area" id="general-notes-ta" placeholder="General notes about this trader...">${state.generalNotes[t]||''}</textarea>
-        <button class="save-notes-btn" onclick="saveGeneralNotes('${t}')">Save notes</button>
       </div>
     </div>`;
 
@@ -2785,75 +2863,185 @@ function getExpYears(){
   return [...years].sort((a,b)=>b-a);
 }
 
+// Experience tab state
+let expSortCol = null;
+let expSortDir = 'desc';
+let expSortByName = false; // true = sorting by tournament name
+let expRoleFilter = 'all';
+let expYearFilter = 'all';
+
+function setExpRoleFilter(f){ expRoleFilter=f; renderExperience(); }
+function setExpYearFilter(y){ expYearFilter=y; renderExperience(); }
+function setExpSortName(){
+  if(expSortByName){ expSortDir=expSortDir==='asc'?'desc':'asc'; }
+  else { expSortByName=true; expSortCol=null; expSortDir='asc'; }
+  renderExperience();
+}
+function setExpSort(trader){
+  expSortByName=false;
+  if(expSortCol===trader){ expSortDir=expSortDir==='asc'?'desc':'asc'; }
+  else { expSortCol=trader; expSortDir='asc'; }
+  renderExperience();
+}
+
+// Map tournament IDs to home country for international matches
+function getIntlCountry(tournId, defaultCountry){
+  // Multi-team events stay International
+  const alwaysIntl = ['ct','t20wc','wct20_2026','wc2026'];
+  if(alwaysIntl.includes(tournId)) return 'International';
+  // For odi_intl / t20_intl / w_odi_intl / w_t20_intl we derive from records notes
+  // Instead store country per record where known - for now use default
+  return defaultCountry;
+}
+
+// Get effective country for a tournament, factoring in per-record home country
+// Records have a notes field with e.g. "Jan — India" but most don't specify country
+// We'll derive from the tournament's country field, except for pure intl series
+// where we look at what countries appear in the notes
+function getTournCountry(tourn){
+  return getIntlCountry(tourn.id, tourn.country);
+}
+
+// Build a map of intl record home countries from the records keys
+// e.g. 'EL|odi_intl|2025' notes 'Various' — no per-game country
+// We'll assign based on what we know from the schedule parsing
+// For now group odi_intl/t20_intl by country stored in a lookup
+const INTL_COUNTRY_MAP = {
+  // 2025 international series home countries (derived from schedule)
+  // IND v ENG series → India, NZ v SL → NZ, WI v BAN → West Indies, etc.
+  // For now keep as International until per-record country tracking is added
+};
+
 function renderExperience(){
   const el=document.getElementById('experience-content');
   if(!el)return;
   ensureExperience();
   const tournaments=state.experience.tournaments;
-  const years=getExpYears();
+  const allYears=getExpYears();
 
-  // Group tournaments by country
-  const countries=[...new Set(tournaments.map(t=>t.country))].sort();
+  // Active years based on filter
+  const activeYears = expYearFilter==='all' ? allYears : [parseInt(expYearFilter)];
 
-  // Build table HTML per year group
-  const traderHeaders=TRADERS.map(t=>`<th><div class="exp-trader-header"><div class="exp-trader-dot" style="background:${COLORS[t]}"></div>${t}</div></th>`).join('');
+  function filteredGames(entry){
+    if(!entry||!entry.games) return 0;
+    if(expRoleFilter==='T1') return entry.t1||0;
+    if(expRoleFilter==='T2') return entry.t2||0;
+    return entry.games||0;
+  }
 
-  let tableHtml='';
-  years.forEach(year=>{
-    tableHtml+=`<tr><td class="exp-year-group" colspan="${TRADERS.length+1}">${year}</td></tr>`;
-    tournaments.forEach(tourn=>{
-      const cells=TRADERS.map(t=>{
-        const entry=getExpEntry(t,tourn.id,year);
-        if(entry&&entry.games>0){
-          const roleColor=entry.role==='T1'?'var(--expert)':entry.role==='T2'?'var(--intermediate)':'var(--gold)';
-          return `<td><div class="exp-cell has-data" onclick="openExpEntry('${t}','${tourn.id}',${year})">
-            <div class="exp-cell-games">${entry.games}</div>
-            ${entry.role?`<div class="exp-cell-role" style="background:${roleColor}22;color:${roleColor}">${entry.role}</div>`:''}
-            ${entry.rank?`<div class="exp-cell-rank">#${entry.rank}</div>`:''}
-          </div></td>`;
-        }
-        return `<td><div class="exp-cell" onclick="openExpEntry('${t}','${tourn.id}',${year})"><div class="exp-cell-empty">+</div></div></td>`;
-      }).join('');
-      tableHtml+=`<tr>
-        <td class="exp-td-label">${tourn.name}<span class="country-badge">${tourn.country}</span></td>
-        ${cells}
-      </tr>`;
+  // Aggregate across active years per tournament per trader
+  function getTournTotal(trader, tournId){
+    return activeYears.reduce((s,y)=>s+filteredGames(getExpEntry(trader,tournId,y)),0);
+  }
+  function getTournRawTotal(trader, tournId){
+    return activeYears.reduce((s,y)=>{
+      const e=getExpEntry(trader,tournId,y);
+      return s+(e?e.games:0);
+    },0);
+  }
+
+  // Sort tournaments
+  let sortedTournaments = tournaments.filter(tourn=>
+    TRADERS.some(t=>getTournRawTotal(t,tourn.id)>0)
+  );
+
+  if(expSortByName){
+    sortedTournaments.sort((a,b)=>expSortDir==='asc'
+      ? a.name.localeCompare(b.name)
+      : b.name.localeCompare(a.name));
+  } else if(expSortCol){
+    sortedTournaments.sort((a,b)=>{
+      const aTotal=getTournTotal(expSortCol,a.id);
+      const bTotal=getTournTotal(expSortCol,b.id);
+      return expSortDir==='asc' ? aTotal-bTotal : bTotal-aTotal;
     });
-  });
+  }
 
-  // Country experience summary
-  const countryRows=countries.map(country=>{
-    const countryTourns=tournaments.filter(t=>t.country===country);
+  const nameArrow=expSortByName?(expSortDir==='asc'?'↑':'↓'):'↕';
+  const nameTh=`<th class="exp-th-label" style="cursor:pointer;user-select:none;${expSortByName?'background:var(--gold-faint);':''}" onclick="setExpSortName()">
+    Tournament <span style="font-size:9px;color:${expSortByName?'var(--gold)':'var(--text3)'}">${nameArrow}</span>
+  </th>`;
+
+  const traderHeaders=TRADERS.map(t=>{
+    const isActive=expSortCol===t;
+    const arrow=isActive?(expSortDir==='asc'?'↑':'↓'):'↕';
+    return `<th style="cursor:pointer;user-select:none;${isActive?'background:var(--gold-faint);':''}" onclick="setExpSort('${t}')">
+      <div class="exp-trader-header" style="justify-content:center">
+        <div class="exp-trader-dot" style="background:${COLORS[t]}"></div>${t}
+        <span style="font-size:9px;color:${isActive?'var(--gold)':'var(--text3)'};margin-left:2px">${arrow}</span>
+      </div></th>`;
+  }).join('');
+
+  // Build collapsed table — one row per tournament, totals across active years
+  const tableHtml=sortedTournaments.map(tourn=>{
     const cells=TRADERS.map(t=>{
-      let totalGames=0;
-      countryTourns.forEach(tourn=>{
-        years.forEach(y=>{
+      const disp=getTournTotal(t,tourn.id);
+      const raw=getTournRawTotal(t,tourn.id);
+      if(raw>0){
+        const dimmed=disp===0;
+        // Get year breakdown for tooltip
+        const yearBreakdown=activeYears.filter(y=>{
           const e=getExpEntry(t,tourn.id,y);
-          if(e) totalGames+=e.games||0;
-        });
-      });
-      return `<td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:${totalGames>0?600:400};color:${totalGames>0?'var(--gold)':'var(--text3)'}">${totalGames>0?totalGames:'—'}</td>`;
+          return e&&e.games>0;
+        }).map(y=>{
+          const e=getExpEntry(t,tourn.id,y);
+          return `${y}: ${e.games}g`;
+        }).join(', ');
+        const roleColor=disp>0?(expRoleFilter==='T2'?'var(--intermediate)':'var(--expert)'):'var(--text3)';
+        return `<td title="${yearBreakdown}"><div class="exp-cell ${dimmed?'':'has-data'}" style="${dimmed?'opacity:0.2':''}" onclick="openExpEntry('${t}','${tourn.id}',${activeYears[activeYears.length-1]})">
+          <div class="exp-cell-games" style="color:${dimmed?'var(--text3)':'var(--gold)'}">${dimmed?raw:disp}</div>
+        </div></td>`;
+      }
+      return `<td><div class="exp-cell" onclick="openExpEntry('${t}','${tourn.id}',${activeYears[activeYears.length-1]})"><div class="exp-cell-empty">+</div></div></td>`;
+    }).join('');
+    const country=getTournCountry(tourn);
+    return `<tr>
+      <td class="exp-td-label">${tourn.name}<span class="country-badge">${country}</span></td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  // Country summary — use effective country
+  const effectiveCountries=[...new Set(sortedTournaments.map(t=>getTournCountry(t)))].sort();
+  const countryRows=effectiveCountries.map(country=>{
+    const countryTourns=sortedTournaments.filter(t=>getTournCountry(t)===country);
+    const cells=TRADERS.map(trader=>{
+      let total=0;
+      countryTourns.forEach(tourn=>{ total+=getTournTotal(trader,tourn.id); });
+      return `<td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:${total>0?600:400};color:${total>0?'var(--gold)':'var(--text3)'}">${total>0?total:'—'}</td>`;
     }).join('');
     return `<tr><td class="exp-td-label">${country}</td>${cells}</tr>`;
   }).join('');
 
+  // Filter buttons
+  const roleFilterBtns=['all','T1','T2'].map(f=>`<button onclick="setExpRoleFilter('${f}')" style="padding:4px 14px;border-radius:12px;border:1px solid var(--border2);font-size:11px;cursor:pointer;background:${expRoleFilter===f?'var(--gold-faint)':'transparent'};color:${expRoleFilter===f?'var(--gold)':'var(--text2)'}">${f==='all'?'All shifts':f==='T1'?'T1 only':'T2 only'}</button>`).join('');
+  const yearFilterBtns=['all',...allYears].map(y=>`<button onclick="setExpYearFilter('${y}')" style="padding:4px 14px;border-radius:12px;border:1px solid var(--border2);font-size:11px;cursor:pointer;background:${expYearFilter==y?'var(--gold-faint)':'transparent'};color:${expYearFilter==y?'var(--gold)':'var(--text2)'}">${y==='all'?'All years':y}</button>`).join('');
+
   el.innerHTML=`
-    <div class="exp-section-title">Games traded by tournament &amp; year — click any cell to edit</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;">
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-right:4px">Year</div>
+      ${yearFilterBtns}
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+      <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-right:4px">Role</div>
+      ${roleFilterBtns}
+      <span style="font-size:10px;color:var(--text3);margin-left:8px">↕ click column header to sort</span>
+    </div>
     <div class="exp-table-wrap">
       <table class="exp-table">
-        <thead><tr><th class="exp-th-label">Tournament</th>${traderHeaders}</tr></thead>
+        <thead><tr>${nameTh}${traderHeaders}</tr></thead>
         <tbody>${tableHtml}</tbody>
       </table>
     </div>
-    <div class="exp-section-title">Total games by country</div>
+    <div class="exp-section-title" style="margin-top:20px">Total games by country</div>
     <div class="exp-table-wrap">
       <table class="exp-table">
-        <thead><tr><th class="exp-th-label">Country</th>${traderHeaders}</tr></thead>
+        <thead><tr><th class="exp-th-label">Country</th>${TRADERS.map(t=>`<th><div class="exp-trader-header" style="justify-content:center"><div class="exp-trader-dot" style="background:${COLORS[t]}"></div>${t}</div></th>`).join('')}</tr></thead>
         <tbody>${countryRows}</tbody>
       </table>
     </div>
-    <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="btn" onclick="openAddYearModal()"><i class="ti ti-plus" style="margin-right:4px"></i>Add year</button>
+    <div style="margin-top:10px">
+      <button class="btn" onclick="openAddTournamentModal()"><i class="ti ti-plus" style="margin-right:4px"></i>Add tournament</button>
     </div>`;
 }
 
@@ -2870,25 +3058,57 @@ function buildProfileExperience(t){
     });
   });
   if(!entries.length) return `<div style="font-size:12px;color:var(--text3);font-style:italic;padding:8px 0">No experience recorded yet.</div>`;
-  // Group by tournament
+
+  // Group by tournament, summing across years
   const byTourn={};
   entries.forEach(e=>{
-    if(!byTourn[e.tourn.id]) byTourn[e.tourn.id]={tourn:e.tourn,years:[]};
-    byTourn[e.tourn.id].years.push(e);
+    if(!byTourn[e.tourn.id]) byTourn[e.tourn.id]={tourn:e.tourn,games:0,t1:0,t2:0,years:[]};
+    byTourn[e.tourn.id].games+=e.games||0;
+    byTourn[e.tourn.id].t1+=(e.t1||0);
+    byTourn[e.tourn.id].t2+=(e.t2||0);
+    byTourn[e.tourn.id].years.push(e.year);
   });
-  return Object.values(byTourn).map(({tourn,years:ys})=>{
-    const totalGames=ys.reduce((s,e)=>s+e.games,0);
-    const roles=[...new Set(ys.map(e=>e.role).filter(Boolean))];
-    const yearStrs=ys.map(e=>{
-      const roleColor=e.role==='T1'?'var(--expert)':e.role==='T2'?'var(--intermediate)':'var(--gold)';
-      return `<span style="font-size:10px;color:var(--text3)">${e.year}</span>${e.role?`<span style="font-size:9px;padding:1px 4px;border-radius:3px;background:${roleColor}22;color:${roleColor}">${e.role}</span>`:''}${e.rank?`<span style="font-size:9px;color:var(--text3)">#${e.rank}</span>`:''}`;
-    }).join(' ');
-    return `<div style="display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;">
-      <div style="flex:1;font-weight:500;color:var(--text2)">${tourn.name}<span class="country-badge">${tourn.country}</span></div>
-      <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--gold)">${totalGames}</div>
-      <div style="display:flex;flex-direction:column;gap:2px;align-items:flex-end">${yearStrs}</div>
+
+  const all=Object.values(byTourn).sort((a,b)=>b.t1-a.t1);
+  const top3=all.filter(e=>e.t1>0).slice(0,3);
+
+  const filter=window._profExpFilter||'all';
+
+  function filtG(e){ return filter==='T1'?e.t1:filter==='T2'?e.t2:e.games; }
+
+  function renderRow(e, collapsed){
+    const disp=filtG(e);
+    if(disp===0&&filter!=='all') return '';
+    const yearTags=[...new Set(e.years)].sort().map(y=>`<span style="font-size:9px;color:var(--text3);background:var(--surface3);padding:1px 5px;border-radius:3px;pointer-events:none">${y}</span>`).join(' ');
+    return `<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:11px;">
+      <div style="flex:1;font-weight:500;color:var(--text2)">${e.tourn.name}<span class="country-badge">${e.tourn.country}</span></div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div style="text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--gold)">${e.games}</div>
+          <div style="font-size:9px;color:var(--text3)">total</div>
+        </div>
+        <div style="width:1px;height:24px;background:var(--border)"></div>
+        <div style="text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:600;color:var(--expert)">${e.t1}</div>
+          <div style="font-size:9px;color:var(--text3)">T1</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-family:'DM Mono',monospace;font-size:12px;font-weight:600;color:var(--intermediate)">${e.t2}</div>
+          <div style="font-size:9px;color:var(--text3)">T2</div>
+        </div>
+        <div style="margin-left:4px">${yearTags}</div>
+      </div>
     </div>`;
-  }).join('');
+  }
+
+  const expanded=window._profExpExpanded||false;
+  const shown=expanded?all:top3;
+  const filterBtns=['all','T1','T2'].map(f=>`<button onclick="window._profExpFilter='${f}';renderProfile(profileTrader)" style="padding:2px 10px;border-radius:10px;border:1px solid var(--border2);font-size:10px;cursor:pointer;background:${filter===f?'var(--gold-faint)':'transparent'};color:${filter===f?'var(--gold)':'var(--text2)'}">${f==='all'?'All':f}</button>`).join('');
+
+  const rows=shown.map(e=>renderRow(e,!expanded)).filter(Boolean).join('');
+  const toggleBtn=all.length>3?`<button onclick="window._profExpExpanded=${!expanded};renderProfile(profileTrader)" style="margin-top:8px;font-size:11px;color:var(--gold);background:none;border:none;cursor:pointer;padding:0">${expanded?'▲ Show less':'▼ Show all '+all.length+' tournaments'}</button>`:'';
+
+  return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">${filterBtns}</div>${rows}${toggleBtn}`;
 }
 
 // Exp entry modal
