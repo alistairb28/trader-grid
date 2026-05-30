@@ -372,11 +372,12 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .card-silhouette{width:92px;height:96px;opacity:0.5;filter:drop-shadow(0 6px 16px rgba(0,0,0,0.5));}
 .card-name-bar{text-align:center;padding:5px 8px;background:rgba(0,0,0,0.3);border-top:1px solid rgba(255,255,255,0.12);border-bottom:1px solid rgba(255,255,255,0.12);margin-bottom:8px;}
 .card-name{font-size:13px;font-weight:900;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 2px 6px rgba(0,0,0,0.6);}
-.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px 4px;padding:0 10px;}
-.card-stat{display:flex;align-items:center;gap:6px;padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.1);}
+.card-stats{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;padding:0 10px;}
+.card-stat{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:2px 0;border-bottom:1px solid rgba(255,255,255,0.1);cursor:default;position:relative;}
 .card-stat:nth-last-child(-n+2){border-bottom:none;}
-.card-stat-val{font-size:18px;font-weight:900;min-width:22px;text-align:right;text-shadow:0 2px 6px rgba(0,0,0,0.5);line-height:1;}
-.card-stat-lbl{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.8;line-height:1;}
+.card-stat[title]:hover::after{content:attr(title);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.92);color:#fff;font-size:9px;white-space:nowrap;padding:3px 7px;border-radius:4px;pointer-events:none;z-index:100;font-weight:400;letter-spacing:.02em;}
+.card-stat-lbl{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;line-height:1;opacity:1;white-space:nowrap;}
+.card-stat-val{font-size:16px;font-weight:700;text-shadow:0 2px 6px rgba(0,0,0,0.5);line-height:1;opacity:0.9;text-align:right;white-space:nowrap;}
 /* Text colors — scoped to card */
 .trader-card.tier-bronze .card-rating,.trader-card.tier-bronze .card-position,.trader-card.tier-bronze .card-name,.trader-card.tier-bronze .card-stat-val,.trader-card.tier-bronze .card-stat-lbl{color:#ffecd6;}
 .trader-card.tier-silver .card-rating,.trader-card.tier-silver .card-position,.trader-card.tier-silver .card-name,.trader-card.tier-silver .card-stat-val,.trader-card.tier-silver .card-stat-lbl{color:#f0f5fa;}
@@ -783,6 +784,17 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
       <div class="spider-modal-close" onclick="closeSpiderModal()">&#x2715;</div>
     </div>
     <canvas id="spider-canvas-big" style="max-width:100%;max-height:70vh;"></canvas>
+  </div>
+</div>
+<div class="spider-modal-bg" id="card-compare-modal" style="display:none" onclick="handleCardCompareModalBg(event)">
+  <div class="spider-modal-inner" style="width:min(96vw,680px);padding:20px 20px 24px">
+    <div class="spider-modal-header">
+      <div class="spider-modal-title">Card Compare</div>
+      <select id="card-compare-select" onchange="renderCardCompare()"
+        style="background:var(--surface3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;padding:4px 10px;outline:none;cursor:pointer;"></select>
+      <div class="spider-modal-close" onclick="closeCardCompareModal()">&#x2715;</div>
+    </div>
+    <div id="card-compare-content" style="display:flex;gap:20px;justify-content:center;align-items:flex-start;flex-wrap:wrap;margin-top:8px"></div>
   </div>
 </div>
 <div class="modal-bg" id="tier-modal" style="display:none" onclick="handleTierModalBg(event)">
@@ -1594,67 +1606,230 @@ const MUSTARD_BADGE = `<svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/sv
   <text x="20" y="33" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="5" letter-spacing="1" fill="rgba(255,255,255,0.5)">MUSTARD</text>
 </svg>`;
 
-// Player silhouette SVG (FIFA-style standing pose)
-const SILHOUETTE_SVG = `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.35)">
-  <!-- Head -->
-  <ellipse cx="50" cy="14" rx="10" ry="11"/>
-  <!-- Neck -->
-  <rect x="46" y="24" width="8" height="6" rx="2"/>
-  <!-- Body / torso -->
-  <path d="M28 30 Q30 26 46 28 L54 28 Q70 26 72 30 L68 62 Q60 65 50 65 Q40 65 32 62 Z"/>
-  <!-- Left arm -->
-  <path d="M28 30 Q18 36 14 54 Q16 58 20 56 Q24 42 32 38 Z"/>
-  <!-- Right arm -->
-  <path d="M72 30 Q82 36 86 54 Q84 58 80 56 Q76 42 68 38 Z"/>
-  <!-- Left thigh -->
-  <path d="M32 62 Q30 80 28 92 Q34 94 38 92 Q38 78 42 64 Z"/>
-  <!-- Right thigh -->
-  <path d="M68 62 Q70 80 72 92 Q66 94 62 92 Q62 78 58 64 Z"/>
-  <!-- Left shin -->
-  <path d="M28 90 Q26 106 27 116 Q33 118 36 116 Q36 104 38 90 Z"/>
-  <!-- Right shin -->
-  <path d="M72 90 Q74 106 73 116 Q67 118 64 116 Q64 104 62 90 Z"/>
-  <!-- Left foot -->
-  <ellipse cx="31" cy="117" rx="8" ry="4"/>
-  <!-- Right foot -->
-  <ellipse cx="69" cy="117" rx="8" ry="4"/>
-</svg>`;
+// Custom trader silhouettes
+const SILHOUETTES = {
 
-// EL special portrait — eggman with blonde goatee
-const EL_PORTRAIT = `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
-  <!-- Body (egg shape) -->
+'EL': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
   <ellipse cx="50" cy="72" rx="28" ry="34" fill="rgba(0,0,0,0.35)"/>
-  <!-- Head (egg shape, wider at bottom) -->
   <ellipse cx="50" cy="32" rx="19" ry="22" fill="rgba(0,0,0,0.4)"/>
-  <!-- Eyes -->
   <ellipse cx="43" cy="28" rx="3" ry="3.5" fill="rgba(255,255,255,0.6)"/>
   <ellipse cx="57" cy="28" rx="3" ry="3.5" fill="rgba(255,255,255,0.6)"/>
   <ellipse cx="43.5" cy="28.5" rx="1.5" ry="2" fill="rgba(0,0,0,0.7)"/>
   <ellipse cx="57.5" cy="28.5" rx="1.5" ry="2" fill="rgba(0,0,0,0.7)"/>
-  <!-- Smile -->
   <path d="M44 37 Q50 43 56 37" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-  <!-- Blonde goatee -->
   <ellipse cx="50" cy="50" rx="7" ry="4" fill="rgba(255,215,0,0.7)"/>
   <path d="M46 50 Q50 60 54 50" fill="rgba(255,200,0,0.65)"/>
-  <!-- Arms -->
   <path d="M22 68 Q14 75 16 85 Q20 82 24 78 Q26 72 28 68Z" fill="rgba(0,0,0,0.3)"/>
   <path d="M78 68 Q86 75 84 85 Q80 82 76 78 Q74 72 72 68Z" fill="rgba(0,0,0,0.3)"/>
-  <!-- Legs -->
   <path d="M38 100 Q34 112 36 118 Q42 118 43 112 Q44 104 44 100Z" fill="rgba(0,0,0,0.3)"/>
   <path d="M62 100 Q66 112 64 118 Q58 118 57 112 Q56 104 56 100Z" fill="rgba(0,0,0,0.3)"/>
-</svg>`;
+</svg>`,
+
+'HB': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.4)">
+  <rect x="14" y="54" width="72" height="42" rx="8"/>
+  <rect x="18" y="90" width="10" height="18" rx="3"/>
+  <rect x="72" y="90" width="10" height="18" rx="3"/>
+  <rect x="66" y="30" width="14" height="30" rx="4"/>
+  <rect x="58" y="30" width="22" height="8" rx="3"/>
+  <ellipse cx="50" cy="56" rx="32" ry="8" opacity="0.3"/>
+</svg>`,
+
+'JLB': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.4)">
+  <polygon points="12,10 16,10 90,28 88,32 14,14"/>
+  <line x1="89" y1="30" x2="76" y2="88" stroke="rgba(0,0,0,0.35)" stroke-width="1.5"/>
+  <path d="M76 88 Q82 98 72 100" fill="none" stroke="rgba(0,0,0,0.4)" stroke-width="2" stroke-linecap="round"/>
+  <ellipse cx="58" cy="96" rx="18" ry="10" transform="rotate(-20,58,96)"/>
+  <path d="M40 104 L26 96 L32 110 Z"/>
+  <path d="M54 84 Q62 74 68 78 Q64 88 54 90 Z"/>
+  <circle cx="72" cy="92" r="3" fill="white"/>
+  <circle cx="73" cy="92" r="1.5" fill="rgba(0,0,0,0.6)"/>
+  <path fill="none" stroke="rgba(0,0,0,0.25)" stroke-width="1.5" stroke-linecap="round" d="M10 110 Q25 106 40 110 Q55 114 70 110 Q85 106 96 110"/>
+  <rect x="4" y="36" width="12" height="36" rx="5"/>
+  <ellipse cx="12" cy="36" rx="9" ry="6"/>
+</svg>`,
+
+'JR': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.4)">
+  <rect x="46" y="70" width="8" height="46" rx="2"/>
+  <ellipse cx="32" cy="90" rx="14" ry="6" transform="rotate(-30,32,90)"/>
+  <ellipse cx="68" cy="96" rx="14" ry="6" transform="rotate(30,68,96)"/>
+  <ellipse cx="50" cy="62" rx="16" ry="20"/>
+  <line x1="50" y1="42" x2="50" y2="26" stroke="rgba(0,0,0,0.4)" stroke-width="3" stroke-linecap="round"/>
+  <line x1="42" y1="44" x2="34" y2="28" stroke="rgba(0,0,0,0.4)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="58" y1="44" x2="66" y2="28" stroke="rgba(0,0,0,0.4)" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="36" y1="50" x2="24" y2="36" stroke="rgba(0,0,0,0.4)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="64" y1="50" x2="76" y2="36" stroke="rgba(0,0,0,0.4)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="44" y1="42" x2="40" y2="24" stroke="rgba(0,0,0,0.4)" stroke-width="2" stroke-linecap="round"/>
+  <line x1="56" y1="42" x2="60" y2="24" stroke="rgba(0,0,0,0.4)" stroke-width="2" stroke-linecap="round"/>
+</svg>`,
+
+'SG': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.4)">
+  <rect x="6" y="50" width="78" height="40" rx="5"/>
+  <rect x="54" y="32" width="30" height="24" rx="4"/>
+  <rect x="14" y="36" width="12" height="16" rx="3"/>
+  <rect fill="white" x="10" y="58" width="16" height="12" rx="2"/>
+  <rect fill="white" x="32" y="58" width="16" height="12" rx="2"/>
+  <rect fill="white" x="58" y="38" width="14" height="12" rx="2"/>
+  <circle cx="18" cy="96" r="11"/>
+  <circle fill="white" cx="18" cy="96" r="5"/>
+  <circle cx="46" cy="96" r="11"/>
+  <circle fill="white" cx="46" cy="96" r="5"/>
+  <circle cx="74" cy="96" r="11"/>
+  <circle fill="white" cx="74" cy="96" r="5"/>
+  <rect x="2" y="107" width="94" height="5" rx="2"/>
+</svg>`,
+
+'AN': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.4)">
+  <rect x="8" y="50" width="36" height="28" rx="10"/>
+  <rect x="56" y="50" width="36" height="28" rx="10"/>
+  <rect x="44" y="60" width="12" height="6" rx="2"/>
+  <rect x="2" y="58" width="10" height="6" rx="2" transform="rotate(-6,2,58)"/>
+  <rect x="88" y="58" width="10" height="6" rx="2" transform="rotate(6,88,58)"/>
+  <rect fill="white" opacity="0.15" x="12" y="56" width="12" height="8" rx="3"/>
+  <rect fill="white" opacity="0.15" x="60" y="56" width="12" height="8" rx="3"/>
+</svg>`,
+
+'BM': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.4)">
+  <ellipse cx="50" cy="70" rx="28" ry="34"/>
+  <ellipse cx="68" cy="42" rx="12" ry="16"/>
+  <circle cx="74" cy="24" r="16"/>
+  <polygon points="88,20 100,24 88,28"/>
+  <path d="M60 8 Q64 0 68 6 Q70 -2 74 4 Q78 -4 82 4 Q84 10 78 14 Q70 16 60 10Z"/>
+  <ellipse cx="88" cy="34" rx="5" ry="8"/>
+  <circle fill="white" cx="78" cy="22" r="3.5"/>
+  <circle fill="rgba(0,0,0,0.7)" cx="79" cy="22" r="2"/>
+  <ellipse cx="30" cy="66" rx="16" ry="24" transform="rotate(-15,30,66)" opacity="0.7"/>
+  <path d="M24 58 Q4 38 10 66 Q6 52 16 78 Q10 64 22 86 Q28 74 24 88 Z"/>
+  <rect x="38" y="100" width="9" height="22" rx="3"/>
+  <rect x="54" y="100" width="9" height="22" rx="3"/>
+  <path d="M30 120 L48 120 M34 120 L28 118 M40 120 L38 118 M46 120 L50 118"/>
+  <path d="M52 120 L68 120 M56 120 L52 118 M62 120 L60 118 M68 120 L72 118"/>
+</svg>`,
+
+'SM': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.4)">
+  <ellipse cx="52" cy="52" rx="22" ry="42" transform="rotate(80,52,52)"/>
+  <path d="M20 44 L4 34 L12 50 L4 66 L20 58 Z"/>
+  <path d="M50 24 Q60 10 68 16 Q62 28 50 30 Z"/>
+  <circle fill="white" cx="72" cy="46" r="3.5"/>
+  <circle fill="rgba(0,0,0,0.6)" cx="73" cy="46" r="1.8"/>
+  <circle cx="48" cy="96" r="10"/>
+  <circle cx="34" cy="106" r="9"/>
+  <circle cx="62" cy="106" r="8"/>
+  <circle fill="white" opacity="0.25" cx="51" cy="93" r="3"/>
+  <circle fill="white" opacity="0.25" cx="37" cy="103" r="3"/>
+  <circle fill="white" opacity="0.25" cx="65" cy="103" r="3"/>
+</svg>`,
+
+};
+
+const SILHOUETTE_SVG = SILHOUETTES['EL']; // fallback
+const EL_PORTRAIT = SILHOUETTES['EL'];
+
+
+// Trader metadata
+const TRADER_START_DATES = {
+  'EL':  '2023-04-13',
+  'HB':  '2024-04-08',
+  'JLB': '2024-09-23',
+  'JR':  '2025-10-01',
+  'SG':  '2026-04-27',
+  'AN':  '2024-09-17',
+  'BM':  '2024-07-01',
+  'SM':  '2024-12-02',
+};
+const TRADER_LM = {
+  'EL':'MS','HB':'AW','JLB':'AB','JR':'AB','SG':'HB','AN':'AW','BM':'AW','SM':'AB'
+};
+const TRADER_OC = {
+  'EL': {bat:83,bowl:76,field:-10},
+  'HB': {bat:27,bowl:17,field:45},
+  'JLB':{bat:64,bowl:51,field:60},
+  'JR': {bat:64,bowl:50,field:60},
+  'SG': {bat:null,bowl:null,field:null},
+  'AN': {bat:33,bowl:37,field:60},
+  'BM': {bat:72,bowl:55,field:40},
+  'SM': {bat:60,bowl:55,field:99},
+};
+
+const TRADER_SURNAMES = {
+  'EL':'Lowe','HB':'Bathurst','JLB':'Le Boutillier','JR':'Robertson',
+  'SG':'Goody','AN':'Nicholls','BM':'McCann','SM':'Mirza'
+};
+
+const TRADER_AKA = {
+  'EL':'Egg','HB':'Bomber','JLB':'Boots','SG':'Snoody',
+  'JR':null,'AN':null,'BM':null,'SM':null,
+};
+
+function getTenure(t){
+  const start = TRADER_START_DATES[t];
+  if(!start) return '—';
+  const s = new Date(start);
+  const now = new Date();
+  let years = now.getFullYear() - s.getFullYear();
+  let months = now.getMonth() - s.getMonth();
+  if(months < 0){ years--; months += 12; }
+  if(years === 0) return `${months}m`;
+  if(months === 0) return `${years}y`;
+  return `${years}y ${months}m`;
+}
+
+function getT1Games(t){
+  if(!state.experience || !state.experience.records) return 0;
+  let total = 0;
+  Object.entries(state.experience.records).forEach(([key, entry])=>{
+    if(!key.startsWith(t+'|')) return;
+    // exclude training tournaments
+    if(key.includes('|ipl2|') || key.includes('|cricket2|')) return;
+    total += entry.t1 || 0;
+  });
+  return total;
+}
+
+function getT1Pct(t){
+  if(!state.experience || !state.experience.records) return '—';
+  let t1 = 0, total = 0;
+  Object.entries(state.experience.records).forEach(([key, entry])=>{
+    if(!key.startsWith(t+'|')) return;
+    if(key.includes('|ipl2|') || key.includes('|cricket2|')) return;
+    t1 += entry.t1 || 0;
+    total += entry.games || 0;
+  });
+  if(!total) return '—';
+  return Math.round((t1/total)*100)+'%';
+}
 
 function buildFifaCard(t){
   const scores = state.current[t];
   const total = scores.reduce((a,b)=>a+b,0);
   const tier = (state.cardTier && state.cardTier[t]) || 'gold';
   const tierObj = TIERS.find(x=>x.id===tier) || TIERS[2];
+  const oc = TRADER_OC[t] || {};
 
-  const stats = DOMAINS.map((d,di)=>`
-    <div class="card-stat">
-      <span class="card-stat-val">${scores[di]}</span>
-      <span class="card-stat-lbl">${DOMAIN_SHORT[di]}</span>
-    </div>`).join('');
+  function stat(val, lbl, tooltip){
+    const isText = typeof val === 'string' || val === null;
+    const display = val === null ? '?' : val;
+    const len = String(display).length;
+    const fs = len >= 6 ? '10px' : len >= 4 ? '13px' : len >= 3 ? '15px' : '18px';
+    return `<div class="card-stat" title="${tooltip}">
+      <span class="card-stat-lbl">${lbl}</span>
+      <span class="card-stat-val" style="font-size:${fs}">${display}</span>
+    </div>`;
+  }
+
+  const topStats = [
+    stat(getTenure(t),  'EXP',   'Time at Mustard Systems'),
+    stat(getT1Games(t), 'GAMES', 'Total T1 games traded (excluding training)'),
+    stat(TRADER_LM[t],  'LM',    'Line manager'),
+    stat(getT1Pct(t),   'T1%',   'Percentage of total games traded as T1'),
+  ].join('');
+
+  const aka = TRADER_AKA[t];
+  const ocStats = [
+    stat(oc.bat   ?? null, 'BAT',   'Office cricket batting score'),
+    stat(oc.bowl  ?? null, 'BOWL',  'Office cricket bowling score'),
+    stat(oc.field ?? null, 'FIELD', 'Office cricket fielding score'),
+    stat(aka || '—',       'A.K.A', 'Nickname'),
+  ].join('');
 
   return `<div class="trader-card-wrap">
     <div class="trader-card ${tierObj.class}">
@@ -1665,18 +1840,51 @@ function buildFifaCard(t){
             <div class="card-position">TRADER</div>
             <div class="card-badge">${MUSTARD_BADGE}</div>
           </div>
-          <div class="card-portrait">${t==='EL'?EL_PORTRAIT:SILHOUETTE_SVG}</div>
+          <div class="card-portrait">${SILHOUETTES[t] || SILHOUETTE_SVG}</div>
         </div>
-        <div class="card-name-bar"><div class="card-name">${t}</div></div>
-        <div class="card-stats">${stats}</div>
+        <div class="card-name-bar"><div class="card-name" style="font-size:${(TRADER_SURNAMES[t]||t).length>10?'11px':(TRADER_SURNAMES[t]||t).length>7?'13px':'16px'}">${TRADER_SURNAMES[t]||t}</div></div>
+        <div class="card-stats" style="margin-bottom:2px">${topStats}</div>
+        <div style="font-size:8px;font-weight:700;letter-spacing:.12em;text-align:center;opacity:0.55;padding:2px 0;border-top:1px solid rgba(255,255,255,0.15);border-bottom:1px solid rgba(255,255,255,0.15);margin:0 10px 2px">OFFICE CRICKET</div>
+        <div class="card-stats">${ocStats}</div>
       </div>
     </div>
     <div class="card-point ${tierObj.class}"></div>
-    <button class="tier-picker-btn" onclick="openTierModal('${t}')">Change card tier</button>
+    <div style="display:flex;gap:8px;margin-top:4px">
+      <button class="tier-picker-btn" onclick="openTierModal('${t}')">Change card tier</button>
+      <button class="spider-expand-btn" onclick="openCardCompareModal('${t}')">⇱ Compare</button>
+    </div>
   </div>`;
 }
 
-let tierModalTrader = null;
+let cardCompareTrader = null;
+
+function openCardCompareModal(t){
+  cardCompareTrader = t;
+  const sel = document.getElementById('card-compare-select');
+  sel.innerHTML = TRADERS.filter(x=>x!==t).map(x=>`<option value="${x}">${x}</option>`).join('');
+  renderCardCompare();
+  document.getElementById('card-compare-modal').style.display='flex';
+}
+
+function closeCardCompareModal(){
+  document.getElementById('card-compare-modal').style.display='none';
+}
+
+function handleCardCompareModalBg(e){
+  if(e.target===document.getElementById('card-compare-modal')) closeCardCompareModal();
+}
+
+function renderCardCompare(){
+  const t1 = cardCompareTrader;
+  const t2 = document.getElementById('card-compare-select').value;
+  const el = document.getElementById('card-compare-content');
+  // Scale down cards slightly for side-by-side display
+  el.innerHTML = `
+    <div style="transform:scale(0.88);transform-origin:top center">${buildFifaCard(t1)}</div>
+    <div style="transform:scale(0.88);transform-origin:top center">${buildFifaCard(t2)}</div>`;
+  // Suppress nested compare/tier buttons in the modal
+  el.querySelectorAll('.tier-picker-btn,.spider-expand-btn').forEach(b=>b.style.display='none');
+}
 let tierModalSelected = null;
 
 function openTierModal(t){
