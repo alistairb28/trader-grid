@@ -177,20 +177,20 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .history-change{font-family:'DM Mono',monospace;}
 .no-history,.no-goals-msg{font-size:12px;color:var(--text3);font-style:italic;text-align:center;padding:16px 0;}
 .goals-list{display:flex;flex-direction:column;gap:9px;}
-.goal-item{background:var(--surface2);border-radius:var(--radius);padding:11px 13px;border-left:3px solid transparent;}
+.goal-item{background:var(--surface3);border-radius:var(--radius);padding:12px 14px;border-left:3px solid transparent;border:1px solid var(--border2);}
 .goal-item.status-todo{border-left-color:var(--text3);}
 .goal-item.status-inprogress{border-left-color:var(--intermediate);}
 .goal-item.status-done{border-left-color:var(--expert);opacity:.6;}
 .goal-item.overdue{border-left-color:var(--beginner);}
 .goal-item-top{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
-.goal-domain{font-size:12px;font-weight:500;flex:1;}
+.goal-domain{font-size:13px;font-weight:700;flex:1;color:var(--text);}
 .goal-level{font-family:'DM Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;}
 .goal-status-badge{font-size:10px;padding:2px 7px;border-radius:10px;cursor:pointer;border:1px solid var(--border2);color:var(--text2);}
 .goal-status-badge:hover{color:var(--text);}
-.goal-meta{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--text3);flex-wrap:wrap;}
+.goal-meta{display:flex;align-items:center;gap:8px;font-size:10.5px;color:var(--text2);flex-wrap:wrap;font-weight:600;}
 .goal-date{font-family:'DM Mono',monospace;}
 .goal-overdue-tag{color:var(--beginner);font-size:10px;}
-.goal-note-preview{font-size:11px;color:var(--text3);font-style:italic;margin-top:3px;}
+.goal-note-preview{font-size:11.5px;color:var(--text2);font-style:normal;margin-top:6px;line-height:1.6;}
 .goal-edit-btn{font-size:10px;color:var(--text3);cursor:pointer;padding:2px 5px;border-radius:3px;border:1px solid var(--border);margin-left:auto;}
 .goal-edit-btn:hover{color:var(--text2);}
 .general-notes-area{width:100%;background:var(--surface3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 12px;resize:vertical;min-height:100px;outline:none;line-height:1.6;}
@@ -957,9 +957,20 @@ const emptyMetas=()=>DOMAINS.map(()=>emptyMeta());
 const today=()=>new Date().toISOString().split('T')[0];
 
 let state={
-  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,3,3,3,4,3,4,5],SM:[7,6,2,3,2,2,1,2],AN:[2,2,2,2,2,3,4,4],BM:[3,3,2,2,3,3,4,3],SG:[3,3,1,1,1,1,1,1]},
-  goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,null,null,null,null],HB:[null,null,null,null,null,null,null,null],JLB:[null,null,null,null,null,null,null,null],SM:[null,null,null,null,null,null,null,null],AN:[null,null,null,null,null,null,null,null],BM:[null,null,null,null,null,null,null,null],SG:[null,null,null,null,null,null,null,null]},
-  goalMeta:{EL:emptyMetas(),JR:emptyMetas(),HB:emptyMetas(),JLB:emptyMetas(),SM:emptyMetas(),AN:emptyMetas(),BM:emptyMetas(),SG:emptyMetas()},
+  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,4,3,3,4,3,4,5],SM:[7,6,2,3,2,2,1,2],AN:[2,2,2,2,2,3,4,4],BM:[3,3,2,2,3,3,4,3],SG:[3,3,1,1,1,1,1,1]},
+  goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,4,4,null,4],HB:[null,null,null,null,null,null,null,null],JLB:[null,null,4,null,null,4,null,null],SM:[null,null,null,null,3,3,2,null],AN:[null,null,null,null,null,null,null,null],BM:[null,null,null,null,null,null,null,null],SG:[null,null,null,null,null,null,null,null]},
+  goalMeta:{EL:emptyMetas(),JR:(()=>{const m=emptyMetas();
+    m[5]={notes:"Senior Traders are satisfied that John is anticipating and applying appropriate Paxman settings changes that increase Mustard's efficiency in a market given liquidity available.\n\nA reasoned explanation with referral to liquidity, volatility, market impact and expected market information is given when creating and selecting default and custom Paxman settings.\n\nRisks, spreads, moves, stake mults, sleep, take offers are all considered for AT purposes and when to use CTB, Gondor and PhoneBet are all considered and done with effectively good speed.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
+    m[4]={notes:"Senior Traders are satisfied that John is anticipating moments in matches where the model is strong and weak, and able to adjust trading to maximise EV.\n\nUsing risks, liabilities, spreads and moves appropriately, John will be able to concisely outline why he believes the model is performing well and/or his adjustments are ones he is or isn't confident in.\n\nJohn shows speed and ability when using ticks and/or turning markets quickly and effectively to avoid bets he doesn't believe we want to take during an adjustment period.\n\nMarkets that are unaffected by ongoing adjustments continue to be traded during the adjustment period.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
+    m[7]={notes:"John will present his aggression changes in women's cricket during a Trader Catchup.\n\nThe work done will provide useful information for both trading in game and also continue work that actively improves the women's model.\n\nGoal: 4 -> 4.5 (no grid level change, tracked qualitatively)\n\nDate to be set for TC, 14/12/26 for official review",date:'',quarter:'',status:'todo'};
+    return m;})(),HB:emptyMetas(),JLB:(()=>{const m=emptyMetas();
+    m[2]={notes:"Senior Traders are satisfied that Jordan is anticipating and applying adjustments in Beefy that are likely to improve the raw model price against known biases.\n\nA reasoned explanation with referral to the aggression dictionary for almost all changes is required (subject to time available when trading).\n\nSenior report: AB",date:'2026-09-14',quarter:'',status:'todo'};
+    m[5]={notes:"Senior Traders are satisfied that Jordan is anticipating and applying paxman settings changes that increase Mustard's efficiency in a market given liquidity available. Focussing mostly on market impact (considered max moves, spreads, sleep, when to CTB and able to logically explain settings choices).\n\nSenior report: AB",date:'2026-09-14',quarter:'',status:'todo'};
+    return m;})(),SM:(()=>{const m=emptyMetas();
+    m[4]={notes:"Senior Traders are satisfied that Sul is anticipating moments in matches where the model is strong and weak, and able to adjust trading to maximise EV.\n\nUsing risks, liabilities, spreads and moves appropriately, Sul will be able to concisely outline why he believes the model is performing well and/or his adjustments are ones he is or isn't confident in.\n\nSul shows speed and ability when using ticks and/or turning markets quickly and effectively to avoid bets he doesn't believe we want to take during an adjustment period.\n\nMarkets that are unaffected by ongoing adjustments continue to be traded during the adjustment period.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
+    m[5]={notes:"Senior Traders are satisfied that Sul is anticipating and applying appropriate Paxman settings changes that increase Mustard's efficiency in a market given liquidity available.\n\nA reasoned explanation with referral to liquidity, volatility, market impact and expected market information is given when creating and selecting default and custom Paxman settings.\n\nRisks, spreads, moves, stake mults, sleep, take offers are all considered for AT purposes and when to use CTB, Gondor and PhoneBet are all considered and done with effectively good speed.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
+    m[6]={notes:'Utilise cricket knowledge and understanding to provide valuable, practical tools that traders use in order to improve their pricing.\n\nThis will be up to Sul to decide the area he focuses on. He will present findings in a Trader Catchup or in a Trading Focussed Meeting and subsequently create documents to share to both Traders and Quants.\n\nSenior report: AB/MS/AW',date:'2026-12-14',quarter:'',status:'todo'};
+    return m;})(),AN:emptyMetas(),BM:emptyMetas(),SG:emptyMetas()},
   generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:'',SG:''},
   history:{EL:[],JR:[],HB:[],JLB:[],SM:[],AN:[],BM:[],SG:[]},
   reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''},SG:{last:'',next:''}},
@@ -1774,6 +1785,18 @@ const TRADER_AKA = {
   'JR':null,'AN':null,'BM':null,'SM':null,
 };
 
+// Responsibilities outside trading â€” each trader maps to an array of {title, description}
+const TRADER_RESPONSIBILITIES = {
+  'EL':[],'HB':[],
+  'JLB':[
+    {
+      title:'Overseas Office Point of Contact',
+      description:"Take up the role as point of contact for the Trading Team in relation to the Overseas Office. Relay information to and from decision makers to come to a conclusion by the end of 2026.\n\n14/09/26 for role performance, 31/12/26 for conclusion.\n\nSenior report: LF/AB/MS"
+    }
+  ],
+  'JR':[],'SG':[],'AN':[],'BM':[],'SM':[],
+};
+
 function getTenure(t){
   const start = TRADER_START_DATES[t];
   if(!start) return 'â€”';
@@ -2074,6 +2097,16 @@ function renderProfile(t){
     <div class="profile-grid">
       <div class="profile-section"><div class="profile-section-title">Goals</div><div class="goals-list">${goalsHtml}</div></div>
       <div class="profile-section"><div class="profile-section-title">Score history</div><div class="history-list">${histHtml}</div></div>
+    </div>
+    <div class="profile-section" style="margin-bottom:16px;">
+      <div class="profile-section-title">Responsibilities Outside Trading</div>
+      ${(TRADER_RESPONSIBILITIES[t]||[]).length
+        ? `<div class="goals-list">${(TRADER_RESPONSIBILITIES[t]||[]).map(r=>`
+            <div class="goal-item">
+              <div class="goal-item-top"><div class="goal-domain">${r.title}</div></div>
+              <div class="goal-note-preview">${r.description.replace(/\n/g,'<br>')}</div>
+            </div>`).join('')}</div>`
+        : `<div class="no-goals-msg">No responsibilities outside trading recorded.</div>`}
     </div>
     <div class="profile-section" style="margin-bottom:16px;">
       <div class="profile-section-title">Next steps &mdash; what ${FULL_NAMES[t]||t} needs to progress</div>
