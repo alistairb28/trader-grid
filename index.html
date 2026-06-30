@@ -337,7 +337,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
   border-top-width:32px;border-top-style:solid;
 }
 .trader-card:hover{transform:translateY(-5px) scale(1.015);box-shadow:0 24px 60px rgba(0,0,0,0.8),inset 0 1px 0 rgba(255,255,255,0.2);}
-/* Tier backgrounds â€” scoped to card and picker only */
+/* Tier backgrounds &mdash; scoped to card and picker only */
 .trader-card.tier-bronze,.tier-option.tier-bronze{background:linear-gradient(160deg,#5c2800 0%,#a0521a 25%,#d4843c 45%,#f0b060 55%,#d4843c 70%,#8a3c10 85%,#5c2800 100%);}
 .trader-card.tier-silver,.tier-option.tier-silver{background:linear-gradient(160deg,#2a2d33 0%,#6b7585 25%,#b0bcc8 45%,#dce4ec 55%,#b0bcc8 70%,#5a6475 85%,#2a2d33 100%);}
 .trader-card.tier-gold,.tier-option.tier-gold{background:linear-gradient(160deg,#3d2500 0%,#8a5c00 25%,#d4960c 45%,#f5c518 55%,#d4960c 70%,#7a4e00 85%,#3d2500 100%);}
@@ -378,7 +378,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .card-stat[title]:hover::after{content:attr(title);position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.92);color:#fff;font-size:9px;white-space:nowrap;padding:3px 7px;border-radius:4px;pointer-events:none;z-index:100;font-weight:400;letter-spacing:.02em;}
 .card-stat-lbl{font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;line-height:1;opacity:1;white-space:nowrap;}
 .card-stat-val{font-size:16px;font-weight:700;text-shadow:0 2px 6px rgba(0,0,0,0.5);line-height:1;opacity:0.9;text-align:right;white-space:nowrap;}
-/* Text colors â€” scoped to card */
+/* Text colors &mdash; scoped to card */
 .trader-card.tier-bronze .card-rating,.trader-card.tier-bronze .card-position,.trader-card.tier-bronze .card-name,.trader-card.tier-bronze .card-stat-val,.trader-card.tier-bronze .card-stat-lbl{color:#ffecd6;}
 .trader-card.tier-silver .card-rating,.trader-card.tier-silver .card-position,.trader-card.tier-silver .card-name,.trader-card.tier-silver .card-stat-val,.trader-card.tier-silver .card-stat-lbl{color:#f0f5fa;}
 .trader-card.tier-gold .card-rating,.trader-card.tier-gold .card-position,.trader-card.tier-gold .card-name,.trader-card.tier-gold .card-stat-val,.trader-card.tier-gold .card-stat-lbl{color:#fffae0;}
@@ -752,7 +752,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
       <div class="page-header">
         <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
         <div class="page-title">Recruitment Overview</div>
-        <div class="page-sub">For sharing with the recruitment team â€” all data anonymised</div>
+        <div class="page-sub">For sharing with the recruitment team &mdash; all data anonymised</div>
       </div>
       <div id="recruitment-content"></div>
     </div>
@@ -776,7 +776,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
       <div class="page-header">
         <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
         <div class="page-title">Trading Team Metrics</div>
-        <div class="page-sub">Performance indicators â€” updated every 2 months</div>
+        <div class="page-sub">Performance indicators &mdash; updated every 2 months</div>
       </div>
       <div id="metrics-content"></div>
     </div>
@@ -822,7 +822,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
     <div class="modal-header"><div class="modal-title">Paste schedule</div><div class="modal-close" onclick="closeImportModal()">x</div></div>
     <div class="modal-field">
       <div class="modal-label">Paste your schedule from a spreadsheet below</div>
-      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">Expected columns: Date, Tournament, T1 Trader, T2 Trader (column names can vary â€” the parser will try to detect them). Tab-separated or comma-separated both work.</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:8px">Expected columns: Date, Tournament, T1 Trader, T2 Trader (column names can vary &mdash; the parser will try to detect them). Tab-separated or comma-separated both work.</div>
       <textarea id="import-paste-area" style="width:100%;height:200px;background:var(--surface3);border:1px solid var(--border2);border-radius:var(--radius);color:var(--text);font-family:'DM Mono',monospace;font-size:11px;padding:10px;outline:none;resize:vertical" placeholder="Paste spreadsheet data here..."></textarea>
     </div>
     <div id="import-preview" style="margin-top:8px;font-size:11px;color:var(--text2)"></div>
@@ -855,11 +855,11 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
     <div class="modal-row">
       <div class="modal-field"><div class="modal-label">Games traded</div><input type="number" id="exp-games" min="0" placeholder="0"></div>
       <div class="modal-field"><div class="modal-label">Role</div>
-        <select id="exp-role"><option value="">â€” none â€”</option><option value="T1">T1</option><option value="T2">T2</option><option value="T1/T2">T1 &amp; T2</option></select>
+        <select id="exp-role"><option value="">&mdash; none &mdash;</option><option value="T1">T1</option><option value="T2">T2</option><option value="T1/T2">T1 &amp; T2</option></select>
       </div>
     </div>
     <div class="modal-field"><div class="modal-label">Rank within role (e.g. 1st, 2nd)</div><input type="number" id="exp-rank" min="1" max="20" placeholder="1"></div>
-    <div class="modal-field"><div class="modal-label">Country override <span style="font-size:10px;color:var(--text3);font-weight:400">(overrides default â€” use to correct neutral venue games)</span></div><input type="text" id="exp-country" placeholder="e.g. Namibia, leave blank for default"></div>
+    <div class="modal-field"><div class="modal-label">Country override <span style="font-size:10px;color:var(--text3);font-weight:400">(overrides default &mdash; use to correct neutral venue games)</span></div><input type="text" id="exp-country" placeholder="e.g. Namibia, leave blank for default"></div>
     <div class="modal-field"><div class="modal-label">Notes</div><input type="text" id="exp-notes" placeholder="e.g. Led T1 for playoffs"></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeExpEntryModal()">Cancel</button>
@@ -1040,16 +1040,16 @@ let state={
       'EL|w_odc|2025':      {games:2, t1:2, t2:0, role:'T1',   rank:2,notes:'Sep'},
       'EL|wpl|2025':        {games:2, t1:1, t2:1, role:'T1/T2',rank:2,notes:'Feb-Mar'},
       'EL|wbbl|2025':       {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Dec'},
-      'HB|bpl|2025':        {games:18,t1:18,t2:0, role:'T1',   rank:1,notes:'Jan-Feb â€” sole T1'},
-      'HB|ipl2|2025':       {games:40,t1:23,t2:17,role:'T1/T2',rank:1,notes:'Mar-Jun â€” training tournament'},
-      'HB|cpl|2025':        {games:14,t1:14,t2:0, role:'T1',   rank:1,notes:'Aug-Sep â€” primary T1'},
+      'HB|bpl|2025':        {games:18,t1:18,t2:0, role:'T1',   rank:1,notes:'Jan-Feb &mdash; sole T1'},
+      'HB|ipl2|2025':       {games:40,t1:23,t2:17,role:'T1/T2',rank:1,notes:'Mar-Jun &mdash; training tournament'},
+      'HB|cpl|2025':        {games:14,t1:14,t2:0, role:'T1',   rank:1,notes:'Aug-Sep &mdash; primary T1'},
       'HB|ct|2025':         {games:9, t1:5, t2:4, role:'T1/T2',rank:1,notes:'Feb-Mar',homeCountries:{'International':{g:9,t1:5,t2:4}}},
       'HB|t20_intl|2025':   {games:19,t1:11,t2:8, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'New Zealand':{g:7,t1:6,t2:1},'India':{g:4,t1:0,t2:4},'Sri Lanka':{g:3,t1:3,t2:0},'Caribbean':{g:2,t1:1,t2:1},'Pakistan':{g:1,t1:0,t2:1},'Australia':{g:1,t1:0,t2:1},'Ireland':{g:1,t1:1,t2:0}}},
       'HB|odi_intl|2025':   {games:9, t1:5, t2:4, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'Sri Lanka':{g:5,t1:3,t2:2},'New Zealand':{g:3,t1:2,t2:1},'Australia':{g:1,t1:0,t2:1}}},
       'HB|csa|2025':        {games:6, t1:6, t2:0, role:'T1',   rank:1,notes:'Oct-Nov'},
       'HB|ilt20|2025':      {games:6, t1:3, t2:3, role:'T1/T2',rank:2,notes:'Jan-Feb'},
       'HB|smat|2025':       {games:4, t1:2, t2:2, role:'T1/T2',rank:1,notes:'Nov-Dec'},
-      'HB|ipl|2025':        {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Mar-Jun â€” real IPL games'},
+      'HB|ipl|2025':        {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Mar-Jun &mdash; real IPL games'},
       'HB|sa20|2025':       {games:3, t1:3, t2:0, role:'T1',   rank:2,notes:'Jan'},
       'HB|t20blast|2025':   {games:3, t1:1, t2:2, role:'T1/T2',rank:2,notes:'Jun-Jul'},
       'HB|wpl|2025':        {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Feb-Mar'},
@@ -1059,35 +1059,35 @@ let state={
       'HB|w_blast|2025':    {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Jun'},
       'HB|w_odi_intl|2025': {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Oct',homeCountries:{'Sri Lanka':{g:1,t1:0,t2:1}}},
       'HB|wbbl|2025':       {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Nov'},
-      'BM|ipl2|2025':       {games:33,t1:19,t2:14,role:'T1/T2',rank:1,notes:'Mar-Jun â€” training tournament'},
-      'BM|t20blast|2025':   {games:27,t1:24,t2:3, role:'T1',   rank:1,notes:'May-Sep â€” primary Blast trader'},
-      'BM|supersmash|2025': {games:23,t1:23,t2:0, role:'T1',   rank:1,notes:'Jan-Feb â€” primary SS trader'},
-      'BM|odc|2025':        {games:20,t1:20,t2:0, role:'T1',   rank:1,notes:'Aug-Sep â€” primary ODC trader'},
+      'BM|ipl2|2025':       {games:33,t1:19,t2:14,role:'T1/T2',rank:1,notes:'Mar-Jun &mdash; training tournament'},
+      'BM|t20blast|2025':   {games:27,t1:24,t2:3, role:'T1',   rank:1,notes:'May-Sep &mdash; primary Blast trader'},
+      'BM|supersmash|2025': {games:23,t1:23,t2:0, role:'T1',   rank:1,notes:'Jan-Feb &mdash; primary SS trader'},
+      'BM|odc|2025':        {games:20,t1:20,t2:0, role:'T1',   rank:1,notes:'Aug-Sep &mdash; primary ODC trader'},
       'BM|w_odi_intl|2025': {games:12,t1:4, t2:8, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'India':{g:4,t1:1,t2:3},'England':{g:1,t1:0,t2:1},'Australia':{g:2,t1:0,t2:2},'Bangladesh':{g:2,t1:2,t2:0},'Sri Lanka':{g:2,t1:0,t2:2},'New Zealand':{g:1,t1:0,t2:1}}},
       'BM|wpl|2025':        {games:10,t1:9, t2:1, role:'T1/T2',rank:1,notes:'Feb-Mar'},
       'BM|ilt20|2025':      {games:8, t1:2, t2:6, role:'T1/T2',rank:2,notes:'Jan-Feb'},
       'BM|t20_intl|2025':   {games:6, t1:3, t2:3, role:'T1/T2',rank:2,notes:'Various',homeCountries:{'Pakistan':{g:3,t1:2,t2:1},'Australia':{g:2,t1:0,t2:2},'Zimbabwe':{g:1,t1:1,t2:0}}},
       'BM|odi_intl|2025':   {games:5, t1:3, t2:2, role:'T1/T2',rank:2,notes:'Various',homeCountries:{'Pakistan':{g:5,t1:3,t2:2}}},
-      'BM|ipl|2025':        {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Mar-Jun â€” real IPL games'},
+      'BM|ipl|2025':        {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Mar-Jun &mdash; real IPL games'},
       'BM|wbbl|2025':       {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Nov-Dec'},
       'BM|csa|2025':        {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Nov'},
       'BM|scl|2025':        {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Jul'},
       'BM|w_blast|2025':    {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Jun'},
       'BM|wcpl|2025':       {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Sep'},
-      'AN|ilt20|2025':      {games:38,t1:28,t2:10,role:'T1/T2',rank:1,notes:'Jan-Feb & Dec â€” primary ILT20 trader'},
+      'AN|ilt20|2025':      {games:38,t1:28,t2:10,role:'T1/T2',rank:1,notes:'Jan-Feb & Dec &mdash; primary ILT20 trader'},
       'AN|t20_intl|2025':   {games:24,t1:15,t2:9, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'New Zealand':{g:7,t1:4,t2:3},'Pakistan':{g:5,t1:3,t2:2},'UAE':{g:5,t1:3,t2:2},'Caribbean':{g:3,t1:3,t2:0},'India':{g:1,t1:1,t2:0},'Ireland':{g:1,t1:0,t2:1},'Zimbabwe':{g:1,t1:0,t2:1},'Sri Lanka':{g:1,t1:1,t2:0}}},
       'AN|psl|2025':        {games:19,t1:8, t2:11,role:'T1/T2',rank:2,notes:'Apr-May'},
       'AN|odi_intl|2025':   {games:6, t1:4, t2:2, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'New Zealand':{g:3,t1:3,t2:0},'Pakistan':{g:3,t1:1,t2:2}}},
       'AN|csa|2025':        {games:2, t1:2, t2:0, role:'T1',   rank:2,notes:'Oct-Nov'},
       'AN|t20blast|2025':   {games:2, t1:2, t2:0, role:'T1',   rank:2,notes:'Jun'},
       'AN|wpl|2025':        {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Feb-Mar'},
-      'AN|ipl|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Apr â€” real IPL'},
+      'AN|ipl|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Apr &mdash; real IPL'},
       'AN|odc|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Sep'},
       'JLB|t20_intl|2025':  {games:18,t1:15,t2:3, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'UAE':{g:8,t1:5,t2:3},'Australia':{g:5,t1:4,t2:1},'Pakistan':{g:4,t1:3,t2:1},'Zimbabwe':{g:3,t1:2,t2:1},'New Zealand':{g:2,t1:0,t2:2},'India':{g:2,t1:2,t2:0},'Bangladesh':{g:2,t1:1,t2:1},'Sri Lanka':{g:1,t1:1,t2:0},'England':{g:1,t1:0,t2:1}}},
       'JLB|bbl|2025':       {games:24,t1:13,t2:11,role:'T1/T2',rank:1,notes:'Jan-Feb & Dec'},
-      'JLB|psl|2025':       {games:21,t1:7, t2:14,role:'T1/T2',rank:1,notes:'Apr-May â€” primary PSL trader'},
-      'JLB|w_hundred|2025': {games:19,t1:13,t2:6, role:'T1/T2',rank:1,notes:'Aug â€” primary W Hundred trader'},
-      'JLB|mlc|2025':       {games:13,t1:12,t2:1, role:'T1',   rank:1,notes:'Jun-Jul â€” primary MLC trader'},
+      'JLB|psl|2025':       {games:21,t1:7, t2:14,role:'T1/T2',rank:1,notes:'Apr-May &mdash; primary PSL trader'},
+      'JLB|w_hundred|2025': {games:19,t1:13,t2:6, role:'T1/T2',rank:1,notes:'Aug &mdash; primary W Hundred trader'},
+      'JLB|mlc|2025':       {games:13,t1:12,t2:1, role:'T1',   rank:1,notes:'Jun-Jul &mdash; primary MLC trader'},
       'JLB|wbbl|2025':      {games:12,t1:11,t2:1, role:'T1/T2',rank:1,notes:'Nov-Dec'},
       'JLB|sa20|2025':      {games:11,t1:3, t2:8, role:'T1/T2',rank:2,notes:'Jan & Dec'},
       'JLB|odi_intl|2025':  {games:10,t1:9, t2:1, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'Ireland':{g:3,t1:3,t2:0},'Australia':{g:3,t1:3,t2:0},'Sri Lanka':{g:2,t1:1,t2:1},'New Zealand':{g:2,t1:2,t2:0}}},
@@ -1099,17 +1099,17 @@ let state={
       'JLB|bpl|2025':       {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Jan'},
       'JLB|ilt20|2025':     {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Jan'},
       'JLB|w_odi_intl|2025':{games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Oct',homeCountries:{'Ireland':{g:1,t1:1,t2:0}}},
-      'SM|ipl|2025':        {games:37,t1:0, t2:37,role:'T2',   rank:1,notes:'Mar-Jun â€” primary IPL T2'},
+      'SM|ipl|2025':        {games:37,t1:0, t2:37,role:'T2',   rank:1,notes:'Mar-Jun &mdash; primary IPL T2'},
       'SM|w_odi_intl|2025': {games:23,t1:16,t2:7, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'India':{g:7,t1:4,t2:3},'England':{g:5,t1:4,t2:1},'Sri Lanka':{g:4,t1:4,t2:0},'Bangladesh':{g:3,t1:1,t2:2},'Australia':{g:3,t1:2,t2:1},'New Zealand':{g:2,t1:2,t2:0},'Caribbean':{g:1,t1:1,t2:0}}},
-      'SM|w_blast|2025':    {games:18,t1:18,t2:0, role:'T1',   rank:1,notes:'May-Jul â€” primary W Blast trader'},
+      'SM|w_blast|2025':    {games:18,t1:18,t2:0, role:'T1',   rank:1,notes:'May-Jul &mdash; primary W Blast trader'},
       'SM|w_hundred|2025':  {games:18,t1:12,t2:6, role:'T1/T2',rank:1,notes:'Aug'},
-      'SM|wbbl|2025':       {games:15,t1:15,t2:0, role:'T1',   rank:1,notes:'Nov â€” primary WBBL trader'},
+      'SM|wbbl|2025':       {games:15,t1:15,t2:0, role:'T1',   rank:1,notes:'Nov &mdash; primary WBBL trader'},
       'SM|sa20|2025':       {games:13,t1:2, t2:11,role:'T1/T2',rank:1,notes:'Jan & Dec'},
       'SM|t20_intl|2025':   {games:11,t1:11,t2:0, role:'T1',   rank:1,notes:'Various',homeCountries:{'Zimbabwe':{g:4,t1:4,t2:0},'Ireland':{g:2,t1:1,t2:1},'Caribbean':{g:1,t1:1,t2:0},'Pakistan':{g:1,t1:1,t2:0},'Bangladesh':{g:1,t1:1,t2:0},'India':{g:1,t1:1,t2:0},'UAE':{g:1,t1:1,t2:0}}},
       'SM|hundred|2025':    {games:9, t1:0, t2:9, role:'T2',   rank:2,notes:'Aug'},
       'SM|w_t20_intl|2025': {games:5, t1:4, t2:1, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'England':{g:4,t1:3,t2:1},'India':{g:1,t1:1,t2:0}}},
       'SM|odi_intl|2025':   {games:6, t1:6, t2:0, role:'T1',   rank:1,notes:'Various',homeCountries:{'Zimbabwe':{g:2,t1:2,t2:0},'New Zealand':{g:2,t1:2,t2:0},'Canada':{g:1,t1:1,t2:0},'Caribbean':{g:1,t1:1,t2:0}}},
-      'SM|ipl2|2025':       {games:4, t1:0, t2:4, role:'T2',   rank:2,notes:'Mar-Jun â€” training tournament'},
+      'SM|ipl2|2025':       {games:4, t1:0, t2:4, role:'T2',   rank:2,notes:'Mar-Jun &mdash; training tournament'},
       'SM|ilt20|2025':      {games:4, t1:0, t2:4, role:'T2',   rank:2,notes:'Jan-Feb'},
       'SM|supersmash|2025': {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Jan'},
       'SM|t20blast|2025':   {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Jun-Jul'},
@@ -1119,15 +1119,15 @@ let state={
       'SM|scl|2025':        {games:1, t1:1, t2:0, role:'T1',   rank:2,notes:'Jul'},
       'SM|psl|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Apr'},
       'SM|wpl|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Feb'},
-      'JR|npl|2025':        {games:19,t1:19,t2:0, role:'T1',   rank:1,notes:'Nov-Dec â€” sole T1'},
+      'JR|npl|2025':        {games:19,t1:19,t2:0, role:'T1',   rank:1,notes:'Nov-Dec &mdash; sole T1'},
       'JR|t20_intl|2025':   {games:4, t1:0, t2:4, role:'T2',   rank:3,notes:'Oct',homeCountries:{'New Zealand':{g:3,t1:0,t2:3},'UAE':{g:1,t1:0,t2:1}}},
       'JR|odi_intl|2025':   {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Oct',homeCountries:{'Bangladesh':{g:3,t1:0,t2:3}}},
       'JR|w_odi_intl|2025': {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Oct',homeCountries:{'Bangladesh':{g:1,t1:0,t2:1},'Pakistan':{g:1,t1:0,t2:1}}},
       'JR|csa|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Nov'},
       // 2026 Season
-      'EL|ipl|2026':        {games:43,t1:22,t2:21,role:'T1/T2',rank:1,notes:'Mar-May â€” primary IPL trader'},
+      'EL|ipl|2026':        {games:43,t1:22,t2:21,role:'T1/T2',rank:1,notes:'Mar-May &mdash; primary IPL trader'},
       'EL|wct20_2026|2026': {games:14,t1:7, t2:7, role:'T1/T2',rank:1,notes:'Feb-Mar',homeCountries:{'International':{g:14,t1:7,t2:7}}},
-      'EL|wpl|2026':        {games:12,t1:12,t2:0, role:'T1',   rank:1,notes:'Jan â€” primary WPL trader'},
+      'EL|wpl|2026':        {games:12,t1:12,t2:0, role:'T1',   rank:1,notes:'Jan &mdash; primary WPL trader'},
       'EL|t20_intl|2026':   {games:3, t1:2, t2:1, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'New Zealand':{g:2,t1:1,t2:1},'India':{g:1,t1:1,t2:0}}},
       'EL|w_t20_intl|2026': {games:4, t1:4, t2:0, role:'T1',   rank:1,notes:'Various',homeCountries:{'New Zealand':{g:3,t1:3,t2:0},'Oman':{g:1,t1:1,t2:0}}},
       'EL|w_odi_intl|2026': {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'May',homeCountries:{'New Zealand':{g:1,t1:1,t2:0}}},
@@ -1149,8 +1149,8 @@ let state={
       'HB|t20blast|2026':   {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'May'},
       'HB|bbl|2026':        {games:1, t1:0, t2:1, role:'T2',   rank:2,notes:'Jan'},
       'HB|npl|2026':        {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Apr'},
-      'HB|bdt20|2026':      {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'May â€” PAK ZIM series'},
-      'BM|supersmash|2026': {games:15,t1:15,t2:0, role:'T1',   rank:1,notes:'Jan-Feb â€” primary SS trader'},
+      'HB|bdt20|2026':      {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'May &mdash; PAK ZIM series'},
+      'BM|supersmash|2026': {games:15,t1:15,t2:0, role:'T1',   rank:1,notes:'Jan-Feb &mdash; primary SS trader'},
       'BM|psl|2026':        {games:15,t1:9, t2:6, role:'T1/T2',rank:1,notes:'Mar-May'},
       'BM|wct20_2026|2026': {games:10,t1:7, t2:3, role:'T1/T2',rank:1,notes:'Feb-Mar',homeCountries:{'International':{g:10,t1:7,t2:3}}},
       'BM|odi_intl|2026':   {games:10,t1:10,t2:0, role:'T1',   rank:1,notes:'Various',homeCountries:{'Bangladesh':{g:7,t1:7,t2:0},'England':{g:3,t1:3,t2:0}}},
@@ -1170,7 +1170,7 @@ let state={
       'AN|t20blast|2026':   {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'May'},
       'AN|wpl|2026':        {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'Jan'},
       'JLB|bbl|2026':       {games:16,t1:13,t2:3, role:'T1',   rank:1,notes:'Jan-Feb'},
-      'JLB|ipl2|2026':      {games:20,t1:9, t2:11,role:'T1/T2',rank:1,notes:'Mar-May â€” training'},
+      'JLB|ipl2|2026':      {games:20,t1:9, t2:11,role:'T1/T2',rank:1,notes:'Mar-May &mdash; training'},
       'JLB|t20_intl|2026':  {games:4, t1:3, t2:1, role:'T1',   rank:1,notes:'Various',homeCountries:{'South Africa':{g:1,t1:0,t2:1},'Sri Lanka':{g:2,t1:2,t2:0},'Australia':{g:1,t1:1,t2:0}}},
       'JLB|w_t20_intl|2026':{games:6, t1:6, t2:0, role:'T1',   rank:1,notes:'Various',homeCountries:{'Australia':{g:3,t1:3,t2:0},'South Africa':{g:3,t1:3,t2:0}}},
       'JLB|w_odi_intl|2026':{games:3, t1:3, t2:0, role:'T1',   rank:1,notes:'Various',homeCountries:{'Australia':{g:3,t1:3,t2:0}}},
@@ -1182,24 +1182,24 @@ let state={
       'JLB|npl|2026':       {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Apr'},
       'JLB|wpl|2026':       {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Jan'},
       'SM|ipl|2026':        {games:40,t1:11,t2:29,role:'T1/T2',rank:1,notes:'Mar-May'},
-      'SM|sa20|2026':       {games:17,t1:15,t2:2, role:'T1',   rank:1,notes:'Jan-Feb â€” primary SA20 trader'},
+      'SM|sa20|2026':       {games:17,t1:15,t2:2, role:'T1',   rank:1,notes:'Jan-Feb &mdash; primary SA20 trader'},
       'SM|t20_intl|2026':   {games:4, t1:1, t2:3, role:'T1/T2',rank:2,notes:'Various',homeCountries:{'South Africa':{g:3,t1:0,t2:3},'New Zealand':{g:1,t1:1,t2:0}}},
       'SM|w_t20_intl|2026': {games:9, t1:8, t2:1, role:'T1',   rank:1,notes:'Various',homeCountries:{'South Africa':{g:5,t1:5,t2:0},'New Zealand':{g:3,t1:3,t2:0},'Caribbean':{g:1,t1:0,t2:1}}},
       'SM|w_odi_intl|2026': {games:3, t1:2, t2:1, role:'T1/T2',rank:1,notes:'May',homeCountries:{'South Africa':{g:2,t1:1,t2:1},'Caribbean':{g:1,t1:1,t2:0}}},
       'SM|odi_intl|2026':   {games:2, t1:2, t2:0, role:'T1',   rank:1,notes:'Various',homeCountries:{'New Zealand':{g:1,t1:1,t2:0},'Caribbean':{g:1,t1:1,t2:0}}},
-      'SM|ipl2|2026':       {games:3, t1:3, t2:0, role:'T1',   rank:1,notes:'Mar â€” training'},
+      'SM|ipl2|2026':       {games:3, t1:3, t2:0, role:'T1',   rank:1,notes:'Mar &mdash; training'},
       'SM|bdt20|2026':      {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Feb'},
       'SM|wct20_2026|2026': {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Feb',homeCountries:{'International':{g:2,t1:0,t2:2}}},
       'SM|t20blast|2026':   {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'May'},
-      'JR|ipl2|2026':       {games:20,t1:20,t2:0, role:'T1',   rank:1,notes:'Mar-May â€” training'},
-      'JR|csa50|2026':      {games:13,t1:13,t2:0, role:'T1',   rank:1,notes:'Mar â€” primary CSA50 trader'},
+      'JR|ipl2|2026':       {games:20,t1:20,t2:0, role:'T1',   rank:1,notes:'Mar-May &mdash; training'},
+      'JR|csa50|2026':      {games:13,t1:13,t2:0, role:'T1',   rank:1,notes:'Mar &mdash; primary CSA50 trader'},
       'JR|t20_intl|2026':   {games:11,t1:6, t2:5, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'Oman':{g:3,t1:3,t2:0},'Sri Lanka':{g:3,t1:0,t2:3},'Bangladesh':{g:2,t1:2,t2:0},'UAE':{g:1,t1:0,t2:1},'Afghanistan':{g:1,t1:0,t2:1},'India':{g:1,t1:1,t2:0}}},
       'JR|odi_intl|2026':   {games:5, t1:4, t2:1, role:'T1/T2',rank:1,notes:'Various',homeCountries:{'Oman':{g:2,t1:2,t2:0},'Sri Lanka':{g:2,t1:0,t2:2},'UAE':{g:1,t1:1,t2:0}}},
-      'JR|bpl|2026':        {games:9, t1:9, t2:0, role:'T1',   rank:1,notes:'Jan â€” primary BPL trader'},
+      'JR|bpl|2026':        {games:9, t1:9, t2:0, role:'T1',   rank:1,notes:'Jan &mdash; primary BPL trader'},
       'JR|t20_intl|2025':   {games:4, t1:0, t2:4, role:'T2',   rank:3,notes:'Oct',homeCountries:{'New Zealand':{g:3,t1:0,t2:3},'UAE':{g:1,t1:0,t2:1}}},
       'JR|odi_intl|2025':   {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Oct',homeCountries:{'Bangladesh':{g:3,t1:0,t2:3}}},
       'JR|w_odi_intl|2025': {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Oct',homeCountries:{'Bangladesh':{g:1,t1:0,t2:1},'Pakistan':{g:1,t1:0,t2:1}}},
-      'JR|npl|2025':        {games:19,t1:19,t2:0, role:'T1',   rank:1,notes:'Nov-Dec â€” sole T1'},
+      'JR|npl|2025':        {games:19,t1:19,t2:0, role:'T1',   rank:1,notes:'Nov-Dec &mdash; sole T1'},
       'JR|csa|2025':        {games:1, t1:0, t2:1, role:'T2',   rank:3,notes:'Nov'},
       'JR|t20blast|2026':   {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'May'},
       'JR|w_blast|2026':    {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'May'},
@@ -1207,7 +1207,7 @@ let state={
       'JR|bdt20|2026':      {games:1, t1:1, t2:0, role:'T1',   rank:1,notes:'Feb'},
       'JR|w_odi_intl|2026': {games:4, t1:4, t2:0, role:'T1',   rank:1,notes:'Apr',homeCountries:{'South Africa':{g:4,t1:4,t2:0}}},
       'JR|w_t20_intl|2026': {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Apr',homeCountries:{'South Africa':{g:2,t1:0,t2:2}}},
-      'SG|ipl2|2026':       {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Apr-May â€” training'},
+      'SG|ipl2|2026':       {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Apr-May &mdash; training'},
       'SG|ipl|2026':        {games:2, t1:0, t2:2, role:'T2',   rank:3,notes:'Apr-May'},
       'SG|psl|2026':        {games:4, t1:0, t2:4, role:'T2',   rank:3,notes:'Apr-May'},
       'SG|t20_intl|2026':   {games:3, t1:0, t2:3, role:'T2',   rank:3,notes:'Apr-May',homeCountries:{'England':{g:2,t1:0,t2:2},'Pakistan':{g:1,t1:0,t2:1}}},
@@ -1329,25 +1329,25 @@ const CRITERIA = [
     3: 'Proficient at anticipating future match developments by recognising relevant indicators.\nIs a go-to resource used by other members of the team for cricket understanding questions.',
     4: 'N/A'
   },
-  { // Pricing â€“ Model biases
+  { // Pricing &#8211; Model biases
     1: 'Nothing expected.',
     2: 'Trader has learned to spot all the currently known model biases and can implement a solution.',
     3: 'Trader can innovate, or improve upon, a solution to a model bias, and implement it across the games they trade.\nPerforms well against other traders in pricing metrics in states of known biases.',
     4: 'Leads team in pricing metrics in states of known biases.\nTrader has spotted and innovated a solution to a model bias.\nThis solution is either in team-wide use, or quants have proved its efficacy and are including it in the model.'
   },
-  { // Pricing â€“ Not in model
+  { // Pricing &#8211; Not in model
     1: 'Some aptitude at applying simple adjustments.\nCan crudely factor in the model opinion vs market when making these adjustments.',
     2: 'Quick and accurate application of simple adjustments.\nDemonstrates some ability applying advanced adjustments.',
     3: 'Adept at quickly quantifying their cricket knowledge and understanding.\nApplying these adjustments or communicating them effectively as a T2.\nPerforms well against other traders in pricing metrics.',
     4: 'Leads team in pricing metrics.\nCan scale the value of their excellent ability to quantify adjustments team wide.'
   },
-  { // Execution â€“ Confidence
+  { // Execution &#8211; Confidence
     1: 'Some skill to choose an appropriate risk for a market.\nUnderstands some of the key factors that inform product confidence.',
     2: 'Has some understanding of product confidence and market strength in all potential match situations. Executes accordingly.',
     3: 'Has excellent understanding of product and market strength in almost all match situations. Executes accordingly.',
     4: 'Trader can scale their excellent ability to judge Mustard\'s edge to the rest of the team.'
   },
-  { // Execution â€“ Efficiency
+  { // Execution &#8211; Efficiency
     1: 'Use the AT with required speed and accuracy.\nSome awareness of positions, opinions and opportunities.',
     2: 'Ability to make various adjustments to execution strategy to suit conditions.',
     3: 'Ability to make advanced and accurate adjustment to execution strategy to suit conditions.\nSome ability to innovate new trading strategies.\nPerforms well against other traders in execution metrics.',
@@ -1389,7 +1389,7 @@ function renderGrid(){
 
   DOMAINS.forEach((domain,di)=>{
     const isExpanded = expandedDomain === di;
-    // Main row â€” domain cell is clickable to expand criteria
+    // Main row &mdash; domain cell is clickable to expand criteria
     html+=`<tr class="domain-row${isExpanded?' domain-row-expanded':''}">`;
     html+=`<td class="domain-cell domain-cell-expandable" onclick="toggleExpand(${di})" title="Click to see criteria">
       <div style="display:flex;align-items:center;gap:6px;">
@@ -1435,7 +1435,7 @@ function renderGrid(){
     }
     html+='</tr>';
 
-    // Expand row â€” criteria panel
+    // Expand row &mdash; criteria panel
     if(isExpanded){
       const crit = CRITERIA[di];
       const bandColors=['#c94f3a','#e8872a','#c9a227','#2a7f6f'];
@@ -1785,7 +1785,7 @@ const TRADER_AKA = {
   'JR':null,'AN':null,'BM':null,'SM':null,
 };
 
-// Responsibilities outside trading â€” each trader maps to an array of {title, description}
+// Responsibilities outside trading &mdash; each trader maps to an array of {title, description}
 const TRADER_RESPONSIBILITIES = {
   'EL':[],'HB':[],
   'JLB':[
@@ -1799,7 +1799,7 @@ const TRADER_RESPONSIBILITIES = {
 
 function getTenure(t){
   const start = TRADER_START_DATES[t];
-  if(!start) return 'â€”';
+  if(!start) return '&mdash;';
   const s = new Date(start);
   const now = new Date();
   let years = now.getFullYear() - s.getFullYear();
@@ -1823,7 +1823,7 @@ function getT1Games(t){
 }
 
 function getT1Pct(t){
-  if(!state.experience || !state.experience.records) return 'â€”';
+  if(!state.experience || !state.experience.records) return '&mdash;';
   let t1 = 0, total = 0;
   Object.entries(state.experience.records).forEach(([key, entry])=>{
     if(!key.startsWith(t+'|')) return;
@@ -1831,7 +1831,7 @@ function getT1Pct(t){
     t1 += entry.t1 || 0;
     total += entry.games || 0;
   });
-  if(!total) return 'â€”';
+  if(!total) return '&mdash;';
   return Math.round((t1/total)*100)+'%';
 }
 
@@ -1865,7 +1865,7 @@ function buildFifaCard(t){
     stat(oc.bat   ?? null, 'BAT',   'Office cricket batting score'),
     stat(oc.bowl  ?? null, 'BOWL',  'Office cricket bowling score'),
     stat(oc.field ?? null, 'FIELD', 'Office cricket fielding score'),
-    stat(aka || 'â€”',       'A.K.A', 'Nickname'),
+    stat(aka || '&mdash;',       'A.K.A', 'Nickname'),
   ].join('');
 
   return `<div class="trader-card-wrap">
@@ -1927,7 +1927,7 @@ let tierModalSelected = null;
 function openTierModal(t){
   tierModalTrader = t;
   tierModalSelected = (state.cardTier && state.cardTier[t]) || 'gold';
-  document.getElementById('tier-modal-title').textContent = `${t} â€” Choose card tier`;
+  document.getElementById('tier-modal-title').textContent = `${t} &mdash; Choose card tier`;
   renderTierGrid();
   document.getElementById('tier-modal').style.display='flex';
 }
@@ -1965,7 +1965,7 @@ function handleTierModalBg(e){if(e.target===document.getElementById('tier-modal'
 
 // ---- PROFILE ----
 function renderProfile(t){
-  document.getElementById('profile-page-title').textContent=(FULL_NAMES[t]||t)+' â€” Profile';
+  document.getElementById('profile-page-title').innerHTML=(FULL_NAMES[t]||t)+' &mdash; Profile';
   document.getElementById('profile-breadcrumb').innerHTML=`<span onclick="showPage('dashboard')" style="cursor:pointer">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>${FULL_NAMES[t]||t}</span>`;
   const scores=state.current[t],goals=state.goals[t],total=scores.reduce((a,b)=>a+b,0),rev=state.reviews[t];
   spiderCompareTrader=null;
@@ -2021,7 +2021,7 @@ function renderProfile(t){
 
   let promoHtml='';
   if(!nextPromo){
-    promoHtml=`<div style="font-size:13px;color:var(--expert);font-weight:600">&#10003; Maximum tier reached â€” Team Lead</div>`;
+    promoHtml=`<div style="font-size:13px;color:var(--expert);font-weight:600">&#10003; Maximum tier reached &mdash; Team Lead</div>`;
   } else if(currentPromo.special==='probation'){
     const domainsAt3Plus=scores.filter(s=>s>=2).length;
     const needed=5-domainsAt3Plus;
@@ -2060,7 +2060,7 @@ function renderProfile(t){
         <span style="font-size:13px;color:var(--text3)">&#8594;</span>
         <span class="promo-tier-badge" style="color:${nextPromo.color};border-color:${nextPromo.color}44;background:${nextPromo.color}18"><div class="promo-tier-dot" style="background:${nextPromo.color}"></div>${nextPromo.name}</span>
         ${close?`<span style="font-size:11px;background:var(--gold)22;color:var(--gold);padding:2px 8px;border-radius:8px;border:1px solid var(--gold)44">&#9733; Close to promotion</span>`:''}
-        <span style="margin-left:auto;font-size:11px;color:var(--text3)">${blockingDomains.length===0?'All thresholds met â€” ready for review!':blockingDomains.length+' domain'+( blockingDomains.length>1?'s':'')+' below threshold'}</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text3)">${blockingDomains.length===0?'All thresholds met &mdash; ready for review!':blockingDomains.length+' domain'+( blockingDomains.length>1?'s':'')+' below threshold'}</span>
       </div>
       ${gapRows}`;
   }
@@ -2144,7 +2144,7 @@ function openSpiderModal(t){
   canvas.width = size;
   canvas.height = size * 0.88;
 
-  document.getElementById('spider-modal-title').textContent = t + ' â€” Skill Radar';
+  document.getElementById('spider-modal-title').textContent = t + ' &mdash; Skill Radar';
 
   // Populate compare dropdown
   const sel = document.getElementById('spider-modal-compare');
@@ -2561,7 +2561,7 @@ function exportPDF(){
   const scoreRows=DOMAINS.map((d,di)=>`<tr><td>${d}</td><td style="color:${bc(scores[di])};font-weight:600">${scores[di]}/8</td><td>${bn(scores[di])}</td></tr>`).join('');
 
   const html=`<!DOCTYPE html><html><head><meta charset="UTF-8">
-  <title>${t} â€” Trader Profile</title>
+  <title>${t} &mdash; Trader Profile</title>
   <style>
     body{font-family:'DM Sans',Arial,sans-serif;color:#1a2744;margin:0;padding:32px;background:#fff;}
     h1{font-size:28px;color:#1a2744;margin:0;}
@@ -2630,7 +2630,7 @@ const FULL_CRITERIA=[
       {n:8,text:'N/A'}
     ]}
   ]},
-  {domain:'Pricing â€“ Model biases',desc:'The model carries biases that are both known and unknown. How well can the trader spot these biases, learn established solutions to mitigate, and innovate new solutions.',bands:[
+  {domain:'Pricing &#8211; Model biases',desc:'The model carries biases that are both known and unknown. How well can the trader spot these biases, learn established solutions to mitigate, and innovate new solutions.',bands:[
     {levels:[
       {n:1,text:'Nothing expected.'},
       {n:2,text:'Nothing expected.'}
@@ -2648,7 +2648,7 @@ const FULL_CRITERIA=[
       {n:8,text:'Leads team in pricing metrics in states of known biases. Trader has spotted, and innovated a solution to, a model bias. This solution is either in team wide use, or quants have proved its efficacy and are including it in the model.'}
     ]}
   ]},
-  {domain:'Pricing â€“ Not in model',desc:'How effective is the trader at converting their cricket knowledge and understanding into consistent and accurate adjustments to prices.',bands:[
+  {domain:'Pricing &#8211; Not in model',desc:'How effective is the trader at converting their cricket knowledge and understanding into consistent and accurate adjustments to prices.',bands:[
     {levels:[
       {n:1,text:'Some aptitude at applying: Simple bowling and batting order adjustments. Simple player ability adjustments. Simple player intent adjustments. Simple pitch adjustments.'},
       {n:2,text:'Can crudely factor in the model opinion v market when making these adjustments.'}
@@ -2666,7 +2666,7 @@ const FULL_CRITERIA=[
       {n:8,text:'Working with quants to include new features in the model, if required data is available.'}
     ]}
   ]},
-  {domain:'Execution â€“ Confidence',desc:'Knowledge of market strength and trader+model pricing strength, and how that varies or is likely to vary throughout a match.',bands:[
+  {domain:'Execution &#8211; Confidence',desc:'Knowledge of market strength and trader+model pricing strength, and how that varies or is likely to vary throughout a match.',bands:[
     {levels:[
       {n:1,text:'Some skill to choose an appropriate risk for a market. Understand some of the key factors that inform product confidence: Quantity of data, Quality of data, Size of any trader adjustments, Size of opinion v market, Confidence of trader, Gamestate.'},
       {n:2,text:'Some skill to choose an appropriate risk for a market. Understands some of the key factors that inform product confidence.'}
@@ -2684,7 +2684,7 @@ const FULL_CRITERIA=[
       {n:8,text:'Trader can scale their excellent ability to judge mustard\'s edge by teaching other traders their process or by working with EXE to automate paxman settings adjustments or innovating tools to help traders.'}
     ]}
   ]},
-  {domain:'Execution â€“ Efficiency',desc:'Given a desired risk appetite, how efficient is the trader at interacting with the liquidity available to maximise profit.',bands:[
+  {domain:'Execution &#8211; Efficiency',desc:'Given a desired risk appetite, how efficient is the trader at interacting with the liquidity available to maximise profit.',bands:[
     {levels:[
       {n:1,text:'Avoids being sniped by leaving the trader on too long or taking bets with the wrong score or active players. Turns the AT on at a reasonable speed following ball outcome information.'},
       {n:2,text:'Spots when offers are not going up and can solve when this is caused by max liab, max spread, min spread, tgtbt, min EV. Some skill at spotting where value bets are available. Some awareness of the positions/opinions they have.'}
@@ -2716,7 +2716,7 @@ const FULL_CRITERIA=[
   ]}
 ];
 
-const BAND_LABELS=['Beginner (1â€“2)','Intermediate (3â€“4)','Advanced (5â€“6)','Expert (7â€“8)'];
+const BAND_LABELS=['Beginner (1&#8211;2)','Intermediate (3&#8211;4)','Advanced (5&#8211;6)','Expert (7&#8211;8)'];
 const BAND_COLORS_CRITERIA=['#e05555','#e8872a','#d4a017','#3aaa5c'];
 let openCriteriaDomains=new Set();
 
@@ -2756,14 +2756,14 @@ function renderPromotionGuide(){
   const tierInfo=[
     {tier:TIERS_PROMO[0],description:'Starting tier for all new traders.',exit:'Exit requires 5 or more domains at level 2+.',rules:['Minimum 5 domains must reach level 2 or above','No minimum score in any specific domain','Focus: getting familiar with the fundamentals across all areas'],domainMins:null,special:'probation'},
     {tier:TIERS_PROMO[1],description:'Core trading role. Must demonstrate competence across all 6 trading domains.',exit:'Exit requires all 6 core trading domains at level 4+.',rules:['All 6 core trading domains must reach level 4 (Intermediate)','Non-Trading Work and Comms have no minimum requirement at this tier'],domainMins:TIERS_PROMO[1].mins},
-    {tier:TIERS_PROMO[2],description:'Senior role. Placeholder thresholds â€” to be confirmed.',exit:'Exit requires all domains at level 6+ (placeholder).',rules:['All 8 domains must reach level 6 (Advanced)','Thresholds subject to review'],domainMins:TIERS_PROMO[2].mins},
-    {tier:TIERS_PROMO[3],description:'Leadership role. Placeholder thresholds â€” to be confirmed.',exit:'Requires all domains at level 7+ (placeholder).',rules:['All 8 domains must reach level 7 (Expert band)','Thresholds subject to review'],domainMins:TIERS_PROMO[3].mins}
+    {tier:TIERS_PROMO[2],description:'Senior role. Placeholder thresholds &mdash; to be confirmed.',exit:'Exit requires all domains at level 6+ (placeholder).',rules:['All 8 domains must reach level 6 (Advanced)','Thresholds subject to review'],domainMins:TIERS_PROMO[2].mins},
+    {tier:TIERS_PROMO[3],description:'Leadership role. Placeholder thresholds &mdash; to be confirmed.',exit:'Requires all domains at level 7+ (placeholder).',rules:['All 8 domains must reach level 7 (Expert band)','Thresholds subject to review'],domainMins:TIERS_PROMO[3].mins}
   ];
   const tierCards=tierInfo.map(({tier,description,exit,rules,domainMins,special})=>{
     const ruleItems=rules.map(r=>`<div class="promo-guide-rule"><div class="promo-guide-rule-dot" style="background:${tier.color}"></div><div class="promo-guide-rule-text">${r}</div></div>`).join('');
     let domainSection='';
     if(domainMins){
-      const rows=DOMAINS.map((d,i)=>{const min=domainMins[i];return min===0?`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:var(--surface3);color:var(--text3)">â€”</span></div>`:`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:${bc(min)}22;color:${bc(min)}">${min}+</span></div>`;}).join('');
+      const rows=DOMAINS.map((d,i)=>{const min=domainMins[i];return min===0?`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:var(--surface3);color:var(--text3)">&mdash;</span></div>`:`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:${bc(min)}22;color:${bc(min)}">${min}+</span></div>`;}).join('');
       domainSection=`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)"><div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Minimum scores</div><div class="promo-guide-domain-grid">${rows}</div></div>`;
     } else if(special==='probation'){
       const rows=DOMAINS.map(d=>`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:${bc(2)}22;color:${bc(2)}">2+</span></div>`).join('');
@@ -2774,7 +2774,7 @@ function renderPromotionGuide(){
     return`<div class="promo-guide-tier-card"><div class="promo-guide-tier-header" style="border-left:4px solid ${tier.color}"><div class="promo-guide-tier-name" style="color:${tier.color}">${tier.name}</div><div class="promo-guide-tier-sub">${description}</div></div><div class="promo-guide-tier-body"><div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-style:italic">${exit}</div>${ruleItems}${domainSection}<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)"><div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Current traders</div><div class="promo-guide-trader-list">${pills}</div></div></div></div>`;
   }).join('');
   const nearTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t]));
-  const nearSection=nearTraders.length?`<div class="promo-guide-team-section"><div class="promo-guide-team-title">&#9733; Close to promotion</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">${nearTraders.map(t=>{const next=getNextPromoTier(state.current[t]);const gaps=(getPromoGaps(state.current[t])||[]).filter(g=>g.gap>0);return`<div class="promo-close-card" onclick="showPage('profile','${t}')"><div class="promo-close-header"><div style="width:24px;height:24px;border-radius:50%;background:${COLORS[t]};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:#0e1628;font-weight:700">${t}</div><div class="promo-close-name">${FULL_NAMES[t]||t}</div><span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span></div><div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:4px">${gaps.length?gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; '):'All thresholds met â€” ready for review'}</div></div>`;}).join('')}</div></div>`:'';
+  const nearSection=nearTraders.length?`<div class="promo-guide-team-section"><div class="promo-guide-team-title">&#9733; Close to promotion</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">${nearTraders.map(t=>{const next=getNextPromoTier(state.current[t]);const gaps=(getPromoGaps(state.current[t])||[]).filter(g=>g.gap>0);return`<div class="promo-close-card" onclick="showPage('profile','${t}')"><div class="promo-close-header"><div style="width:24px;height:24px;border-radius:50%;background:${COLORS[t]};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:#0e1628;font-weight:700">${t}</div><div class="promo-close-name">${FULL_NAMES[t]||t}</div><span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span></div><div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:4px">${gaps.length?gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; '):'All thresholds met &mdash; ready for review'}</div></div>`;}).join('')}</div></div>`:'';
   el.innerHTML=`<div class="promo-guide-tiers">${tierCards}</div>${nearSection}`;
 }
 function renderPromoOverview(){
@@ -2811,7 +2811,7 @@ function renderPromoOverview(){
         <div class="promo-close-name">${FULL_NAMES[t]||t}</div>
         <span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span>
       </div>
-      <div style="font-size:10px;color:var(--text3);line-height:1.6">${gapStr||'All thresholds met â€” ready for review'}</div>
+      <div style="font-size:10px;color:var(--text3);line-height:1.6">${gapStr||'All thresholds met &mdash; ready for review'}</div>
     </div>`;
   }).join('');
 
@@ -2866,7 +2866,7 @@ function evForTeamSize(n){
   // Look up from table or interpolate
   const row = EV_TABLE.find(r=>r[0]===n);
   if(row) return row[1];
-  // Beyond table â€” use last known marginal decline rate
+  // Beyond table &mdash; use last known marginal decline rate
   const last = EV_TABLE[EV_TABLE.length-1];
   const prev = EV_TABLE[EV_TABLE.length-2];
   const rate = (last[1]-prev[1])/(last[0]-prev[0]);
@@ -2911,7 +2911,7 @@ function renderRecruitment(){
   if((tierCounts['Trader']||0)<=2)pressure+=2;
   pressure=Math.min(10,pressure);
   const pressureColor=pressure>=7?'var(--beginner)':pressure>=4?'var(--intermediate)':'var(--expert)';
-  const pressureLabel=pressure>=7?'High â€” consider hiring soon':pressure>=4?'Moderate â€” monitor closely':'Low â€” team is well covered';
+  const pressureLabel=pressure>=7?'High &mdash; consider hiring soon':pressure>=4?'Moderate &mdash; monitor closely':'Low &mdash; team is well covered';
 
   // 6-month outlook
   const outlookItems=[];
@@ -2963,7 +2963,7 @@ function renderRecruitment(){
   el.innerHTML=`
     <!-- Model inputs -->
     <div class="recruit-card" style="margin-bottom:16px;">
-      <div class="recruit-card-title">Model inputs â€” adjust to recalculate</div>
+      <div class="recruit-card-title">Model inputs &mdash; adjust to recalculate</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;align-items:end;">
         <div>
           <div style="font-size:11px;color:var(--text3);margin-bottom:5px;">Actual team size (incl. managers)</div>
@@ -2994,7 +2994,7 @@ function renderRecruitment(){
         </div>
       </div>
       <button class="recruit-save-btn" style="margin-top:12px" onclick="applyModelInputs()">Recalculate</button>
-      <span style="font-size:11px;color:var(--text3);margin-left:10px">Note: EV values use the lookup table from the model sheet. Changing inputs updates the pressure score and outlook â€” a full recalculation requires updating the sheet.</span>
+      <span style="font-size:11px;color:var(--text3);margin-left:10px">Note: EV values use the lookup table from the model sheet. Changing inputs updates the pressure score and outlook &mdash; a full recalculation requires updating the sheet.</span>
     </div>
 
     <!-- EV value of next hire -->
@@ -3007,7 +3007,7 @@ function renderRecruitment(){
         <div style="font-size:12px;color:var(--text3)">Marginal gain from hiring: <span style="font-family:'DM Mono',monospace;color:${marginal>0?'var(--expert)':'var(--beginner)'}">${marginal>0?'+':''}${fmtGBP(marginal)}</span></div>
       </div>
       <div class="recruit-card">
-        <div class="recruit-card-title">Diminishing returns â€” value per hire as team grows</div>
+        <div class="recruit-card-title">Diminishing returns &mdash; value per hire as team grows</div>
         ${barRows}
       </div>
     </div>
@@ -3040,7 +3040,7 @@ function renderRecruitment(){
     <!-- Domains + Ideal profile -->
     <div class="recruit-grid" style="margin-top:14px;">
       <div class="recruit-card">
-        <div class="recruit-card-title">Team domain averages â€” weaknesses to target in hire</div>
+        <div class="recruit-card-title">Team domain averages &mdash; weaknesses to target in hire</div>
         ${weakRows}
       </div>
       <div class="recruit-card">
@@ -3052,7 +3052,7 @@ function renderRecruitment(){
 
     <!-- Value simulation -->
     <div class="recruit-card" style="margin-top:14px;">
-      <div class="recruit-card-title">Skill impact â€” how a new hire shifts team domain averages</div>
+      <div class="recruit-card-title">Skill impact &mdash; how a new hire shifts team domain averages</div>
       <div style="display:flex;gap:8px;margin-bottom:12px">
         ${['junior','trader','senior'].map(tier=>`<button onclick="setSimTier('${tier}')" style="padding:4px 14px;border-radius:12px;border:1px solid var(--border2);font-size:11px;cursor:pointer;transition:all .15s;background:${simTier===tier?'var(--gold-faint)':'transparent'};color:${simTier===tier?'var(--gold)':'var(--text2)'};">${tier==='junior'?'Junior Trader':tier==='trader'?'Trader':'Senior Trader'}</button>`).join('')}
       </div>
@@ -3171,7 +3171,7 @@ function getIntlCountry(tournId, defaultCountry){
 }
 
 // Get effective country for a tournament, factoring in per-record home country
-// Records have a notes field with e.g. "Jan â€” India" but most don't specify country
+// Records have a notes field with e.g. "Jan &mdash; India" but most don't specify country
 // We'll derive from the tournament's country field, except for pure intl series
 // where we look at what countries appear in the notes
 function getTournCountry(tourn){
@@ -3179,7 +3179,7 @@ function getTournCountry(tourn){
 }
 
 // Build a map of intl record home countries from the records keys
-// e.g. 'EL|odi_intl|2025' notes 'Various' â€” no per-game country
+// e.g. 'EL|odi_intl|2025' notes 'Various' &mdash; no per-game country
 // We'll assign based on what we know from the schedule parsing
 // For now group odi_intl/t20_intl by country stored in a lookup
 const INTL_COUNTRY_MAP = {
@@ -3233,7 +3233,7 @@ function renderExperience(){
     return 't20'; // default
   }
 
-  // Sort tournaments â€” filter by gender and format
+  // Sort tournaments &mdash; filter by gender and format
   let sortedTournaments = tournaments.filter(tourn=>{
     if(expGenderFilter==='mens' && isWomens(tourn.id)) return false;
     if(expGenderFilter==='womens' && !isWomens(tourn.id)) return false;
@@ -3268,7 +3268,7 @@ function renderExperience(){
       </div></th>`;
   }).join('');
 
-  // Build collapsed table â€” one row per tournament, totals across active years
+  // Build collapsed table &mdash; one row per tournament, totals across active years
   const tableHtml=sortedTournaments.map(tourn=>{
     const cells=TRADERS.map(t=>{
       const disp=getTournTotal(t,tourn.id);
@@ -3297,7 +3297,7 @@ function renderExperience(){
     </tr>`;
   }).join('');
 
-  // Country summary â€” use homeCountries for intl records, tournament country for others
+  // Country summary &mdash; use homeCountries for intl records, tournament country for others
   const intlTids = new Set(['odi_intl','t20_intl','w_odi_intl','w_t20_intl','ct','wct20_2026']);
 
   function getCountryGames(trader, tournId){
@@ -3347,10 +3347,10 @@ function renderExperience(){
         const cg = getCountryGames(trader, tourn.id);
         total += cg[country]||0;
       });
-      return `<td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:${total>0?600:400};color:${total>0?'var(--gold)':'var(--text3)'}">${total>0?total:'â€”'}</td>`;
+      return `<td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:${total>0?600:400};color:${total>0?'var(--gold)':'var(--text3)'}">${total>0?total:'&mdash;'}</td>`;
     }).join('');
     return `<tr><td class="exp-td-label">${country}</td>${cells}</tr>`;
-  }).filter(r=>!r.includes('>â€”</td>'.repeat(TRADERS.length))).join('');
+  }).filter(r=>!r.includes('>&mdash;</td>'.repeat(TRADERS.length))).join('');
 
   // Filter buttons
   const roleFilterBtns=['all','T1','T2'].map(f=>`<button onclick="setExpRoleFilter('${f}')" style="padding:4px 14px;border-radius:12px;border:1px solid var(--border2);font-size:11px;cursor:pointer;background:${expRoleFilter===f?'var(--gold-faint)':'transparent'};color:${expRoleFilter===f?'var(--gold)':'var(--text2)'}">${f==='all'?'All shifts':f==='T1'?'T1 only':'T2 only'}</button>`).join('');
@@ -3431,7 +3431,7 @@ function renderMetrics(){
   const atl=TRADERS.filter(t=>activeTraders.has(t));
 
   const periodBtns=periods.length===0
-    ? `<span style="font-size:12px;color:var(--text3);font-style:italic">No data yet â€” add a period to get started</span>`
+    ? `<span style="font-size:12px;color:var(--text3);font-style:italic">No data yet &mdash; add a period to get started</span>`
     : periods.map((p,i)=>`<button onclick="setMetricsPeriod(${i})" style="padding:4px 14px;border-radius:12px;border:1px solid var(--border2);font-size:11px;cursor:pointer;background:${i===activePeriodIdx?'var(--gold-faint)':'transparent'};color:${i===activePeriodIdx?'var(--gold)':'var(--text2)'}">${p.label}</button>`).join('');
 
   function teamAvg(p,mid){
@@ -3440,13 +3440,13 @@ function renderMetrics(){
     return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
   }
 
-  // TEAM section â€” one tile per metric
+  // TEAM section &mdash; one tile per metric
   const teamTiles=METRICS_CONFIG.map(metric=>{
     const avg=teamAvg(period,metric.id);
     const prevAvg=teamAvg(prevPeriod,metric.id);
     let arrow='',arrowCol='var(--text3)',trendNote='No data yet';
     if(avg!=null){
-      trendNote=prevAvg!=null?'':'â€”';
+      trendNote=prevAvg!=null?'':'&mdash;';
       if(avg!=null&&prevAvg!=null){
         const diff=avg-prevAvg;
         const improved=metric.higherIsBetter?diff>0:diff<0;
@@ -3458,7 +3458,7 @@ function renderMetrics(){
       }
     }
     const borderCol=arrow==='â–²'?'var(--expert)':arrow==='â–¼'?'var(--beginner)':'var(--border2)';
-    const displayVal=avg!=null?`${avg.toFixed(1)}${metric.unit}`:'â€”';
+    const displayVal=avg!=null?`${avg.toFixed(1)}${metric.unit}`:'&mdash;';
     return `<div style="flex:1;min-width:140px;background:var(--surface2);border:1px solid ${borderCol};border-radius:10px;padding:14px 16px">
       <div style="font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px">${metric.label}</div>
       <div style="font-family:'DM Mono',monospace;font-size:26px;font-weight:900;color:var(--gold);line-height:1">${displayVal}</div>
@@ -3471,7 +3471,7 @@ function renderMetrics(){
     const rows=metrics.map(metric=>{
       const cells=atl.map(t=>{
         const val=period?.data?.[t]?.[metric.id];
-        if(val===undefined||val===null) return `<td style="text-align:center;padding:8px 6px"><div style="font-size:13px;color:var(--text3)">â€”</div></td>`;
+        if(val===undefined||val===null) return `<td style="text-align:center;padding:8px 6px"><div style="font-size:13px;color:var(--text3)">&mdash;</div></td>`;
         const allVals=atl.map(tt=>period?.data?.[tt]?.[metric.id]).filter(v=>v!=null);
         const min=Math.min(...allVals),max=Math.max(...allVals),range=max-min||1;
         const score=metric.higherIsBetter?(val-min)/range:1-(val-min)/range;
@@ -3586,7 +3586,7 @@ function openExpEntry(t,tournId,year){
   expEntryCtx={t,tournId,year};
   const tourn=state.experience.tournaments.find(x=>x.id===tournId);
   const entry=getExpEntry(t,tournId,year)||{};
-  document.getElementById('exp-entry-title').textContent=`${FULL_NAMES[t]||t} â€” ${tourn?.name||tournId} ${year}`;
+  document.getElementById('exp-entry-title').textContent=`${FULL_NAMES[t]||t} &mdash; ${tourn?.name||tournId} ${year}`;
   document.getElementById('exp-year').value=year;
   document.getElementById('exp-games').value=entry.games||'';
   document.getElementById('exp-role').value=entry.role||'';
@@ -3647,7 +3647,7 @@ function confirmAddTournament(){
 function openAddYearModal(){
   const year=prompt('Add year (e.g. 2025):');
   if(!year||isNaN(parseInt(year))) return;
-  // Just re-render â€” the year will appear once data is entered for it
+  // Just re-render &mdash; the year will appear once data is entered for it
   showToast(`Year ${year} will appear when you add entries for it`);
 }
 
@@ -3680,7 +3680,7 @@ function parseSchedulePaste(raw){
   // Detect column indices
   const dateIdx=header.findIndex(h=>h.includes('date'));
   const tournIdx=header.findIndex(h=>h.includes('tournament')||h.includes('competition')||h.includes('league')||h.includes('match'));
-  // Find T1/T2 columns â€” look for trader names or T1/T2 labels
+  // Find T1/T2 columns &mdash; look for trader names or T1/T2 labels
   const t1Idx=header.findIndex(h=>h==='t1'||h.includes('t1 trader')||h.includes('primary'));
   const t2Idx=header.findIndex(h=>h==='t2'||h.includes('t2 trader')||h.includes('secondary'));
 
@@ -3727,7 +3727,7 @@ function matchTournamentId(name){
 }
 
 function confirmImport(){
-  if(!importParsed||!importParsed.rows.length){ showToast('Nothing to import â€” click Preview first'); return; }
+  if(!importParsed||!importParsed.rows.length){ showToast('Nothing to import &mdash; click Preview first'); return; }
   ensureExperience();
   let imported=0;
   // Count games per trader/tournament/year/role
