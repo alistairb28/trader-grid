@@ -892,9 +892,9 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 
 <script>
 const DOMAINS=['Cricket Knowledge','Cricket Understanding','Pricing - Model biases','Pricing - Not in model','Execution - Confidence','Execution - Efficiency','Non-Trading Work','Comms & Professionalism'];
-const TRADERS=['EL','JR','HB','JLB','SM','AN','BM','SG'];
-const COLORS={EL:'#a78bfa',JR:'#4a8ff5',HB:'#38bdf8',JLB:'#2ec090',SM:'#e8608a',AN:'#fb923c',BM:'#f472b6',SG:'#34d399'};
-const FULL_NAMES={EL:'Edward Lowe',JR:'John Robertson',HB:'Harry Bathurst',JLB:'Jordan Le Boutillier',SM:'Sulaiman Mirza',AN:'Alec Nicholls',BM:'Bob McCann',SG:'Sam Goody'};
+const TRADERS=['EL','JR','HB','JLB','SM','AN','BM','SG','SN'];
+const COLORS={EL:'#a78bfa',JR:'#4a8ff5',HB:'#38bdf8',JLB:'#2ec090',SM:'#e8608a',AN:'#fb923c',BM:'#f472b6',SG:'#34d399',SN:'#ff6b6b'};
+const FULL_NAMES={EL:'Edward Lowe',JR:'John Robertson',HB:'Harry Bathurst',JLB:'Jordan Le Boutillier',SM:'Sulaiman Mirza',AN:'Alec Nicholls',BM:'Bob McCann',SG:'Sam Goody',SN:'Siddarth Nayar'};
 
 // ---- PROMOTION TIERS ----
 // Edit the 'mins' array to change promotion thresholds per domain
@@ -957,24 +957,39 @@ const emptyMetas=()=>DOMAINS.map(()=>emptyMeta());
 const today=()=>new Date().toISOString().split('T')[0];
 
 let state={
-  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,4,3,3,4,3,4,5],SM:[7,6,2,3,2,2,1,2],AN:[2,2,2,2,2,3,4,4],BM:[3,3,2,2,3,3,4,3],SG:[3,3,1,1,1,1,1,1]},
-  goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,4,4,null,4],HB:[null,null,null,null,null,null,null,null],JLB:[null,null,4,null,null,4,null,null],SM:[null,null,null,null,3,3,2,null],AN:[null,null,null,null,null,null,null,null],BM:[null,null,null,null,null,null,null,null],SG:[null,null,null,null,null,null,null,null]},
+  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,4,3,3,4,3,4,5],SM:[7,6,2,3,2,2,1,2],AN:[2,2,2,2,2,3,4,4],BM:[3,3,2,2,3,3,4,3],SG:[3,3,1,1,1,1,1,1],SN:[1,1,1,1,1,1,1,1]},
+  goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,4,4,null,4],HB:[null,null,4,4,null,null,4,5],JLB:[null,null,4,null,null,4,null,null],SM:[null,null,null,null,3,3,2,null],AN:[null,null,3,3,null,null,4,4],BM:[null,null,3,3,null,null,4,4],SG:[null,null,null,null,null,null,null,null],SN:[null,null,null,null,null,null,null,null]},
   goalMeta:{EL:emptyMetas(),JR:(()=>{const m=emptyMetas();
     m[5]={notes:"Senior Traders are satisfied that John is anticipating and applying appropriate Paxman settings changes that increase Mustard's efficiency in a market given liquidity available.\n\nA reasoned explanation with referral to liquidity, volatility, market impact and expected market information is given when creating and selecting default and custom Paxman settings.\n\nRisks, spreads, moves, stake mults, sleep, take offers are all considered for AT purposes and when to use CTB, Gondor and PhoneBet are all considered and done with effectively good speed.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
     m[4]={notes:"Senior Traders are satisfied that John is anticipating moments in matches where the model is strong and weak, and able to adjust trading to maximise EV.\n\nUsing risks, liabilities, spreads and moves appropriately, John will be able to concisely outline why he believes the model is performing well and/or his adjustments are ones he is or isn't confident in.\n\nJohn shows speed and ability when using ticks and/or turning markets quickly and effectively to avoid bets he doesn't believe we want to take during an adjustment period.\n\nMarkets that are unaffected by ongoing adjustments continue to be traded during the adjustment period.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
     m[7]={notes:"John will present his aggression changes in women's cricket during a Trader Catchup.\n\nThe work done will provide useful information for both trading in game and also continue work that actively improves the women's model.\n\nGoal: 4 -> 4.5 (no grid level change, tracked qualitatively)\n\nDate to be set for TC, 14/12/26 for official review",date:'',quarter:'',status:'todo'};
-    return m;})(),HB:emptyMetas(),JLB:(()=>{const m=emptyMetas();
+    return m;})(),HB:(()=>{const m=emptyMetas();
+    m[2]={notes:'Consider what adjustments could be made to factors poorly handled by the model, and whether they should be made.\n\nCheck the change in price from making the adjustment.\n\nReflect post game on whether the adjustment was correct:\n- What was the trigger?\n- When did I notice it?\n- Could I have thought about it sooner?\n- Was it the right magnitude?\n- What change would you make next time?\n\nResources: Trader Matrix - The GRID, Systemising Trader Adjustments doc.\n\nGoal to be refined in fortnightly meetings. Senior report: AW',date:'',quarter:'',status:'todo'};
+    m[3]={notes:'Consider what adjustments could be made for factors not in the model, and whether they should be made.\n\nCheck the change in price from making the adjustment.\n\nReflect post game on whether the adjustment was correct:\n- What was the trigger?\n- When did I notice it?\n- Could I have thought about it sooner?\n- Was it the right magnitude?\n- What change would you make next time?\n\nResources: Trader Matrix - The GRID, Systemising Trader Adjustments doc.\n\nGoal to be refined in fortnightly meetings. Senior report: AW',date:'',quarter:'',status:'todo'};
+    m[6]={notes:"Onboarding - Successfully onboard Sam and Sid (make a decision on whether they are good enough, after appropriate training).\n\n- Make sure they know, for every shift, what they are supposed to do and who they are doing it with\n- Make sure the person working with them knows what they are focusing on at any one time\n- At the 6 month mark of each onboardee, make a well informed decision\n- Make use of the trader schedule and Slack for letting people know what's going on\n\nTimescale: 6 months for each onboardee. Senior report: AW",date:'',quarter:'',status:'todo'};
+    m[7]={notes:'Constructive Feedback & Collaboration - Partake in a culture of feedback and debate between traders. Recognise that lots of these debates have a correct answer.\n\nMeasurable via:\n- Post Game Reflections: 15-20 minute post game reflections/debates about questions that came up in-running, focused around Pricing domains\n- Fortnightly meetings: participating in and leading discussions in small group meetings\n\nTimescale: Fortnightly meetings until EoY appraisals. Senior report: AW',date:'',quarter:'',status:'todo'};
+    return m;})(),JLB:(()=>{const m=emptyMetas();
     m[2]={notes:"Senior Traders are satisfied that Jordan is anticipating and applying adjustments in Beefy that are likely to improve the raw model price against known biases.\n\nA reasoned explanation with referral to the aggression dictionary for almost all changes is required (subject to time available when trading).\n\nSenior report: AB",date:'2026-09-14',quarter:'',status:'todo'};
     m[5]={notes:"Senior Traders are satisfied that Jordan is anticipating and applying paxman settings changes that increase Mustard's efficiency in a market given liquidity available. Focussing mostly on market impact (considered max moves, spreads, sleep, when to CTB and able to logically explain settings choices).\n\nSenior report: AB",date:'2026-09-14',quarter:'',status:'todo'};
     return m;})(),SM:(()=>{const m=emptyMetas();
     m[4]={notes:"Senior Traders are satisfied that Sul is anticipating moments in matches where the model is strong and weak, and able to adjust trading to maximise EV.\n\nUsing risks, liabilities, spreads and moves appropriately, Sul will be able to concisely outline why he believes the model is performing well and/or his adjustments are ones he is or isn't confident in.\n\nSul shows speed and ability when using ticks and/or turning markets quickly and effectively to avoid bets he doesn't believe we want to take during an adjustment period.\n\nMarkets that are unaffected by ongoing adjustments continue to be traded during the adjustment period.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
     m[5]={notes:"Senior Traders are satisfied that Sul is anticipating and applying appropriate Paxman settings changes that increase Mustard's efficiency in a market given liquidity available.\n\nA reasoned explanation with referral to liquidity, volatility, market impact and expected market information is given when creating and selecting default and custom Paxman settings.\n\nRisks, spreads, moves, stake mults, sleep, take offers are all considered for AT purposes and when to use CTB, Gondor and PhoneBet are all considered and done with effectively good speed.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
     m[6]={notes:'Utilise cricket knowledge and understanding to provide valuable, practical tools that traders use in order to improve their pricing.\n\nThis will be up to Sul to decide the area he focuses on. He will present findings in a Trader Catchup or in a Trading Focussed Meeting and subsequently create documents to share to both Traders and Quants.\n\nSenior report: AB/MS/AW',date:'2026-12-14',quarter:'',status:'todo'};
-    return m;})(),AN:emptyMetas(),BM:emptyMetas(),SG:emptyMetas()},
-  generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:'',SG:''},
-  history:{EL:[],JR:[],HB:[],JLB:[],SM:[],AN:[],BM:[],SG:[]},
-  reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''},SG:{last:'',next:''}},
-  cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold',SG:'bronze'},
+    return m;})(),AN:(()=>{const m=emptyMetas();
+    m[2]={notes:'Consider what adjustments could be made to factors poorly handled by the model, and whether they should be made.\n\nCheck the change in price from making the adjustment.\n\nReflect post game on whether the adjustment was correct:\n- What was the trigger?\n- When did I notice it?\n- Could I have thought about it sooner?\n- Was it the right magnitude?\n- What change would you make next time?\n\nGoal to be refined in fortnightly meetings. Senior report: AW',date:'',quarter:'',status:'todo'};
+    m[3]={notes:'Consider what adjustments could be made for factors not in the model, and whether they should be made.\n\nCheck the change in price from making the adjustment.\n\nReflect post game on whether the adjustment was correct:\n- What was the trigger?\n- When did I notice it?\n- Could I have thought about it sooner?\n- Was it the right magnitude?\n- What change would you make next time?\n\nGoal to be refined in fortnightly meetings. Senior report: AW',date:'',quarter:'',status:'todo'};
+    m[6]={notes:"12thman Ownership - Take full ownership of the 12thman software.\n\nUse AI tools along with domain expertise to understand the codebase, maintain it, ship quality of life improvements and implement new features. Remain focused on providing tools that are useful to the wider team, not just interesting to code.\n\nSuccess metric: actual trader usage. If other traders actively want to use the tool, you have succeeded.\n\nPhase 1 (unknown duration): Working out how best to approach this - permissions, linux, gitlab etc. Acceptable for the entire 6 months to be spent on this.\nPhase 2: Shipping user requests.\nNote: These can run in parallel - the best way to learn is by shipping requests.\n\nWeekly 1-on-1 questions: What are you working on? Why? What's blocking you?\n\nSenior report: AW",date:'',quarter:'',status:'todo'};
+    m[7]={notes:'Constructive Feedback & Collaboration - Partake in a culture of feedback and debate between traders. Recognise that lots of these debates have a correct answer.\n\nMeasurable via:\n- Post Game Reflections: 15-20 minute post game reflections/debates about questions that came up in-running, focused around Pricing domains\n- Fortnightly meetings: participating in and leading discussions in small group meetings\n\nTimescale: Fortnightly meetings until EoY appraisals. Senior report: AW',date:'',quarter:'',status:'todo'};
+    return m;})(),BM:(()=>{const m=emptyMetas();
+    m[2]={notes:'Consider what adjustments could be made to factors poorly handled by the model, and whether they should be made.\n\nCheck the change in price from making the adjustment.\n\nReflect post game on whether the adjustment was correct:\n- What was the trigger?\n- When did I notice it?\n- Could I have thought about it sooner?\n- Was it the right magnitude?\n- What change would you make next time?\n\nGoal to be refined in fortnightly meetings. Senior report: AW',date:'',quarter:'',status:'todo'};
+    m[3]={notes:'Consider what adjustments could be made for factors not in the model, and whether they should be made.\n\nCheck the change in price from making the adjustment.\n\nReflect post game on whether the adjustment was correct:\n- What was the trigger?\n- When did I notice it?\n- Could I have thought about it sooner?\n- Was it the right magnitude?\n- What change would you make next time?\n\nGoal to be refined in fortnightly meetings. Senior report: AW',date:'',quarter:'',status:'todo'};
+    m[6]={notes:'Settings and Risk Decision Doc, Flowchart and Presentation.\n\nCreate an "if this, then that" flowchart of risk decision making, with particular focus on risk changes and min EV etc towards ends of innings.\n\nThe goal is to have an official decision made, with excellent justifications, as to why you should change setting X in situation Y. It should be well reasoned enough that everyone refers to it when trading. Make actual changes to team behaviour, not just talk about it.\n\nStretch goal: Speak with market replay people about whether we can test our hypotheses.\n\nProcess: Lead discussion in TC, gather people\'s ideas, make a doc, present it in TC with supporting document showing suggested behaviours.\n\nSenior report: AW',date:'',quarter:'',status:'todo'};
+    m[7]={notes:'Constructive Feedback & Collaboration - Partake in a culture of feedback and debate between traders. Recognise that lots of these debates have a correct answer.\n\nMeasurable via:\n- Post Game Reflections: 15-20 minute post game reflections/debates about questions that came up in-running, focused around Pricing domains\n- Fortnightly meetings: participating in and leading discussions in small group meetings\n\nTimescale: Fortnightly meetings until EoY appraisals. Senior report: AW',date:'',quarter:'',status:'todo'};
+    return m;})(),SG:emptyMetas(),SN:emptyMetas()},
+  generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:'',SG:'',SN:''},
+  history:{EL:[],JR:[],HB:[],JLB:[],SM:[],AN:[],BM:[],SG:[],SN:[]},
+  reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''},SG:{last:'',next:''},SN:{last:'',next:''}},
+  cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold',SG:'bronze',SN:'bronze'},
   recruitmentNotes:{overview:'',hiring:'',timeline:'',idealProfile:''},
   experience:{
     tournaments:[
@@ -1730,6 +1745,14 @@ const SILHOUETTES = {
   <path d="M52 120 L68 120 M56 120 L52 118 M62 120 L60 118 M68 120 L72 118"/>
 </svg>`,
 
+'SN': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.4)">
+  <circle cx="50" cy="18" r="14"/>
+  <path d="M26 42 Q28 36 50 34 Q72 36 74 42 L70 74 Q60 78 50 78 Q40 78 30 74 Z"/>
+  <path d="M26 42 Q16 48 12 66 Q14 72 20 70 Q26 54 32 48 Z"/>
+  <path d="M74 42 Q84 48 88 66 Q86 72 80 70 Q74 54 68 48 Z"/>
+  <path d="M32 74 Q28 92 28 108 Q34 112 38 108 Q40 90 42 76 Z"/>
+  <path d="M68 74 Q72 92 72 108 Q66 112 62 108 Q60 90 58 76 Z"/>
+</svg>`,
 'SM': `<svg class="card-silhouette" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" fill="rgba(0,0,0,0.4)">
   <ellipse cx="52" cy="52" rx="22" ry="42" transform="rotate(80,52,52)"/>
   <path d="M20 44 L4 34 L12 50 L4 66 L20 58 Z"/>
@@ -1757,12 +1780,13 @@ const TRADER_START_DATES = {
   'JLB': '2024-09-23',
   'JR':  '2025-10-01',
   'SG':  '2026-04-27',
+  'SN':  '2026-07-01',
   'AN':  '2024-09-17',
   'BM':  '2024-07-01',
   'SM':  '2024-12-02',
 };
 const TRADER_LM = {
-  'EL':'MS','HB':'AW','JLB':'AB','JR':'AB','SG':'HB','AN':'AW','BM':'AW','SM':'AB'
+  'EL':'MS','HB':'AW','JLB':'AB','JR':'AB','SG':'HB','SN':'HB','AN':'AW','BM':'AW','SM':'AB'
 };
 const TRADER_OC = {
   'EL': {bat:83,bowl:76,field:-10},
@@ -1770,6 +1794,7 @@ const TRADER_OC = {
   'JLB':{bat:64,bowl:51,field:60},
   'JR': {bat:64,bowl:50,field:60},
   'SG': {bat:null,bowl:null,field:null},
+  'SN': {bat:null,bowl:null,field:null},
   'AN': {bat:33,bowl:37,field:60},
   'BM': {bat:72,bowl:55,field:40},
   'SM': {bat:60,bowl:55,field:99},
@@ -1777,12 +1802,12 @@ const TRADER_OC = {
 
 const TRADER_SURNAMES = {
   'EL':'Lowe','HB':'Bathurst','JLB':'Le Boutillier','JR':'Robertson',
-  'SG':'Goody','AN':'Nicholls','BM':'McCann','SM':'Mirza'
+  'SG':'Goody','SN':'Nayar','AN':'Nicholls','BM':'McCann','SM':'Mirza'
 };
 
 const TRADER_AKA = {
   'EL':'Egg','HB':'Bomber','JLB':'Boots','SG':'Snoody',
-  'JR':null,'AN':null,'BM':null,'SM':null,
+  'JR':null,'AN':null,'BM':null,'SM':null,'SN':null,
 };
 
 // Responsibilities outside trading &mdash; each trader maps to an array of {title, description}
@@ -1794,7 +1819,7 @@ const TRADER_RESPONSIBILITIES = {
       description:"Take up the role as point of contact for the Trading Team in relation to the Overseas Office. Relay information to and from decision makers to come to a conclusion by the end of 2026.\n\n14/09/26 for role performance, 31/12/26 for conclusion.\n\nSenior report: LF/AB/MS"
     }
   ],
-  'JR':[],'SG':[],'AN':[],'BM':[],'SM':[],
+  'JR':[],'SG':[],'AN':[],'BM':[],'SM':[],'SN':[],
 };
 
 function getTenure(t){
