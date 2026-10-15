@@ -998,7 +998,16 @@ const TIERS_PROMO = [
   { name: 'Team Lead',     short: 'Lead',      color: '#3aaa5c', mins: [7,7,7,7,7,7,7,7] },
 ];
 
-function getPromoTier(scores){
+// Tier set by role rather than scores (e.g. management). Scores still show as rated.
+const TIER_OVERRIDES = {
+  'MS':'Team Lead','AW':'Team Lead','AB':'Team Lead',
+};
+
+function getPromoTier(scores, trader){
+  if(trader && TIER_OVERRIDES[trader]){
+    const o = TIERS_PROMO.find(x=>x.name===TIER_OVERRIDES[trader]);
+    if(o) return o;
+  }
   // Probation: fewer than 5 domains at 3 or above
   const domainsAt3Plus = scores.filter(s=>s>=2).length;
   if(domainsAt3Plus < 5) return TIERS_PROMO[0];
@@ -1010,16 +1019,16 @@ function getPromoTier(scores){
   return tier;
 }
 
-function getNextPromoTier(scores){
-  const current = getPromoTier(scores);
+function getNextPromoTier(scores, trader){
+  const current = getPromoTier(scores, trader);
   const idx = TIERS_PROMO.indexOf(current);
   return idx < TIERS_PROMO.length-1 ? TIERS_PROMO[idx+1] : null;
 }
 
-function getPromoGaps(scores){
-  const next = getNextPromoTier(scores);
+function getPromoGaps(scores, trader){
+  const next = getNextPromoTier(scores, trader);
   if(!next) return null;
-  if(next.special === undefined && getPromoTier(scores).special === 'probation'){
+  if(next.special === undefined && getPromoTier(scores, trader).special === 'probation'){
     return DOMAINS.map((d,i)=>({domain:d, current:scores[i], needed:2, gap:Math.max(0,2-scores[i])}))
       .sort((a,b)=>a.gap-b.gap);
   }
@@ -1027,16 +1036,16 @@ function getPromoGaps(scores){
   return DOMAINS.map((d,i)=>({domain:d, current:scores[i], needed:next.mins[i], gap:Math.max(0,next.mins[i]-scores[i])}));
 }
 
-function isCloseToPromotion(scores, threshold=1){
-  const current=getPromoTier(scores);
-  const next=getNextPromoTier(scores);
+function isCloseToPromotion(scores, threshold=1, trader){
+  const current=getPromoTier(scores, trader);
+  const next=getNextPromoTier(scores, trader);
   if(!next)return false;
   if(current.special==='probation'){
     const domainsAt2Plus=scores.filter(s=>s>=2).length;
     const needed=5-domainsAt2Plus;
     return needed>0 && needed<=3 && scores.filter(s=>s===1).every(s=>s>=1);
   }
-  const gaps=getPromoGaps(scores);
+  const gaps=getPromoGaps(scores, trader);
   if(!gaps)return false;
   const blocking=gaps.filter(g=>g.gap>0);
   return blocking.length>0 && blocking.length<=3 && blocking.every(g=>g.gap<=1);
@@ -1048,7 +1057,7 @@ const emptyMetas=()=>DOMAINS.map(()=>emptyMeta());
 const today=()=>new Date().toISOString().split('T')[0];
 
 let state={
-  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,4,4,4,4,4,4,5],SM:[7,6,2,3,2,2,1,2],AN:[3,3,4,4,4,4,5,5],BM:[3,3,2,2,3,3,4,3],SG:[3,3,2,2,2,2,1,1],SN:[1,1,1,1,1,1,1,1],MS:[5,5,7,7,7,6,7,7],AW:[4,4,6,6,6,7,8,8],AB:[7,6,7,7,7,7,6,6]},
+  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,3,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,4,4,4,4,4,4,5],SM:[7,6,3,3,3,3,1,2],AN:[3,3,4,4,4,4,5,5],BM:[3,3,2,2,3,3,4,3],SG:[3,3,2,2,2,2,1,1],SN:[1,1,1,1,1,1,1,1],MS:[5,5,7,7,7,6,7,7],AW:[4,4,6,6,6,7,8,8],AB:[7,6,7,7,7,7,6,6]},
   goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,4,4,null,4],HB:[null,null,4,4,null,null,4,5],JLB:[null,null,4,null,null,4,null,null],SM:[null,null,null,null,3,3,2,null],AN:[null,null,3,3,null,null,4,4],BM:[null,null,3,3,null,null,4,4],SG:[null,null,null,null,null,null,null,null],SN:[null,null,null,null,null,null,null,null],MS:[null,null,null,null,null,null,null,null],AW:[null,null,null,null,null,null,null,null],AB:[null,null,null,null,null,null,null,null]},
   goalMeta:{EL:emptyMetas(),JR:(()=>{const m=emptyMetas();
     m[5]={notes:"Senior Traders are satisfied that John is anticipating and applying appropriate Paxman settings changes that increase Mustard's efficiency in a market given liquidity available.\n\nA reasoned explanation with referral to liquidity, volatility, market impact and expected market information is given when creating and selecting default and custom Paxman settings.\n\nRisks, spreads, moves, stake mults, sleep, take offers are all considered for AT purposes and when to use CTB, Gondor and PhoneBet are all considered and done with effectively good speed.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
@@ -1078,7 +1087,7 @@ let state={
     m[7]={notes:'Constructive Feedback & Collaboration - Partake in a culture of feedback and debate between traders. Recognise that lots of these debates have a correct answer.\n\nMeasurable via:\n- Post Game Reflections: 15-20 minute post game reflections/debates about questions that came up in-running, focused around Pricing domains\n- Fortnightly meetings: participating in and leading discussions in small group meetings\n\nTimescale: Fortnightly meetings until EoY appraisals. Senior report: AW',date:'',quarter:'',status:'todo'};
     return m;})(),SG:emptyMetas(),SN:emptyMetas(),MS:emptyMetas(),AW:emptyMetas(),AB:emptyMetas()},
   generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:'',SG:'',SN:'',MS:'',AW:'',AB:''},
-  history:{EL:[],JR:[],HB:[],JLB:[{date:'2026-10-15',di:2,from:3,to:4},{date:'2026-10-15',di:3,from:3,to:4},{date:'2026-10-15',di:5,from:3,to:4}],SM:[],AN:[{date:'2026-10-15',di:0,from:2,to:3},{date:'2026-10-15',di:1,from:2,to:3},{date:'2026-10-15',di:2,from:2,to:4},{date:'2026-10-15',di:3,from:2,to:4},{date:'2026-10-15',di:4,from:2,to:4},{date:'2026-10-15',di:5,from:3,to:4},{date:'2026-10-15',di:6,from:4,to:5},{date:'2026-10-15',di:7,from:4,to:5}],BM:[],SG:[{date:'2026-10-15',di:2,from:1,to:2},{date:'2026-10-15',di:3,from:1,to:2},{date:'2026-10-15',di:4,from:1,to:2},{date:'2026-10-15',di:5,from:1,to:2}],SN:[],MS:[],AW:[],AB:[]},
+  history:{EL:[],JR:[{date:'2026-10-15',di:2,from:2,to:3}],HB:[],JLB:[{date:'2026-10-15',di:2,from:3,to:4},{date:'2026-10-15',di:3,from:3,to:4},{date:'2026-10-15',di:5,from:3,to:4}],SM:[{date:'2026-10-15',di:2,from:2,to:3},{date:'2026-10-15',di:4,from:2,to:3},{date:'2026-10-15',di:5,from:2,to:3}],AN:[{date:'2026-10-15',di:0,from:2,to:3},{date:'2026-10-15',di:1,from:2,to:3},{date:'2026-10-15',di:2,from:2,to:4},{date:'2026-10-15',di:3,from:2,to:4},{date:'2026-10-15',di:4,from:2,to:4},{date:'2026-10-15',di:5,from:3,to:4},{date:'2026-10-15',di:6,from:4,to:5},{date:'2026-10-15',di:7,from:4,to:5}],BM:[],SG:[{date:'2026-10-15',di:2,from:1,to:2},{date:'2026-10-15',di:3,from:1,to:2},{date:'2026-10-15',di:4,from:1,to:2},{date:'2026-10-15',di:5,from:1,to:2}],SN:[],MS:[],AW:[],AB:[]},
   reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''},SG:{last:'',next:''},SN:{last:'',next:''},MS:{last:'',next:''},AW:{last:'',next:''},AB:{last:'',next:''}},
   cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold',SG:'silver',SN:'bronze',MS:'gold',AW:'gold',AB:'gold'},
   recruitmentNotes:{overview:'',hiring:'',timeline:'',idealProfile:''},
@@ -1380,7 +1389,7 @@ function renderSidebar(){
     }
     const isFocused=focusTrader===t;
     const isActive=activeTraders.has(t);
-    const promoTier=getPromoTier(state.current[t]);
+    const promoTier=getPromoTier(state.current[t],t);
     const div=document.createElement('div');
     div.className='trader-item'+(isActive?' selected':' dim');
     if(isFocused)div.style.borderColor=COLORS[t];
@@ -1414,7 +1423,7 @@ function renderStats(){
   const strip=document.getElementById('stats-strip');
   const allGoals=TRADERS.flatMap(t=>state.goals[t].map((g,di)=>g?{t,di,g,meta:state.goalMeta[t][di]}:null).filter(Boolean));
   const overdueRevs=TRADERS.filter(t=>{const r=state.reviews[t];return r.next&&new Date(r.next)<new Date();}).length;
-  const nearPromo=TRADERS.filter(t=>isCloseToPromotion(state.current[t])).length;
+  const nearPromo=TRADERS.filter(t=>isCloseToPromotion(state.current[t],1,t)).length;
   strip.innerHTML=[
     {val:allGoals.length,label:'Active goals',color:'var(--text)'},
     {val:overdueRevs,label:'Reviews due',color:overdueRevs>0?'var(--beginner)':'var(--expert)'},
@@ -1879,7 +1888,7 @@ const TRADER_START_DATES = {
 };
 const TRADER_LM = {
   'EL':'MS','HB':'AW','JLB':'AB','JR':'AB','SG':'HB','SN':'HB','AN':'AW','BM':'AW','SM':'AB',
-  'MS':null,'AW':null,'AB':null
+  'MS':null,'AW':'MS','AB':'MS'
 };
 const TRADER_OC = {
   'EL': {bat:83,bowl:76,field:-10},
@@ -1921,6 +1930,9 @@ const TRADER_RESPONSIBILITIES = {
 // Job titles that differ from the grid tier. The tier still drives promotion tracking.
 const TRADER_TITLES = {
   'AN':'EXE Product Owner',
+  'MS':'Head of Cricket',
+  'AW':'Cricket Development Lead',
+  'AB':'Cricket Trading Lead',
 };
 // Promotion Outlook sections off the tier ladder (otherwise a job title gets its own section)
 const OUTLOOK_SECTIONS = {
@@ -2144,10 +2156,10 @@ function renderProfile(t){
   }).join('');
 
   // Promotion status
-  const currentPromo=getPromoTier(scores);
-  const nextPromo=getNextPromoTier(scores);
-  const promoGaps=getPromoGaps(scores);
-  const close=isCloseToPromotion(scores);
+  const currentPromo=getPromoTier(scores,t);
+  const nextPromo=getNextPromoTier(scores,t);
+  const promoGaps=getPromoGaps(scores,t);
+  const close=isCloseToPromotion(scores,1,t);
 
   let promoHtml='';
   if(!nextPromo){
@@ -2901,12 +2913,12 @@ function renderPromotionGuide(){
       const rows=DOMAINS.map(d=>`<div class="promo-guide-domain-row"><div class="promo-guide-domain-name">${d}</div><span class="promo-guide-domain-score" style="background:${bc(2)}22;color:${bc(2)}">2+</span></div>`).join('');
       domainSection=`<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)"><div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Need 5 of these at 2+</div><div class="promo-guide-domain-grid">${rows}</div></div>`;
     }
-    const traders=TRADERS.filter(t=>getPromoTier(state.current[t])===tier);
+    const traders=TRADERS.filter(t=>getPromoTier(state.current[t],t)===tier);
     const pills=traders.length?traders.map(t=>`<div class="promo-guide-trader-pill" style="background:${COLORS[t]}22;border-color:${COLORS[t]}44;color:${COLORS[t]}" onclick="showPage('profile','${t}')"><div style="width:7px;height:7px;border-radius:50%;background:${COLORS[t]}"></div>${FULL_NAMES[t]||t}</div>`).join(''):`<span style="font-size:12px;color:var(--text3);font-style:italic">No traders at this tier</span>`;
     return`<div class="promo-guide-tier-card"><div class="promo-guide-tier-header" style="border-left:4px solid ${tier.color}"><div class="promo-guide-tier-name" style="color:${tier.color}">${tier.name}</div><div class="promo-guide-tier-sub">${description}</div></div><div class="promo-guide-tier-body"><div style="font-size:11px;color:var(--text3);margin-bottom:10px;font-style:italic">${exit}</div>${ruleItems}${domainSection}<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)"><div style="font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:8px">Current traders</div><div class="promo-guide-trader-list">${pills}</div></div></div></div>`;
   }).join('');
-  const nearTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t]));
-  const nearSection=nearTraders.length?`<div class="promo-guide-team-section"><div class="promo-guide-team-title">&#9733; Close to promotion</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">${nearTraders.map(t=>{const next=getNextPromoTier(state.current[t]);const gaps=(getPromoGaps(state.current[t])||[]).filter(g=>g.gap>0);return`<div class="promo-close-card" onclick="showPage('profile','${t}')"><div class="promo-close-header"><div style="width:24px;height:24px;border-radius:50%;background:${COLORS[t]};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:#0e1628;font-weight:700">${t}</div><div class="promo-close-name">${FULL_NAMES[t]||t}</div><span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span></div><div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:4px">${gaps.length?gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; '):'All thresholds met &mdash; ready for review'}</div></div>`;}).join('')}</div></div>`:'';
+  const nearTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t],1,t));
+  const nearSection=nearTraders.length?`<div class="promo-guide-team-section"><div class="promo-guide-team-title">&#9733; Close to promotion</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">${nearTraders.map(t=>{const next=getNextPromoTier(state.current[t],t);const gaps=(getPromoGaps(state.current[t],t)||[]).filter(g=>g.gap>0);return`<div class="promo-close-card" onclick="showPage('profile','${t}')"><div class="promo-close-header"><div style="width:24px;height:24px;border-radius:50%;background:${COLORS[t]};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:#0e1628;font-weight:700">${t}</div><div class="promo-close-name">${FULL_NAMES[t]||t}</div><span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span></div><div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:4px">${gaps.length?gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; '):'All thresholds met &mdash; ready for review'}</div></div>`;}).join('')}</div></div>`:'';
   el.innerHTML=`<div class="promo-guide-tiers">${tierCards}</div>${nearSection}`;
 }
 // ---- PROMOTION OUTLOOK ----
@@ -2929,7 +2941,7 @@ function poCriteriaText(di,lvl){
 }
 function poBadge(tier){return`<span class="promo-tier-badge" style="font-size:10px;color:${tier.color};border-color:${tier.color}44;background:${tier.color}18">${tier.name}</span>`;}
 function getPromoOutlook(t){
-  const s=state.current[t],tier=getPromoTier(s),next=getNextPromoTier(s),now=today();
+  const s=state.current[t],tier=getPromoTier(s,t),next=getNextPromoTier(s,t),now=today();
   const goalFor=i=>{
     const g=state.goals[t]&&state.goals[t][i];if(!g)return null;
     const m=(state.goalMeta[t]&&state.goalMeta[t][i])||emptyMeta();
@@ -3001,7 +3013,7 @@ function poCard(t,o){
   const prog=o.next?`<div class="po-prog" title="${o.metCount} of ${o.needCount} required domains at the level needed"><div class="po-prog-bar"><div style="width:${pct}%;background:${b.color}"></div></div><div class="po-prog-txt">${o.metCount}/${o.needCount} at level</div></div>`:'';
   const head=`<div class="po-head" onclick="poToggle('${t}')">
     <div class="po-avatar" style="background:${COLORS[t]}">${t}</div>
-    <div class="po-who"><div class="po-name">${FULL_NAMES[t]||t}</div><div class="po-meta">${TRADER_TITLES[t]?`<span style="color:var(--gold)">${TRADER_TITLES[t]}</span> &bull; `:''}${getTenure(t)} at Mustard${TRADER_LM[t]?` &bull; LM ${TRADER_LM[t]}`:''}</div></div>
+    <div class="po-who"><div class="po-name">${FULL_NAMES[t]||t}</div><div class="po-meta">${[TRADER_TITLES[t]?`<span style="color:var(--gold)">${TRADER_TITLES[t]}</span>`:'',TRADER_START_DATES[t]?`${getTenure(t)} at Mustard`:'',TRADER_LM[t]?`LM ${TRADER_LM[t]}`:''].filter(Boolean).join(' &bull; ')}</div></div>
     <div class="po-move">${poBadge(o.tier)}${o.next?`<span class="po-arrow">&rarr;</span>${poBadge(o.next)}`:''}</div>
     ${o.next?poStrip(t,o):''}
     ${prog}
@@ -3095,7 +3107,7 @@ function renderPromoOverview(){
   // Tier breakdown
   const tierGroups={};
   TIERS_PROMO.forEach(t=>tierGroups[t.name]=[]);
-  TRADERS.forEach(t=>{const tier=getPromoTier(state.current[t]);tierGroups[tier.name].push(t);});
+  TRADERS.forEach(t=>{const tier=getPromoTier(state.current[t],t);tierGroups[tier.name].push(t);});
 
   const tierSummary=TIERS_PROMO.map(tier=>{
     const members=tierGroups[tier.name];
@@ -3111,10 +3123,10 @@ function renderPromoOverview(){
   }).filter(Boolean).join('');
 
   // Near promotion
-  const nearTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t]));
+  const nearTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t],1,t));
   const nearCards=nearTraders.map(t=>{
-    const next=getNextPromoTier(state.current[t]);
-    const gaps=getPromoGaps(state.current[t]).filter(g=>g.gap>0);
+    const next=getNextPromoTier(state.current[t],t);
+    const gaps=getPromoGaps(state.current[t],t).filter(g=>g.gap>0);
     const gapStr=gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; ');
     return `<div class="promo-close-card" onclick="showPage('profile','${t}')">
       <div class="promo-close-header">
@@ -3209,9 +3221,9 @@ function renderRecruitment(){
   // Tier counts
   const tierCounts={};
   TIERS_PROMO.forEach(t=>tierCounts[t.name]=0);
-  TRADERS.forEach(t=>tierCounts[getPromoTier(state.current[t]).name]++);
+  TRADERS.forEach(t=>tierCounts[getPromoTier(state.current[t],t).name]++);
   const onProbation=tierCounts['Probation']||0;
-  const nearPromo=TRADERS.filter(t=>isCloseToPromotion(state.current[t])).length;
+  const nearPromo=TRADERS.filter(t=>isCloseToPromotion(state.current[t],1,t)).length;
 
   // Pressure score
   let pressure=0;
@@ -3226,9 +3238,9 @@ function renderRecruitment(){
 
   // 6-month outlook
   const outlookItems=[];
-  const nearPromoTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t]));
+  const nearPromoTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t],1,t));
   if(nearPromoTraders.length){
-    const nextTiers=[...new Set(nearPromoTraders.map(t=>getNextPromoTier(state.current[t])?.name).filter(Boolean))];
+    const nextTiers=[...new Set(nearPromoTraders.map(t=>getNextPromoTier(state.current[t],t)?.name).filter(Boolean))];
     outlookItems.push({icon:'â†‘',color:'var(--expert)',bg:'rgba(58,170,92,.15)',text:`${nearPromoTraders.length} trader${nearPromoTraders.length>1?'s are':' is'} close to promotion to ${nextTiers.join(' or ')}. This may create capacity gaps at junior levels.`});
   }
   if(onProbation>0)outlookItems.push({icon:'!',color:'var(--beginner)',bg:'rgba(224,85,85,.15)',text:`${onProbation} trader${onProbation>1?'s are':' is'} on Probation. Continued underperformance may create a capacity risk.`});
