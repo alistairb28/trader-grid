@@ -526,31 +526,85 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .promo-guide-trader-pill:hover{opacity:.8;}
 
 /* Promotion outlook page */
-.po-table{width:100%;border-collapse:collapse;font-size:12px;}
-.po-table th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);padding:6px 8px;border-bottom:1px solid var(--border2);white-space:nowrap;}
-.po-table td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle;}
-.po-table tr:last-child td{border-bottom:none;}
-.po-sum-row{cursor:pointer;}
-.po-sum-row:hover td{background:var(--surface2);}
-.po-group-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:22px 0 10px;}
-.po-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:12px;scroll-margin-top:16px;}
-.po-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
-.po-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:#0e1628;font-weight:700;flex-shrink:0;}
-.po-name{font-size:15px;font-weight:600;color:var(--text);cursor:pointer;}
-.po-name:hover{text-decoration:underline;}
+.po-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+.po-tile{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--c);border-radius:var(--radius-lg);padding:12px 14px;cursor:pointer;transition:all .15s;}
+.po-tile:hover{background:var(--surface2);}
+.po-tile.on{background:var(--surface2);border-color:var(--c);box-shadow:0 0 0 1px var(--c) inset;}
+.po-tile.empty{opacity:.45;}
+.po-tile-n{font-family:'DM Mono',monospace;font-size:24px;font-weight:700;color:var(--c);line-height:1;}
+.po-tile-l{font-size:12px;font-weight:600;color:var(--text);margin-top:6px;}
+.po-tile-h{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.4;}
+.po-filters{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:10px 14px;margin-bottom:10px;}
+.po-fgroup{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.po-fright{margin-left:auto;}
+.po-flabel{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-right:3px;}
+.po-fchip{padding:4px 11px;border-radius:12px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:11px;cursor:pointer;transition:all .15s;font-family:inherit;}
+.po-fchip:hover{background:var(--surface2);color:var(--text);}
+.po-fchip.on{background:var(--gold-faint);color:var(--gold);border-color:var(--gold-dim);}
+.po-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;font-size:11px;color:var(--text2);padding:4px 2px 10px;}
+.po-legend span{display:flex;align-items:center;gap:6px;}
+.po-legend .po-cell{width:13px;height:13px;min-width:0;padding:0;border-radius:3px;display:inline-block;}
+.po-legend-note{color:var(--text3);margin-left:auto;}
+.po-count{font-size:11px;color:var(--text3);margin:0 2px 4px;}
+.po-group-title{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:18px 2px 8px;}
+.po-group-n{font-family:'DM Mono',monospace;font-size:10px;padding:1px 7px;border-radius:8px;background:var(--surface2);color:var(--text2);letter-spacing:0;}
+.po-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);margin-bottom:8px;overflow:hidden;transition:border-color .15s;}
+.po-card.open{border-color:var(--border2);}
+.po-head{display:flex;align-items:center;gap:14px;padding:12px 16px;cursor:pointer;flex-wrap:wrap;}
+.po-head:hover{background:var(--surface2);}
+.po-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:#0e1628;font-weight:700;flex-shrink:0;}
+.po-who{min-width:150px;}
+.po-name{font-size:14px;font-weight:600;color:var(--text);}
 .po-meta{font-size:11px;color:var(--text3);margin-top:1px;}
-.po-status{font-size:12px;line-height:1.5;padding:8px 12px;border-radius:var(--radius);border-left:3px solid;color:var(--text);}
-.po-sub{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin:14px 0 6px;}
-.po-score{font-family:'DM Mono',monospace;font-weight:600;}
+.po-move{display:flex;align-items:center;gap:5px;min-width:190px;}
+.po-arrow{color:var(--text3);font-size:12px;}
+.po-strip{display:flex;gap:3px;}
+.po-cell{min-width:34px;padding:3px 4px;border-radius:5px;display:flex;flex-direction:column;align-items:center;border:1px solid transparent;}
+.po-cell-k{font-size:8px;font-weight:600;letter-spacing:.04em;opacity:.75;}
+.po-cell-v{font-family:'DM Mono',monospace;font-size:11px;font-weight:600;white-space:nowrap;}
+.po-met{background:rgba(58,170,92,.16);color:#5fd27f;border-color:rgba(58,170,92,.35);}
+.po-planned{background:rgba(232,135,42,.16);color:#f0a35a;border-color:rgba(232,135,42,.4);}
+.po-gap{background:rgba(224,85,85,.14);color:#f07a7a;border-color:rgba(224,85,85,.4);}
+.po-na{background:transparent;color:var(--text3);border-color:var(--border);border-style:dashed;}
+.po-prog{display:flex;flex-direction:column;gap:4px;width:110px;}
+.po-prog-bar{height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;}
+.po-prog-bar div{height:100%;border-radius:3px;}
+.po-prog-txt{font-size:10px;color:var(--text3);}
+.po-pill{margin-left:auto;font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px;border:1px solid;white-space:nowrap;}
+.po-chev{color:var(--text3);font-size:10px;transition:transform .15s;}
+.po-card.open .po-chev{transform:rotate(90deg);}
+.po-body{display:none;padding:4px 16px 14px 62px;border-top:1px solid var(--border);}
+.po-card.open .po-body{display:block;}
+.po-status{font-size:13px;line-height:1.5;padding:9px 12px;border-radius:var(--radius);border-left:3px solid;color:var(--text);margin-top:12px;}
+.po-sub{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin:16px 0 6px;}
+.po-note{font-size:12px;color:#e8872a;margin-bottom:6px;}
+.po-gaprow{padding:10px 0;border-bottom:1px solid var(--border);}
+.po-gaprow:last-of-type{border-bottom:none;}
+.po-gap-top{display:grid;grid-template-columns:minmax(150px,1.1fr) 70px minmax(180px,1.4fr) 110px;gap:10px;align-items:center;font-size:12px;}
+.po-gap-dom{font-weight:600;color:var(--text);}
+.po-gap-score{font-family:'DM Mono',monospace;font-weight:600;}
+.po-gap-goal{color:var(--text2);}
+.po-gap-date{color:var(--text2);text-align:right;}
+.po-gap-exp{font-size:11.5px;color:var(--text3);line-height:1.55;margin-top:5px;max-width:880px;}
+.po-gap-exp-k{color:var(--text2);font-weight:600;}
 .po-chip{font-size:10px;padding:1px 7px;border-radius:8px;margin-left:7px;white-space:nowrap;}
-.po-line{font-size:12px;color:var(--text2);line-height:1.55;}
-.po-details{margin-top:14px;}
-.po-details summary{cursor:pointer;font-size:12px;color:var(--gold-dim);}
-.po-details summary:hover{color:var(--gold);}
-.po-exp{padding:9px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2);line-height:1.55;}
-.po-exp:last-child{border-bottom:none;}
-.po-exp-dom{font-weight:600;color:var(--text);margin-bottom:3px;}
-.po-goal-notes{margin-top:7px;padding:7px 10px;background:var(--surface2);border-radius:6px;font-size:11px;color:var(--text3);}
+.po-plan{margin-top:5px;}
+.po-plan summary{cursor:pointer;font-size:11px;color:var(--gold-dim);}
+.po-plan summary:hover{color:var(--gold);}
+.po-goal-notes{margin-top:6px;padding:8px 11px;background:var(--surface2);border-radius:6px;font-size:11px;color:var(--text2);line-height:1.55;max-width:880px;}
+.po-line{font-size:12px;color:var(--text2);line-height:1.6;}
+.po-foot{margin-top:14px;}
+.po-link{color:var(--gold-dim);cursor:pointer;font-size:12px;}
+.po-link:hover{color:var(--gold);text-decoration:underline;}
+.po-empty{background:var(--surface);border:1px dashed var(--border2);border-radius:var(--radius-lg);padding:28px;text-align:center;color:var(--text2);font-size:13px;margin-top:12px;}
+@media(max-width:1100px){
+  .po-tiles{grid-template-columns:repeat(2,1fr);}
+  .po-pill{margin-left:0;}
+  .po-body{padding-left:16px;}
+  .po-gap-top{grid-template-columns:1fr 60px;}
+  .po-gap-goal,.po-gap-date{grid-column:1/-1;text-align:left;}
+  .po-legend-note{margin-left:0;}
+}
 
 /* Experience page */
 .exp-table-wrap{overflow-x:auto;margin-bottom:20px;}
@@ -2843,7 +2897,15 @@ function renderPromotionGuide(){
 // ---- PROMOTION OUTLOOK ----
 // Timelines come only from goal target dates: a gap with no covering goal has no timeline.
 const PO_COL={green:'#3aaa5c',amber:'#e8872a',red:'#e05555',blue:'#4a8ff5',grey:'#a8b4cc'};
-const poEsc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+const PO_ABBR=['CK','CU','PM','PNM','EC','EE','NTW','CP'];
+const PO_BUCKETS=[
+  {id:'ready',     label:'Ready for review', color:PO_COL.green, help:'Meets every threshold for the next tier'},
+  {id:'oncourse',  label:'On course',        color:PO_COL.blue,  help:'Every gap has a dated goal at the level needed'},
+  {id:'incomplete',label:'Plan incomplete',  color:PO_COL.amber, help:'Some goals set, but not every gap is covered at the level needed with a date'},
+  {id:'none',      label:'No plan',          color:PO_COL.red,   help:'No goals set against any gap'}
+];
+const poState={stage:'all',bucket:'all',lm:'all',sort:'closest',open:new Set()};
+const poEsc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');
 function poFmtDate(d){if(!d)return'';const x=new Date(d+'T00:00:00');return isNaN(x)?poEsc(d):x.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
 function poCriteriaText(di,lvl){
   const c=FULL_CRITERIA[di];if(!c)return'';
@@ -2866,89 +2928,146 @@ function getPromoOutlook(t){
   rows.forEach(r=>{r.gap=r.needed-r.now;r.goal=goalFor(r.i);r.cover=!r.goal?'none':r.goal.to>=r.needed?'full':'partial';});
   const required=probation?Math.max(0,5-s.filter(v=>v>=2).length):rows.length;
   const pts=rows.reduce((a,r)=>a+r.gap,0);
-  const shortBy=probation?`${required} more domain${required===1?'':'s'} at 2+`:`${pts} point${pts===1?'':'s'} across ${rows.length} domain${rows.length===1?'':'s'}`;
+  // Progress: domains at the level needed, out of domains the next tier requires
+  const needCount=probation?5:(next&&next.mins?next.mins.filter(m=>m>0).length:0);
+  const metCount=probation?Math.min(5,s.filter(v=>v>=2).length):needCount-rows.length;
+  const shortBy=probation?`${required} more domain${required===1?'':'s'} at 2+`:`${rows.length} domain${rows.length===1?'':'s'} below level &bull; ${pts} point${pts===1?'':'s'} short`;
   // For probation only the best-dated covering goals up to the number required count
   let covered=rows.filter(r=>r.cover==='full');
   if(probation)covered=covered.sort((a,b)=>(a.goal.date||'9999').localeCompare(b.goal.date||'9999')).slice(0,required);
-  let status,short,color,target='';
-  if(!next){status='Top tier';short='&mdash;';color=PO_COL.green;}
-  else if(required===0){status='All thresholds met &mdash; ready for review';short='Ready for review';color=PO_COL.green;}
+  // A goal already met but still below the level needed is history, not a plan
+  const partial=rows.filter(r=>r.cover==='partial'&&!r.goal.met).length;
+  const what=probation?'domains needed':'gaps';
+  let status,bucket,pill,target='',overdue=0;
+  if(!next){status='Top tier';bucket='ready';pill='Top tier';}
+  else if(required===0){status='Meets every threshold for '+next.name+' &mdash; ready for review';bucket='ready';pill='Ready for review';}
   else if(covered.length>=required){
     const undated=covered.filter(r=>!r.goal.date).length;
-    const overdue=covered.filter(r=>r.goal.overdue).length;
-    if(undated){status=`Goals cover every gap, but ${undated} ${undated===1?'has':'have'} no target date &mdash; no timeline yet`;short='Covered, undated';color=PO_COL.amber;}
-    else{target=covered.map(r=>r.goal.date).sort().pop();status=`On course for ${next.name} by ${poFmtDate(target)} if goals are met`;short=`By ${poFmtDate(target)}`;color=PO_COL.green;}
-    if(overdue){status+=` &bull; ${overdue} goal${overdue===1?' is':'s are'} overdue`;color=PO_COL.amber;}
-  } else {
-    const what=probation?'domains needed':'gaps';
-    // A goal already met but still below the level needed is history, not a plan
-    const partial=rows.filter(r=>r.cover==='partial'&&!r.goal.met).length;
-    const pWord=`${partial===1?'has a goal':'have goals'} set below the level needed`;
-    if(covered.length)status=`No timeline yet &mdash; goals cover ${covered.length} of ${required} ${what}`+(partial?` &bull; ${partial} more ${pWord}`:'');
-    else if(partial)status=`No timeline yet &mdash; no goals reach the level needed &bull; ${partial} of ${required} ${what} ${pWord}`;
-    else status=`No timeline yet &mdash; no goals set against the ${what}`;
-    short=covered.length?`Partial (${covered.length}/${required})`:partial?'Goals below level':'No goals';
-    color=covered.length||partial?PO_COL.amber:PO_COL.red;
-  }
+    overdue=covered.filter(r=>r.goal.overdue).length;
+    if(undated){status=`Every gap has a goal at the level needed, but ${undated} ${undated===1?'has':'have'} no target date, so there is no timeline yet.`;bucket='incomplete';pill='Plan incomplete';}
+    else{target=covered.map(r=>r.goal.date).sort().pop();status=`On course for ${next.name} by <b>${poFmtDate(target)}</b> if every goal is met.`;bucket='oncourse';pill=`On course &bull; ${poFmtDate(target)}`;}
+    if(overdue){status+=` ${overdue} goal${overdue===1?' is':'s are'} overdue.`;pill+=' &bull; overdue';}
+  } else if(covered.length||partial){
+    const bits=[];
+    if(covered.length)bits.push(`${covered.length} ${covered.length===1?'has a goal':'have goals'} at the level needed`);
+    if(partial)bits.push(`${partial} ${partial===1?'has a goal':'have goals'} set below the level needed`);
+    const uncovered=rows.length-covered.length-partial;
+    if(uncovered)bits.push(`${uncovered} ${uncovered===1?'has':'have'} no goal`);
+    const of=probation?`Of the ${rows.length} domains still at 1 (any ${required} needed)`:`Of the ${rows.length} gap${rows.length===1?'':'s'}`;
+    status=`No timeline yet. ${of}: ${bits.join(', ')}.`;bucket='incomplete';pill='Plan incomplete';
+  } else {status=`No timeline yet. No goals are set against any of the ${what}.`;bucket='none';pill='No plan';}
   const gapIdx=new Set(rows.map(r=>r.i));
   const otherGoals=s.map((v,i)=>{if(gapIdx.has(i))return null;const g=goalFor(i);return g?{i,...g}:null;}).filter(Boolean);
-  const dates=[...new Set(rows.filter(r=>r.goal&&r.goal.date).map(r=>r.goal.date))].sort();
-  return{tier,next,probation,rows,required,covered:covered.length,shortBy,pts,status,short,color,target,otherGoals,dates};
+  return{tier,next,probation,rows,required,covered:covered.length,shortBy,pts,needCount,metCount,status,bucket,pill,target,overdue,otherGoals};
 }
 function poGoalCell(r){
-  if(!r.goal)return`<span style="color:${PO_COL.red}">No goal</span>`;
+  if(!r.goal)return`<span style="color:${PO_COL.red}">No goal set</span>`;
   const g=r.goal;
   const chip=g.met?['Met',PO_COL.green]:g.overdue?['Overdue',PO_COL.red]:g.status==='inprogress'?['In progress',PO_COL.blue]:g.status==='done'?['Complete',PO_COL.green]:['Not started',PO_COL.grey];
-  const partial=r.cover==='partial'?` <span style="color:${PO_COL.amber}">(below ${r.needed})</span>`:'';
-  return`&rarr; ${g.to}${partial}<span class="po-chip" style="background:${chip[1]}22;color:${chip[1]}">${chip[0]}</span>`;
+  const partial=r.cover==='partial'?` <span style="color:${PO_COL.amber}">(below the ${r.needed} needed)</span>`:'';
+  return`Goal: ${g.to}${partial}<span class="po-chip" style="background:${chip[1]}22;color:${chip[1]}">${chip[0]}</span>`;
+}
+function poStrip(t,o){
+  const s=state.current[t];
+  return`<div class="po-strip">${s.map((v,i)=>{
+    const r=o.rows.find(x=>x.i===i);
+    const need=o.probation?2:(o.next&&o.next.mins?o.next.mins[i]:0);
+    let cls,txt=String(v),tip;
+    if(r&&r.cover==='full'){cls='planned';txt=`${v}&rarr;${r.goal.to}`;tip=`${DOMAINS[i]}: ${v}, needs ${need}. Goal ${r.goal.to}${r.goal.date?' by '+poFmtDate(r.goal.date):', no date'}`;}
+    else if(r){cls='gap';tip=`${DOMAINS[i]}: ${v}, needs ${need}. `+(r.goal?`Goal ${r.goal.to} is below the level needed`:'No goal set');}
+    else if(!need){cls='na';tip=`${DOMAINS[i]}: ${v}. Not required for ${o.next.name}`;}
+    else{cls='met';tip=`${DOMAINS[i]}: ${v}. Meets the ${need} needed`;}
+    return`<div class="po-cell po-${cls}" title="${tip}"><span class="po-cell-k">${PO_ABBR[i]}</span><span class="po-cell-v">${txt}</span></div>`;
+  }).join('')}</div>`;
 }
 function poCard(t,o){
-  const head=`<div class="po-head">
+  const b=PO_BUCKETS.find(x=>x.id===o.bucket);
+  const pct=o.needCount?Math.round(100*o.metCount/o.needCount):100;
+  const prog=o.next?`<div class="po-prog" title="${o.metCount} of ${o.needCount} required domains at the level needed"><div class="po-prog-bar"><div style="width:${pct}%;background:${b.color}"></div></div><div class="po-prog-txt">${o.metCount}/${o.needCount} at level</div></div>`:'';
+  const head=`<div class="po-head" onclick="poToggle('${t}')">
     <div class="po-avatar" style="background:${COLORS[t]}">${t}</div>
-    <div><div class="po-name" onclick="showPage('profile','${t}')">${FULL_NAMES[t]||t}</div><div class="po-meta">${getTenure(t)} at Mustard${TRADER_LM[t]?` &bull; Line manager ${TRADER_LM[t]}`:''}</div></div>
-    <div style="margin-left:auto;display:flex;align-items:center;gap:6px">${poBadge(o.tier)}${o.next?`<span style="color:var(--text3)">&rarr;</span>${poBadge(o.next)}`:''}</div>
+    <div class="po-who"><div class="po-name">${FULL_NAMES[t]||t}</div><div class="po-meta">${getTenure(t)} at Mustard${TRADER_LM[t]?` &bull; LM ${TRADER_LM[t]}`:''}</div></div>
+    <div class="po-move">${poBadge(o.tier)}${o.next?`<span class="po-arrow">&rarr;</span>${poBadge(o.next)}`:''}</div>
+    ${o.next?poStrip(t,o):''}
+    ${prog}
+    <div class="po-pill" style="color:${b.color};background:${b.color}1a;border-color:${b.color}55">${o.pill}</div>
+    <span class="po-chev">&#9654;</span>
   </div>`;
-  const status=`<div class="po-status" style="border-color:${o.color};background:${o.color}14">${o.status}</div>`;
-  let table='';
+  let gaps='';
   if(o.next&&o.rows.length){
-    const title=o.probation?`Needs any ${o.required} of these at 2+`:`Gaps to ${o.next.name} &bull; short by ${o.shortBy}`;
-    table=`<div class="po-sub">${title}</div><div style="overflow-x:auto"><table class="po-table"><thead><tr><th>Domain</th><th>Now</th><th>Needs</th><th>Goal</th><th>Target date</th></tr></thead><tbody>${o.rows.map(r=>`<tr><td>${DOMAINS[r.i]}</td><td><span class="po-score" style="color:${bc(r.now)}">${r.now}</span></td><td><span class="po-score" style="color:${bc(r.needed)}">${r.needed}</span></td><td>${poGoalCell(r)}</td><td>${r.goal&&r.goal.date?poFmtDate(r.goal.date):'&mdash;'}</td></tr>`).join('')}</tbody></table></div>`;
+    const title=o.probation?`Needs any ${o.required} of these at 2+`:`What stands between ${(FULL_NAMES[t]||t).split(' ')[0]} and ${o.next.name}: ${o.shortBy}`;
+    const placeholder=TIERS_PROMO.indexOf(o.next)>=3?`<div class="po-note">${o.next.name} thresholds are placeholders and still to be confirmed.</div>`:'';
+    gaps=`<div class="po-sub">${title}</div>${placeholder}${o.rows.map(r=>`<div class="po-gaprow">
+      <div class="po-gap-top">
+        <div class="po-gap-dom">${DOMAINS[r.i]}</div>
+        <div class="po-gap-score"><span style="color:${bc(r.now)}">${r.now}</span> <span style="color:var(--text3)">&rarr;</span> <span style="color:${bc(r.needed)}">${r.needed}</span></div>
+        <div class="po-gap-goal">${poGoalCell(r)}</div>
+        <div class="po-gap-date">${r.goal&&r.goal.date?poFmtDate(r.goal.date):'<span style="color:var(--text3)">No date</span>'}</div>
+      </div>
+      <div class="po-gap-exp"><span class="po-gap-exp-k">Level ${r.needed} means:</span> ${poCriteriaText(r.i,r.needed)}</div>
+      ${r.goal&&r.goal.notes?`<details class="po-plan"><summary>Goal plan</summary><div class="po-goal-notes">${poEsc(r.goal.notes)}</div></details>`:''}
+    </div>`).join('')}`;
   }
-  const other=o.otherGoals.length?`<div class="po-sub">Other goals (not required for ${o.next?o.next.name:'promotion'})</div><div class="po-line">${o.otherGoals.map(g=>`${DOMAINS[g.i]} &rarr; ${g.to}${g.met?' (met)':''}${g.date?` by ${poFmtDate(g.date)}`:''}`).join(' &bull; ')}</div>`:'';
+  const other=o.otherGoals.length?`<div class="po-sub">Other goals (not needed for ${o.next?o.next.name:'promotion'})</div><div class="po-line">${o.otherGoals.map(g=>`${DOMAINS[g.i]} &rarr; ${g.to}${g.met?' (met)':''}${g.date?` by ${poFmtDate(g.date)}`:''}`).join('<br>')}</div>`:'';
   const resp=(TRADER_RESPONSIBILITIES[t]||[]);
   const respHtml=resp.length?`<div class="po-sub">Responsibilities</div>${resp.map(r=>`<div class="po-line"><b style="color:var(--text)">${poEsc(r.title)}</b><div style="margin-top:3px;color:var(--text3)">${poEsc(r.description)}</div></div>`).join('')}`:'';
-  let expects='';
-  if(o.next&&o.rows.length){
-    const placeholder=TIERS_PROMO.indexOf(o.next)>=3?`<div class="po-line" style="color:${PO_COL.amber};margin-bottom:6px">${o.next.name} thresholds are placeholders and still to be confirmed.</div>`:'';
-    expects=`<details class="po-details"><summary>What ${o.next.name} expects in these domains</summary>${placeholder}${o.rows.map(r=>`<div class="po-exp"><div class="po-exp-dom">${DOMAINS[r.i]} &mdash; level ${r.needed}</div>${poCriteriaText(r.i,r.needed)}${r.goal&&r.goal.notes?`<div class="po-goal-notes"><b>Goal plan</b><br>${poEsc(r.goal.notes)}</div>`:''}</div>`).join('')}</details>`;
-  }
-  return`<div class="po-card" id="po-card-${t}">${head}${status}${table}${other}${respHtml}${expects}</div>`;
+  const body=`<div class="po-body"><div class="po-status" style="border-color:${b.color};background:${b.color}12">${o.status}</div>${gaps}${other}${respHtml}<div class="po-foot"><span class="po-link" onclick="showPage('profile','${t}')">Open full profile &rarr;</span></div></div>`;
+  return`<div class="po-card${poState.open.has(t)?' open':''}" id="po-card-${t}">${head}${body}</div>`;
 }
+function poSet(key,val){
+  poState[key]=(key==='bucket'&&poState.bucket===val)?'all':val;
+  renderPromoOutlook();
+}
+function poToggle(t){
+  if(poState.open.has(t))poState.open.delete(t);else poState.open.add(t);
+  const el=document.getElementById('po-card-'+t);if(el)el.classList.toggle('open',poState.open.has(t));
+}
+function poExpandAll(open){
+  document.querySelectorAll('.po-card').forEach(c=>{const t=c.id.replace('po-card-','');if(open)poState.open.add(t);else poState.open.delete(t);c.classList.toggle('open',open);});
+}
+function poClearFilters(){poState.stage='all';poState.bucket='all';poState.lm='all';renderPromoOutlook();}
 function renderPromoOutlook(){
   const el=document.getElementById('promo-outlook-content');
   if(!el)return;
   const all=TRADERS.map(t=>({t,o:getPromoOutlook(t)}));
-  // Junior -> Trader first (the live promotion question), then higher tiers, probation last
-  const order=[1,2,3,4,0];
-  const groups=order.map(ti=>{
-    const members=all.filter(x=>TIERS_PROMO.indexOf(x.o.tier)===ti).sort((a,b)=>a.o.pts-b.o.pts||a.o.required-b.o.required);
-    return{tier:TIERS_PROMO[ti],members};
-  }).filter(g=>g.members.length);
-  const sumRows=groups.flatMap(g=>g.members).map(({t,o})=>`<tr class="po-sum-row" onclick="document.getElementById('po-card-${t}').scrollIntoView({behavior:'smooth',block:'start'})">
-    <td><div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:50%;background:${COLORS[t]}"></div>${FULL_NAMES[t]||t}</div></td>
-    <td>${poBadge(o.tier)}</td><td>${o.next?poBadge(o.next):'&mdash;'}</td>
-    <td>${o.next?(o.required?o.shortBy:'&mdash;'):'&mdash;'}</td>
-    <td>${o.next&&o.required?`${o.covered}/${o.required}`:'&mdash;'}</td>
-    <td>${o.dates.length?o.dates.map(poFmtDate).join(', '):'&mdash;'}</td>
-    <td><span style="color:${o.color};font-weight:600">${o.short}</span></td>
-  </tr>`).join('');
-  const summary=`<div class="promo-guide-team-section"><div class="promo-guide-team-title">At a glance</div><div style="overflow-x:auto"><table class="po-table"><thead><tr><th>Trader</th><th>Now</th><th>Next</th><th>Short by</th><th>Goals cover</th><th>Goal dates</th><th>Outlook</th></tr></thead><tbody>${sumRows}</tbody></table></div>
-    <div class="po-line" style="margin-top:10px;color:var(--text3)">A timeline appears only when every gap has a goal at or above the level needed, each with a target date. Set or edit goals on the dashboard in Set goals mode.</div></div>`;
-  const cards=groups.map(g=>{
-    const nxt=TIERS_PROMO[TIERS_PROMO.indexOf(g.tier)+1];
-    return`<div class="po-group-title" style="color:${g.tier.color}">${g.tier.name}${nxt?` &rarr; ${nxt.name}`:''}</div>${g.members.map(({t,o})=>poCard(t,o)).join('')}`;
-  }).join('');
-  el.innerHTML=summary+cards;
+  const tierIdx=x=>TIERS_PROMO.indexOf(x.o.tier);
+  // Stages present, Junior -> Trader first (the live promotion question), probation last
+  const order=[1,2,3,4,0].filter(ti=>all.some(x=>tierIdx(x)===ti));
+  const stageLabel=ti=>{const t=TIERS_PROMO[ti],n=TIERS_PROMO[ti+1];return ti===0?'Probation':n?`${t.short} &rarr; ${n.short}`:t.name;};
+  const lms=[...new Set(TRADERS.map(t=>TRADER_LM[t]).filter(Boolean))].sort();
+  // Tile counts respect stage and line-manager filters, so they always add up to what is listed
+  const base=all.filter(x=>(poState.stage==='all'||String(tierIdx(x))===poState.stage)&&(poState.lm==='all'||TRADER_LM[x.t]===poState.lm));
+  const shown=base.filter(x=>poState.bucket==='all'||x.o.bucket===poState.bucket);
+  const sorters={
+    closest:(a,b)=>a.o.pts-b.o.pts||a.o.required-b.o.required,
+    name:(a,b)=>(FULL_NAMES[a.t]||a.t).localeCompare(FULL_NAMES[b.t]||b.t),
+    tenure:(a,b)=>(TRADER_START_DATES[a.t]||'9999').localeCompare(TRADER_START_DATES[b.t]||'9999')
+  };
+  const chip=(key,val,label)=>`<button class="po-fchip${poState[key]===val?' on':''}" onclick="poSet('${key}','${val}')">${label}</button>`;
+  const tiles=`<div class="po-tiles">${PO_BUCKETS.map(b=>{const n=base.filter(x=>x.o.bucket===b.id).length;return`<div class="po-tile${poState.bucket===b.id?' on':''}${n?'':' empty'}" style="--c:${b.color}" onclick="poSet('bucket','${b.id}')"><div class="po-tile-n">${n}</div><div class="po-tile-l">${b.label}</div><div class="po-tile-h">${b.help}</div></div>`;}).join('')}</div>`;
+  const filters=`<div class="po-filters">
+    <div class="po-fgroup"><span class="po-flabel">Stage</span>${chip('stage','all','All')}${order.map(ti=>chip('stage',String(ti),stageLabel(ti))).join('')}</div>
+    <div class="po-fgroup"><span class="po-flabel">Line manager</span>${chip('lm','all','All')}${lms.map(l=>chip('lm',l,l)).join('')}</div>
+    <div class="po-fgroup"><span class="po-flabel">Sort</span>${chip('sort','closest','Closest to promotion')}${chip('sort','name','Name')}${chip('sort','tenure','Longest serving')}</div>
+    <div class="po-fgroup po-fright"><button class="po-fchip" onclick="poExpandAll(true)">Expand all</button><button class="po-fchip" onclick="poExpandAll(false)">Collapse all</button></div>
+  </div>`;
+  const legend=`<div class="po-legend">
+    <span><i class="po-cell po-met"></i>At the level needed</span>
+    <span><i class="po-cell po-planned"></i>Below, goal set to reach it</span>
+    <span><i class="po-cell po-gap"></i>Below, no goal reaching it</span>
+    <span><i class="po-cell po-na"></i>Not required for next tier</span>
+    <span class="po-legend-note">Hover a square for detail. Click a trader for their gaps, goals and what the next level means.</span>
+  </div>`;
+  let list;
+  if(!shown.length){
+    list=`<div class="po-empty">No traders match these filters. <span class="po-link" onclick="poClearFilters()">Clear filters</span></div>`;
+  } else {
+    const groups=order.map(ti=>({ti,members:shown.filter(x=>tierIdx(x)===ti).sort(sorters[poState.sort])})).filter(g=>g.members.length);
+    list=groups.map(g=>`<div class="po-group-title" style="color:${TIERS_PROMO[g.ti].color}">${stageLabel(g.ti)}<span class="po-group-n">${g.members.length}</span></div>${g.members.map(({t,o})=>poCard(t,o)).join('')}`).join('');
+  }
+  const anyFilter=poState.stage!=='all'||poState.bucket!=='all'||poState.lm!=='all';
+  const count=`<div class="po-count">Showing ${shown.length} of ${all.length} traders${anyFilter?` &bull; <span class="po-link" onclick="poClearFilters()">Clear filters</span>`:''}</div>`;
+  el.innerHTML=tiles+filters+legend+count+list;
 }
 function renderPromoOverview(){
   const el=document.getElementById('promo-overview');
