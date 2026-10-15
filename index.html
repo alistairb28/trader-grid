@@ -983,9 +983,9 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 
 <script>
 const DOMAINS=['Cricket Knowledge','Cricket Understanding','Pricing - Model biases','Pricing - Not in model','Execution - Confidence','Execution - Efficiency','Non-Trading Work','Comms & Professionalism'];
-const TRADERS=['EL','JR','HB','JLB','SM','AN','BM','SG','SN'];
-const COLORS={EL:'#a78bfa',JR:'#4a8ff5',HB:'#38bdf8',JLB:'#2ec090',SM:'#e8608a',AN:'#fb923c',BM:'#f472b6',SG:'#34d399',SN:'#ff6b6b'};
-const FULL_NAMES={EL:'Edward Lowe',JR:'John Robertson',HB:'Harry Bathurst',JLB:'Jordan Le Boutillier',SM:'Sulaiman Mirza',AN:'Alec Nicholls',BM:'Bob McCann',SG:'Sam Goody',SN:'Siddarth Nayar'};
+const TRADERS=['EL','JR','HB','JLB','SM','AN','BM','SG','SN','MS','AW','AB'];
+const COLORS={EL:'#a78bfa',JR:'#4a8ff5',HB:'#38bdf8',JLB:'#2ec090',SM:'#e8608a',AN:'#fb923c',BM:'#f472b6',SG:'#34d399',SN:'#ff6b6b',MS:'#f59e0b',AW:'#cbd5e1',AB:'#a3e635'};
+const FULL_NAMES={EL:'Edward Lowe',JR:'John Robertson',HB:'Harry Bathurst',JLB:'Jordan Le Boutillier',SM:'Sulaiman Mirza',AN:'Alec Nicholls',BM:'Bob McCann',SG:'Sam Goody',SN:'Siddarth Nayar',MS:'Mike Stewart',AW:'Alex Wilkins',AB:'Ali Bee'};
 
 // ---- PROMOTION TIERS ----
 // Edit the 'mins' array to change promotion thresholds per domain
@@ -1048,8 +1048,8 @@ const emptyMetas=()=>DOMAINS.map(()=>emptyMeta());
 const today=()=>new Date().toISOString().split('T')[0];
 
 let state={
-  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,4,4,4,4,4,4,5],SM:[7,6,2,3,2,2,1,2],AN:[3,3,4,4,4,4,5,5],BM:[3,3,2,2,3,3,4,3],SG:[3,3,2,2,2,2,1,1],SN:[1,1,1,1,1,1,1,1]},
-  goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,4,4,null,4],HB:[null,null,4,4,null,null,4,5],JLB:[null,null,4,null,null,4,null,null],SM:[null,null,null,null,3,3,2,null],AN:[null,null,3,3,null,null,4,4],BM:[null,null,3,3,null,null,4,4],SG:[null,null,null,null,null,null,null,null],SN:[null,null,null,null,null,null,null,null]},
+  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,4,4,4,4,4,4,5],SM:[7,6,2,3,2,2,1,2],AN:[3,3,4,4,4,4,5,5],BM:[3,3,2,2,3,3,4,3],SG:[3,3,2,2,2,2,1,1],SN:[1,1,1,1,1,1,1,1],MS:[5,5,7,7,7,6,7,7],AW:[4,4,6,6,6,7,8,8],AB:[7,6,7,7,7,7,6,6]},
+  goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,4,4,null,4],HB:[null,null,4,4,null,null,4,5],JLB:[null,null,4,null,null,4,null,null],SM:[null,null,null,null,3,3,2,null],AN:[null,null,3,3,null,null,4,4],BM:[null,null,3,3,null,null,4,4],SG:[null,null,null,null,null,null,null,null],SN:[null,null,null,null,null,null,null,null],MS:[null,null,null,null,null,null,null,null],AW:[null,null,null,null,null,null,null,null],AB:[null,null,null,null,null,null,null,null]},
   goalMeta:{EL:emptyMetas(),JR:(()=>{const m=emptyMetas();
     m[5]={notes:"Senior Traders are satisfied that John is anticipating and applying appropriate Paxman settings changes that increase Mustard's efficiency in a market given liquidity available.\n\nA reasoned explanation with referral to liquidity, volatility, market impact and expected market information is given when creating and selecting default and custom Paxman settings.\n\nRisks, spreads, moves, stake mults, sleep, take offers are all considered for AT purposes and when to use CTB, Gondor and PhoneBet are all considered and done with effectively good speed.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
     m[4]={notes:"Senior Traders are satisfied that John is anticipating moments in matches where the model is strong and weak, and able to adjust trading to maximise EV.\n\nUsing risks, liabilities, spreads and moves appropriately, John will be able to concisely outline why he believes the model is performing well and/or his adjustments are ones he is or isn't confident in.\n\nJohn shows speed and ability when using ticks and/or turning markets quickly and effectively to avoid bets he doesn't believe we want to take during an adjustment period.\n\nMarkets that are unaffected by ongoing adjustments continue to be traded during the adjustment period.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
@@ -1076,11 +1076,11 @@ let state={
     m[3]={notes:'Consider what adjustments could be made for factors not in the model, and whether they should be made.\n\nCheck the change in price from making the adjustment.\n\nReflect post game on whether the adjustment was correct:\n- What was the trigger?\n- When did I notice it?\n- Could I have thought about it sooner?\n- Was it the right magnitude?\n- What change would you make next time?\n\nGoal to be refined in fortnightly meetings. Senior report: AW',date:'',quarter:'',status:'todo'};
     m[6]={notes:'Settings and Risk Decision Doc, Flowchart and Presentation.\n\nCreate an "if this, then that" flowchart of risk decision making, with particular focus on risk changes and min EV etc towards ends of innings.\n\nThe goal is to have an official decision made, with excellent justifications, as to why you should change setting X in situation Y. It should be well reasoned enough that everyone refers to it when trading. Make actual changes to team behaviour, not just talk about it.\n\nStretch goal: Speak with market replay people about whether we can test our hypotheses.\n\nProcess: Lead discussion in TC, gather people\'s ideas, make a doc, present it in TC with supporting document showing suggested behaviours.\n\nSenior report: AW',date:'',quarter:'',status:'todo'};
     m[7]={notes:'Constructive Feedback & Collaboration - Partake in a culture of feedback and debate between traders. Recognise that lots of these debates have a correct answer.\n\nMeasurable via:\n- Post Game Reflections: 15-20 minute post game reflections/debates about questions that came up in-running, focused around Pricing domains\n- Fortnightly meetings: participating in and leading discussions in small group meetings\n\nTimescale: Fortnightly meetings until EoY appraisals. Senior report: AW',date:'',quarter:'',status:'todo'};
-    return m;})(),SG:emptyMetas(),SN:emptyMetas()},
-  generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:'',SG:'',SN:''},
-  history:{EL:[],JR:[],HB:[],JLB:[{date:'2026-10-15',di:2,from:3,to:4},{date:'2026-10-15',di:3,from:3,to:4},{date:'2026-10-15',di:5,from:3,to:4}],SM:[],AN:[{date:'2026-10-15',di:0,from:2,to:3},{date:'2026-10-15',di:1,from:2,to:3},{date:'2026-10-15',di:2,from:2,to:4},{date:'2026-10-15',di:3,from:2,to:4},{date:'2026-10-15',di:4,from:2,to:4},{date:'2026-10-15',di:5,from:3,to:4},{date:'2026-10-15',di:6,from:4,to:5},{date:'2026-10-15',di:7,from:4,to:5}],BM:[],SG:[{date:'2026-10-15',di:2,from:1,to:2},{date:'2026-10-15',di:3,from:1,to:2},{date:'2026-10-15',di:4,from:1,to:2},{date:'2026-10-15',di:5,from:1,to:2}],SN:[]},
-  reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''},SG:{last:'',next:''},SN:{last:'',next:''}},
-  cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold',SG:'silver',SN:'bronze'},
+    return m;})(),SG:emptyMetas(),SN:emptyMetas(),MS:emptyMetas(),AW:emptyMetas(),AB:emptyMetas()},
+  generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:'',SG:'',SN:'',MS:'',AW:'',AB:''},
+  history:{EL:[],JR:[],HB:[],JLB:[{date:'2026-10-15',di:2,from:3,to:4},{date:'2026-10-15',di:3,from:3,to:4},{date:'2026-10-15',di:5,from:3,to:4}],SM:[],AN:[{date:'2026-10-15',di:0,from:2,to:3},{date:'2026-10-15',di:1,from:2,to:3},{date:'2026-10-15',di:2,from:2,to:4},{date:'2026-10-15',di:3,from:2,to:4},{date:'2026-10-15',di:4,from:2,to:4},{date:'2026-10-15',di:5,from:3,to:4},{date:'2026-10-15',di:6,from:4,to:5},{date:'2026-10-15',di:7,from:4,to:5}],BM:[],SG:[{date:'2026-10-15',di:2,from:1,to:2},{date:'2026-10-15',di:3,from:1,to:2},{date:'2026-10-15',di:4,from:1,to:2},{date:'2026-10-15',di:5,from:1,to:2}],SN:[],MS:[],AW:[],AB:[]},
+  reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''},SG:{last:'',next:''},SN:{last:'',next:''},MS:{last:'',next:''},AW:{last:'',next:''},AB:{last:'',next:''}},
+  cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold',SG:'silver',SN:'bronze',MS:'gold',AW:'gold',AB:'gold'},
   recruitmentNotes:{overview:'',hiring:'',timeline:'',idealProfile:''},
   experience:{
     tournaments:[
@@ -1878,7 +1878,8 @@ const TRADER_START_DATES = {
   'SM':  '2024-12-02',
 };
 const TRADER_LM = {
-  'EL':'MS','HB':'AW','JLB':'AB','JR':'AB','SG':'HB','SN':'HB','AN':'AW','BM':'AW','SM':'AB'
+  'EL':'MS','HB':'AW','JLB':'AB','JR':'AB','SG':'HB','SN':'HB','AN':'AW','BM':'AW','SM':'AB',
+  'MS':null,'AW':null,'AB':null
 };
 const TRADER_OC = {
   'EL': {bat:83,bowl:76,field:-10},
@@ -1887,6 +1888,9 @@ const TRADER_OC = {
   'JR': {bat:64,bowl:50,field:60},
   'SG': {bat:null,bowl:null,field:null},
   'SN': {bat:null,bowl:null,field:null},
+  'MS': {bat:null,bowl:null,field:null},
+  'AW': {bat:null,bowl:null,field:null},
+  'AB': {bat:null,bowl:null,field:null},
   'AN': {bat:33,bowl:37,field:60},
   'BM': {bat:72,bowl:55,field:40},
   'SM': {bat:60,bowl:55,field:99},
@@ -1894,12 +1898,13 @@ const TRADER_OC = {
 
 const TRADER_SURNAMES = {
   'EL':'Lowe','HB':'Bathurst','JLB':'Le Boutillier','JR':'Robertson',
-  'SG':'Goody','SN':'Nayar','AN':'Nicholls','BM':'McCann','SM':'Mirza'
+  'SG':'Goody','SN':'Nayar','AN':'Nicholls','BM':'McCann','SM':'Mirza',
+  'MS':'Stewart','AW':'Wilkins','AB':'Bee'
 };
 
 const TRADER_AKA = {
   'EL':'Egg','HB':'Bomber','JLB':'Boots','SG':'Snoody',
-  'JR':null,'AN':null,'BM':null,'SM':null,'SN':null,
+  'JR':null,'AN':null,'BM':null,'SM':null,'SN':null,'MS':null,'AW':null,'AB':null,
 };
 
 // Responsibilities outside trading &mdash; each trader maps to an array of {title, description}
@@ -1911,11 +1916,15 @@ const TRADER_RESPONSIBILITIES = {
       description:"Take up the role as point of contact for the Trading Team in relation to the Overseas Office. Relay information to and from decision makers to come to a conclusion by the end of 2026.\n\n14/09/26 for role performance, 31/12/26 for conclusion.\n\nSenior report: LF/AB/MS"
     }
   ],
-  'JR':[],'SG':[],'AN':[],'BM':[],'SM':[],'SN':[],
+  'JR':[],'SG':[],'AN':[],'BM':[],'SM':[],'SN':[],'MS':[],'AW':[],'AB':[],
 };
 // Job titles that differ from the grid tier. The tier still drives promotion tracking.
 const TRADER_TITLES = {
   'AN':'EXE Product Owner',
+};
+// Promotion Outlook sections off the tier ladder (otherwise a job title gets its own section)
+const OUTLOOK_SECTIONS = {
+  'MS':'Management','AW':'Management','AB':'Management',
 };
 
 function getTenure(t){
@@ -2525,6 +2534,8 @@ document.getElementById('file-input').addEventListener('change',e=>{
         if(!data.cardTier){data.cardTier={};TRADERS.forEach(t=>data.cardTier[t]='gold');}
         if(!data.recruitmentNotes){data.recruitmentNotes={overview:'',hiring:'',timeline:'',simTier:'junior'};}
         if(!data.experience){data.experience={tournaments:[],records:{}};}
+        // Traders added since the file was saved keep their built-in data, so older saves still load
+        ['current','goals','goalMeta','generalNotes','history','reviews','cardTier'].forEach(k=>{if(!data[k]||!state[k])return;TRADERS.forEach(t=>{if(data[k][t]===undefined&&state[k][t]!==undefined)data[k][t]=JSON.parse(JSON.stringify(state[k][t]));});});
         state=data;render();showToast('Data loaded successfully');
       }
     }catch{showToast('Error reading file');}
@@ -3035,12 +3046,16 @@ function renderPromoOutlook(){
   if(!el)return;
   const all=TRADERS.map(t=>({t,o:getPromoOutlook(t)}));
   const tierIdx=x=>TIERS_PROMO.indexOf(x.o.tier);
-  // Stages present, Junior -> Trader first (the live promotion question), probation last
-  const order=[1,2,3,4,0].filter(ti=>all.some(x=>tierIdx(x)===ti));
-  const stageLabel=ti=>{const t=TIERS_PROMO[ti],n=TIERS_PROMO[ti+1];return ti===0?'Probation':n?`${t.short} &rarr; ${n.short}`:t.name;};
+  // OUTLOOK_SECTIONS, then job titles (TRADER_TITLES), give a trader a section of their own, off the tier ladder
+  const sectionOf=t=>OUTLOOK_SECTIONS[t]||TRADER_TITLES[t]||'';
+  const keyOf=x=>sectionOf(x.t)?'title:'+sectionOf(x.t):String(tierIdx(x));
+  // Stages present, Junior -> Trader first (the live promotion question), probation, then titled roles
+  const order=[...[1,2,3,4,0].map(String),...[...new Set(TRADERS.filter(sectionOf).map(t=>'title:'+sectionOf(t)))]].filter(k=>all.some(x=>keyOf(x)===k));
+  const stageLabel=k=>{if(k.startsWith('title:'))return k.slice(6);const ti=+k,t=TIERS_PROMO[ti],n=TIERS_PROMO[ti+1];return ti===0?'Probation':n?`${t.short} &rarr; ${n.short}`:t.name;};
+  const stageColor=k=>k.startsWith('title:')?'var(--gold)':TIERS_PROMO[+k].color;
   const lms=[...new Set(TRADERS.map(t=>TRADER_LM[t]).filter(Boolean))].sort();
   // Tile counts respect stage and line-manager filters, so they always add up to what is listed
-  const base=all.filter(x=>(poState.stage==='all'||String(tierIdx(x))===poState.stage)&&(poState.lm==='all'||TRADER_LM[x.t]===poState.lm));
+  const base=all.filter(x=>(poState.stage==='all'||keyOf(x)===poState.stage)&&(poState.lm==='all'||TRADER_LM[x.t]===poState.lm));
   const shown=base.filter(x=>poState.bucket==='all'||x.o.bucket===poState.bucket);
   const sorters={
     closest:(a,b)=>a.o.pts-b.o.pts||a.o.required-b.o.required,
@@ -3050,7 +3065,7 @@ function renderPromoOutlook(){
   const chip=(key,val,label)=>`<button class="po-fchip${poState[key]===val?' on':''}" onclick="poSet('${key}','${val}')">${label}</button>`;
   const tiles=`<div class="po-tiles">${PO_BUCKETS.map(b=>{const n=base.filter(x=>x.o.bucket===b.id).length;return`<div class="po-tile${poState.bucket===b.id?' on':''}${n?'':' empty'}" style="--c:${b.color}" onclick="poSet('bucket','${b.id}')"><div class="po-tile-n">${n}</div><div class="po-tile-l">${b.label}</div><div class="po-tile-h">${b.help}</div></div>`;}).join('')}</div>`;
   const filters=`<div class="po-filters">
-    <div class="po-fgroup"><span class="po-flabel">Stage</span>${chip('stage','all','All')}${order.map(ti=>chip('stage',String(ti),stageLabel(ti))).join('')}</div>
+    <div class="po-fgroup"><span class="po-flabel">Stage</span>${chip('stage','all','All')}${order.map(k=>chip('stage',k,stageLabel(k))).join('')}</div>
     <div class="po-fgroup"><span class="po-flabel">Line manager</span>${chip('lm','all','All')}${lms.map(l=>chip('lm',l,l)).join('')}</div>
     <div class="po-fgroup"><span class="po-flabel">Sort</span>${chip('sort','closest','Closest to promotion')}${chip('sort','name','Name')}${chip('sort','tenure','Longest serving')}</div>
     <div class="po-fgroup po-fright"><button class="po-fchip" onclick="poExpandAll(true)">Expand all</button><button class="po-fchip" onclick="poExpandAll(false)">Collapse all</button></div>
@@ -3066,8 +3081,8 @@ function renderPromoOutlook(){
   if(!shown.length){
     list=`<div class="po-empty">No traders match these filters. <span class="po-link" onclick="poClearFilters()">Clear filters</span></div>`;
   } else {
-    const groups=order.map(ti=>({ti,members:shown.filter(x=>tierIdx(x)===ti).sort(sorters[poState.sort])})).filter(g=>g.members.length);
-    list=groups.map(g=>`<div class="po-group-title" style="color:${TIERS_PROMO[g.ti].color}">${stageLabel(g.ti)}<span class="po-group-n">${g.members.length}</span></div>${g.members.map(({t,o})=>poCard(t,o)).join('')}`).join('');
+    const groups=order.map(k=>({k,members:shown.filter(x=>keyOf(x)===k).sort(sorters[poState.sort])})).filter(g=>g.members.length);
+    list=groups.map(g=>`<div class="po-group-title" style="color:${stageColor(g.k)}">${stageLabel(g.k)}<span class="po-group-n">${g.members.length}</span></div>${g.members.map(({t,o})=>poCard(t,o)).join('')}`).join('');
   }
   const anyFilter=poState.stage!=='all'||poState.bucket!=='all'||poState.lm!=='all';
   const count=`<div class="po-count">Showing ${shown.length} of ${all.length} traders${anyFilter?` &bull; <span class="po-link" onclick="poClearFilters()">Clear filters</span>`:''}</div>`;
