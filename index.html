@@ -1048,7 +1048,7 @@ const emptyMetas=()=>DOMAINS.map(()=>emptyMeta());
 const today=()=>new Date().toISOString().split('T')[0];
 
 let state={
-  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,4,4,4,4,4,4,5],SM:[7,6,2,3,2,2,1,2],AN:[3,3,4,4,4,4,4,4],BM:[3,3,2,2,3,3,4,3],SG:[3,3,2,2,2,2,1,1],SN:[1,1,1,1,1,1,1,1]},
+  current:{EL:[4,4,5,4,4,4,4,3],JR:[7,5,2,3,2,2,4,4],HB:[3,3,4,3,4,3,4,5],JLB:[4,4,4,4,4,4,4,5],SM:[7,6,2,3,2,2,1,2],AN:[3,3,4,4,4,4,5,5],BM:[3,3,2,2,3,3,4,3],SG:[3,3,2,2,2,2,1,1],SN:[1,1,1,1,1,1,1,1]},
   goals:{EL:[null,null,null,null,null,null,null,null],JR:[null,null,null,null,4,4,null,4],HB:[null,null,4,4,null,null,4,5],JLB:[null,null,4,null,null,4,null,null],SM:[null,null,null,null,3,3,2,null],AN:[null,null,3,3,null,null,4,4],BM:[null,null,3,3,null,null,4,4],SG:[null,null,null,null,null,null,null,null],SN:[null,null,null,null,null,null,null,null]},
   goalMeta:{EL:emptyMetas(),JR:(()=>{const m=emptyMetas();
     m[5]={notes:"Senior Traders are satisfied that John is anticipating and applying appropriate Paxman settings changes that increase Mustard's efficiency in a market given liquidity available.\n\nA reasoned explanation with referral to liquidity, volatility, market impact and expected market information is given when creating and selecting default and custom Paxman settings.\n\nRisks, spreads, moves, stake mults, sleep, take offers are all considered for AT purposes and when to use CTB, Gondor and PhoneBet are all considered and done with effectively good speed.\n\nSenior report: AB",date:'2026-12-14',quarter:'',status:'todo'};
@@ -1078,7 +1078,7 @@ let state={
     m[7]={notes:'Constructive Feedback & Collaboration - Partake in a culture of feedback and debate between traders. Recognise that lots of these debates have a correct answer.\n\nMeasurable via:\n- Post Game Reflections: 15-20 minute post game reflections/debates about questions that came up in-running, focused around Pricing domains\n- Fortnightly meetings: participating in and leading discussions in small group meetings\n\nTimescale: Fortnightly meetings until EoY appraisals. Senior report: AW',date:'',quarter:'',status:'todo'};
     return m;})(),SG:emptyMetas(),SN:emptyMetas()},
   generalNotes:{EL:'',JR:'',HB:'',JLB:'',SM:'',AN:'',BM:'',SG:'',SN:''},
-  history:{EL:[],JR:[],HB:[],JLB:[{date:'2026-10-15',di:2,from:3,to:4},{date:'2026-10-15',di:3,from:3,to:4},{date:'2026-10-15',di:5,from:3,to:4}],SM:[],AN:[{date:'2026-10-15',di:0,from:2,to:3},{date:'2026-10-15',di:1,from:2,to:3},{date:'2026-10-15',di:2,from:2,to:4},{date:'2026-10-15',di:3,from:2,to:4},{date:'2026-10-15',di:4,from:2,to:4},{date:'2026-10-15',di:5,from:3,to:4}],BM:[],SG:[{date:'2026-10-15',di:2,from:1,to:2},{date:'2026-10-15',di:3,from:1,to:2},{date:'2026-10-15',di:4,from:1,to:2},{date:'2026-10-15',di:5,from:1,to:2}],SN:[]},
+  history:{EL:[],JR:[],HB:[],JLB:[{date:'2026-10-15',di:2,from:3,to:4},{date:'2026-10-15',di:3,from:3,to:4},{date:'2026-10-15',di:5,from:3,to:4}],SM:[],AN:[{date:'2026-10-15',di:0,from:2,to:3},{date:'2026-10-15',di:1,from:2,to:3},{date:'2026-10-15',di:2,from:2,to:4},{date:'2026-10-15',di:3,from:2,to:4},{date:'2026-10-15',di:4,from:2,to:4},{date:'2026-10-15',di:5,from:3,to:4},{date:'2026-10-15',di:6,from:4,to:5},{date:'2026-10-15',di:7,from:4,to:5}],BM:[],SG:[{date:'2026-10-15',di:2,from:1,to:2},{date:'2026-10-15',di:3,from:1,to:2},{date:'2026-10-15',di:4,from:1,to:2},{date:'2026-10-15',di:5,from:1,to:2}],SN:[]},
   reviews:{EL:{last:'',next:''},JR:{last:'',next:''},HB:{last:'',next:''},JLB:{last:'',next:''},SM:{last:'',next:''},AN:{last:'',next:''},BM:{last:'',next:''},SG:{last:'',next:''},SN:{last:'',next:''}},
   cardTier:{EL:'gold',JR:'gold',HB:'gold',JLB:'gold',SM:'gold',AN:'gold',BM:'gold',SG:'silver',SN:'bronze'},
   recruitmentNotes:{overview:'',hiring:'',timeline:'',idealProfile:''},
@@ -1913,6 +1913,10 @@ const TRADER_RESPONSIBILITIES = {
   ],
   'JR':[],'SG':[],'AN':[],'BM':[],'SM':[],'SN':[],
 };
+// Job titles that differ from the grid tier. The tier still drives promotion tracking.
+const TRADER_TITLES = {
+  'AN':'EXE Product Owner',
+};
 
 function getTenure(t){
   const start = TRADER_START_DATES[t];
@@ -1991,7 +1995,7 @@ function buildFifaCard(t){
         <div class="card-top">
           <div class="card-top-left">
             <div class="card-rating">${total}</div>
-            <div class="card-position">TRADER</div>
+            <div class="card-position">${(TRADER_TITLES[t]||'Trader').toUpperCase()}</div>
             <div class="card-badge">${MUSTARD_BADGE}</div>
           </div>
           <div class="card-portrait">${SILHOUETTES[t] || SILHOUETTE_SVG}</div>
@@ -2185,7 +2189,7 @@ function renderProfile(t){
   document.getElementById('profile-content').innerHTML=`
     <div class="profile-header">
       <div class="profile-avatar" style="background:${COLORS[t]}">${t}</div>
-      <div><div class="profile-name">${FULL_NAMES[t]||t}</div><div class="profile-meta">${bn(Math.round(total/8))} overall &mdash; ${goals.filter(g=>g!==null).length} active goals ${reviewFlag}</div></div>
+      <div><div class="profile-name">${FULL_NAMES[t]||t}</div><div class="profile-meta">${TRADER_TITLES[t]?`<b style="color:var(--gold)">${TRADER_TITLES[t]}</b> &mdash; `:''}${bn(Math.round(total/8))} overall &mdash; ${goals.filter(g=>g!==null).length} active goals ${reviewFlag}</div></div>
       <div class="profile-total"><div class="profile-total-num" style="color:${bc(Math.round(total/8))}">${total}</div><div class="profile-total-label">out of 64</div></div>
     </div>
     <div style="display:grid;grid-template-columns:2fr 1.5fr 1fr;gap:14px;margin-bottom:16px;">
@@ -2336,7 +2340,7 @@ function renderReadonly(t){
   document.getElementById('readonly-content').innerHTML=`
     <div class="profile-header">
       <div class="profile-avatar" style="background:${COLORS[t]}">${t}</div>
-      <div><div class="profile-name">${t}</div><div class="profile-meta">${bn(Math.round(total/8))} overall</div></div>
+      <div><div class="profile-name">${t}</div><div class="profile-meta">${TRADER_TITLES[t]?`<b style="color:var(--gold)">${TRADER_TITLES[t]}</b> &mdash; `:''}${bn(Math.round(total/8))} overall</div></div>
       <div class="profile-total"><div class="profile-total-num" style="color:${bc(Math.round(total/8))}">${total}</div><div class="profile-total-label">out of 64</div></div>
     </div>
     <div class="profile-grid">
@@ -2986,7 +2990,7 @@ function poCard(t,o){
   const prog=o.next?`<div class="po-prog" title="${o.metCount} of ${o.needCount} required domains at the level needed"><div class="po-prog-bar"><div style="width:${pct}%;background:${b.color}"></div></div><div class="po-prog-txt">${o.metCount}/${o.needCount} at level</div></div>`:'';
   const head=`<div class="po-head" onclick="poToggle('${t}')">
     <div class="po-avatar" style="background:${COLORS[t]}">${t}</div>
-    <div class="po-who"><div class="po-name">${FULL_NAMES[t]||t}</div><div class="po-meta">${getTenure(t)} at Mustard${TRADER_LM[t]?` &bull; LM ${TRADER_LM[t]}`:''}</div></div>
+    <div class="po-who"><div class="po-name">${FULL_NAMES[t]||t}</div><div class="po-meta">${TRADER_TITLES[t]?`<span style="color:var(--gold)">${TRADER_TITLES[t]}</span> &bull; `:''}${getTenure(t)} at Mustard${TRADER_LM[t]?` &bull; LM ${TRADER_LM[t]}`:''}</div></div>
     <div class="po-move">${poBadge(o.tier)}${o.next?`<span class="po-arrow">&rarr;</span>${poBadge(o.next)}`:''}</div>
     ${o.next?poStrip(t,o):''}
     ${prog}
