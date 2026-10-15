@@ -525,6 +525,33 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .promo-guide-trader-pill{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;}
 .promo-guide-trader-pill:hover{opacity:.8;}
 
+/* Promotion outlook page */
+.po-table{width:100%;border-collapse:collapse;font-size:12px;}
+.po-table th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);padding:6px 8px;border-bottom:1px solid var(--border2);white-space:nowrap;}
+.po-table td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle;}
+.po-table tr:last-child td{border-bottom:none;}
+.po-sum-row{cursor:pointer;}
+.po-sum-row:hover td{background:var(--surface2);}
+.po-group-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin:22px 0 10px;}
+.po-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;margin-bottom:12px;scroll-margin-top:16px;}
+.po-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.po-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:#0e1628;font-weight:700;flex-shrink:0;}
+.po-name{font-size:15px;font-weight:600;color:var(--text);cursor:pointer;}
+.po-name:hover{text-decoration:underline;}
+.po-meta{font-size:11px;color:var(--text3);margin-top:1px;}
+.po-status{font-size:12px;line-height:1.5;padding:8px 12px;border-radius:var(--radius);border-left:3px solid;color:var(--text);}
+.po-sub{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin:14px 0 6px;}
+.po-score{font-family:'DM Mono',monospace;font-weight:600;}
+.po-chip{font-size:10px;padding:1px 7px;border-radius:8px;margin-left:7px;white-space:nowrap;}
+.po-line{font-size:12px;color:var(--text2);line-height:1.55;}
+.po-details{margin-top:14px;}
+.po-details summary{cursor:pointer;font-size:12px;color:var(--gold-dim);}
+.po-details summary:hover{color:var(--gold);}
+.po-exp{padding:9px 0;border-bottom:1px solid var(--border);font-size:12px;color:var(--text2);line-height:1.55;}
+.po-exp:last-child{border-bottom:none;}
+.po-exp-dom{font-weight:600;color:var(--text);margin-bottom:3px;}
+.po-goal-notes{margin-top:7px;padding:7px 10px;background:var(--surface2);border-radius:6px;font-size:11px;color:var(--text3);}
+
 /* Experience page */
 .exp-table-wrap{overflow-x:auto;margin-bottom:20px;}
 .exp-table{width:100%;border-collapse:collapse;min-width:600px;background:var(--surface);border-radius:var(--radius-lg);overflow:hidden;}
@@ -605,6 +632,7 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
         <div class="nav-item" onclick="showPage('compare')"><i class="ti ti-layout-columns mode-icon" aria-hidden="true"></i>Compare</div>
         <div class="nav-item" onclick="showPage('criteria')"><i class="ti ti-book mode-icon" aria-hidden="true"></i>Domain criteria</div>
         <div class="nav-item" onclick="showPage('promotion')"><i class="ti ti-arrow-up-circle mode-icon" aria-hidden="true"></i>Promotion guide</div>
+        <div class="nav-item" onclick="showPage('outlook')"><i class="ti ti-timeline mode-icon" aria-hidden="true"></i>Promotion outlook</div>
         <div class="nav-item" onclick="showPage('recruitment')"><i class="ti ti-users mode-icon" aria-hidden="true"></i>Recruitment</div>
         <div class="nav-item" onclick="showPage('experience')"><i class="ti ti-trophy mode-icon" aria-hidden="true"></i>Experience</div>
         <div class="nav-item" onclick="showPage('metrics')"><i class="ti ti-chart-bar mode-icon" aria-hidden="true"></i>Trading Metrics</div>
@@ -744,6 +772,16 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
         <div class="page-sub">What is required at each tier</div>
       </div>
       <div id="promotion-guide-content"></div>
+    </div>
+    <!-- PROMOTION OUTLOOK -->
+    <div class="page" id="page-outlook">
+      <div class="breadcrumb"><span onclick="showPage('dashboard')">Dashboard</span><i class="ti ti-chevron-right breadcrumb-sep" aria-hidden="true"></i><span>Promotion Outlook</span></div>
+      <div class="page-header">
+        <button class="back-btn" onclick="showPage('dashboard')">&#8592; Dashboard</button>
+        <div class="page-title">Promotion Outlook</div>
+        <div class="page-sub">Where each trader sits, what stands between them and the next tier, and when</div>
+      </div>
+      <div id="promo-outlook-content"></div>
     </div>
     <!-- RECRUITMENT -->
     <div class="page" id="page-recruitment">
@@ -1259,9 +1297,10 @@ function activatePage(page,trader){
   if(page==='compare'){document.querySelectorAll('.nav-item')[2].classList.add('active');renderCompare();}
   if(page==='criteria'){document.querySelectorAll('.nav-item')[3].classList.add('active');renderCriteria();}
   if(page==='promotion'){document.querySelectorAll('.nav-item')[4].classList.add('active');renderPromotionGuide();}
-  if(page==='recruitment'){document.querySelectorAll('.nav-item')[5].classList.add('active');renderRecruitment();}
-  if(page==='experience'){document.querySelectorAll('.nav-item')[6].classList.add('active');renderExperience();}
-  if(page==='metrics'){document.querySelectorAll('.nav-item')[7].classList.add('active');renderMetrics();}
+  if(page==='outlook'){document.querySelectorAll('.nav-item')[5].classList.add('active');renderPromoOutlook();}
+  if(page==='recruitment'){document.querySelectorAll('.nav-item')[6].classList.add('active');renderRecruitment();}
+  if(page==='experience'){document.querySelectorAll('.nav-item')[7].classList.add('active');renderExperience();}
+  if(page==='metrics'){document.querySelectorAll('.nav-item')[8].classList.add('active');renderMetrics();}
   if(page==='dashboard'){renderTeamRadar();renderPromoOverview();}
   if(page==='profile'&&trader){profileTrader=trader;window._profExpExpanded=false;window._profExpFilter='all';renderProfile(trader);}
   if(page==='readonly'&&trader){renderReadonly(trader);}
@@ -2800,6 +2839,116 @@ function renderPromotionGuide(){
   const nearTraders=TRADERS.filter(t=>isCloseToPromotion(state.current[t]));
   const nearSection=nearTraders.length?`<div class="promo-guide-team-section"><div class="promo-guide-team-title">&#9733; Close to promotion</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px">${nearTraders.map(t=>{const next=getNextPromoTier(state.current[t]);const gaps=(getPromoGaps(state.current[t])||[]).filter(g=>g.gap>0);return`<div class="promo-close-card" onclick="showPage('profile','${t}')"><div class="promo-close-header"><div style="width:24px;height:24px;border-radius:50%;background:${COLORS[t]};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:9px;color:#0e1628;font-weight:700">${t}</div><div class="promo-close-name">${FULL_NAMES[t]||t}</div><span class="promo-tier-badge" style="margin-left:auto;font-size:10px;color:${next.color};border-color:${next.color}44;background:${next.color}18">${next.name}</span></div><div style="font-size:11px;color:var(--text3);line-height:1.6;margin-top:4px">${gaps.length?gaps.map(g=>`${g.domain}: needs ${g.gap} more`).join(' &bull; '):'All thresholds met &mdash; ready for review'}</div></div>`;}).join('')}</div></div>`:'';
   el.innerHTML=`<div class="promo-guide-tiers">${tierCards}</div>${nearSection}`;
+}
+// ---- PROMOTION OUTLOOK ----
+// Timelines come only from goal target dates: a gap with no covering goal has no timeline.
+const PO_COL={green:'#3aaa5c',amber:'#e8872a',red:'#e05555',blue:'#4a8ff5',grey:'#a8b4cc'};
+const poEsc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+function poFmtDate(d){if(!d)return'';const x=new Date(d+'T00:00:00');return isNaN(x)?poEsc(d):x.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+function poCriteriaText(di,lvl){
+  const c=FULL_CRITERIA[di];if(!c)return'';
+  for(const b of c.bands){const l=b.levels.find(x=>x.n===lvl);if(l)return l.text;}
+  return'';
+}
+function poBadge(tier){return`<span class="promo-tier-badge" style="font-size:10px;color:${tier.color};border-color:${tier.color}44;background:${tier.color}18">${tier.name}</span>`;}
+function getPromoOutlook(t){
+  const s=state.current[t],tier=getPromoTier(s),next=getNextPromoTier(s),now=today();
+  const goalFor=i=>{
+    const g=state.goals[t]&&state.goals[t][i];if(!g)return null;
+    const m=(state.goalMeta[t]&&state.goalMeta[t][i])||emptyMeta();
+    const met=s[i]>=g;
+    return{to:g,date:m.date||'',status:m.status||'todo',notes:m.notes||'',met,overdue:!met&&!!m.date&&m.date<now&&m.status!=='done'};
+  };
+  const probation=tier.special==='probation';
+  let rows=[];
+  if(probation)rows=s.map((v,i)=>v<2?{i,now:v,needed:2}:null).filter(Boolean);
+  else if(next&&next.mins)rows=s.map((v,i)=>next.mins[i]>v?{i,now:v,needed:next.mins[i]}:null).filter(Boolean);
+  rows.forEach(r=>{r.gap=r.needed-r.now;r.goal=goalFor(r.i);r.cover=!r.goal?'none':r.goal.to>=r.needed?'full':'partial';});
+  const required=probation?Math.max(0,5-s.filter(v=>v>=2).length):rows.length;
+  const pts=rows.reduce((a,r)=>a+r.gap,0);
+  const shortBy=probation?`${required} more domain${required===1?'':'s'} at 2+`:`${pts} point${pts===1?'':'s'} across ${rows.length} domain${rows.length===1?'':'s'}`;
+  // For probation only the best-dated covering goals up to the number required count
+  let covered=rows.filter(r=>r.cover==='full');
+  if(probation)covered=covered.sort((a,b)=>(a.goal.date||'9999').localeCompare(b.goal.date||'9999')).slice(0,required);
+  let status,short,color,target='';
+  if(!next){status='Top tier';short='&mdash;';color=PO_COL.green;}
+  else if(required===0){status='All thresholds met &mdash; ready for review';short='Ready for review';color=PO_COL.green;}
+  else if(covered.length>=required){
+    const undated=covered.filter(r=>!r.goal.date).length;
+    const overdue=covered.filter(r=>r.goal.overdue).length;
+    if(undated){status=`Goals cover every gap, but ${undated} ${undated===1?'has':'have'} no target date &mdash; no timeline yet`;short='Covered, undated';color=PO_COL.amber;}
+    else{target=covered.map(r=>r.goal.date).sort().pop();status=`On course for ${next.name} by ${poFmtDate(target)} if goals are met`;short=`By ${poFmtDate(target)}`;color=PO_COL.green;}
+    if(overdue){status+=` &bull; ${overdue} goal${overdue===1?' is':'s are'} overdue`;color=PO_COL.amber;}
+  } else {
+    const what=probation?'domains needed':'gaps';
+    // A goal already met but still below the level needed is history, not a plan
+    const partial=rows.filter(r=>r.cover==='partial'&&!r.goal.met).length;
+    const pWord=`${partial===1?'has a goal':'have goals'} set below the level needed`;
+    if(covered.length)status=`No timeline yet &mdash; goals cover ${covered.length} of ${required} ${what}`+(partial?` &bull; ${partial} more ${pWord}`:'');
+    else if(partial)status=`No timeline yet &mdash; no goals reach the level needed &bull; ${partial} of ${required} ${what} ${pWord}`;
+    else status=`No timeline yet &mdash; no goals set against the ${what}`;
+    short=covered.length?`Partial (${covered.length}/${required})`:partial?'Goals below level':'No goals';
+    color=covered.length||partial?PO_COL.amber:PO_COL.red;
+  }
+  const gapIdx=new Set(rows.map(r=>r.i));
+  const otherGoals=s.map((v,i)=>{if(gapIdx.has(i))return null;const g=goalFor(i);return g?{i,...g}:null;}).filter(Boolean);
+  const dates=[...new Set(rows.filter(r=>r.goal&&r.goal.date).map(r=>r.goal.date))].sort();
+  return{tier,next,probation,rows,required,covered:covered.length,shortBy,pts,status,short,color,target,otherGoals,dates};
+}
+function poGoalCell(r){
+  if(!r.goal)return`<span style="color:${PO_COL.red}">No goal</span>`;
+  const g=r.goal;
+  const chip=g.met?['Met',PO_COL.green]:g.overdue?['Overdue',PO_COL.red]:g.status==='inprogress'?['In progress',PO_COL.blue]:g.status==='done'?['Complete',PO_COL.green]:['Not started',PO_COL.grey];
+  const partial=r.cover==='partial'?` <span style="color:${PO_COL.amber}">(below ${r.needed})</span>`:'';
+  return`&rarr; ${g.to}${partial}<span class="po-chip" style="background:${chip[1]}22;color:${chip[1]}">${chip[0]}</span>`;
+}
+function poCard(t,o){
+  const head=`<div class="po-head">
+    <div class="po-avatar" style="background:${COLORS[t]}">${t}</div>
+    <div><div class="po-name" onclick="showPage('profile','${t}')">${FULL_NAMES[t]||t}</div><div class="po-meta">${getTenure(t)} at Mustard${TRADER_LM[t]?` &bull; Line manager ${TRADER_LM[t]}`:''}</div></div>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:6px">${poBadge(o.tier)}${o.next?`<span style="color:var(--text3)">&rarr;</span>${poBadge(o.next)}`:''}</div>
+  </div>`;
+  const status=`<div class="po-status" style="border-color:${o.color};background:${o.color}14">${o.status}</div>`;
+  let table='';
+  if(o.next&&o.rows.length){
+    const title=o.probation?`Needs any ${o.required} of these at 2+`:`Gaps to ${o.next.name} &bull; short by ${o.shortBy}`;
+    table=`<div class="po-sub">${title}</div><div style="overflow-x:auto"><table class="po-table"><thead><tr><th>Domain</th><th>Now</th><th>Needs</th><th>Goal</th><th>Target date</th></tr></thead><tbody>${o.rows.map(r=>`<tr><td>${DOMAINS[r.i]}</td><td><span class="po-score" style="color:${bc(r.now)}">${r.now}</span></td><td><span class="po-score" style="color:${bc(r.needed)}">${r.needed}</span></td><td>${poGoalCell(r)}</td><td>${r.goal&&r.goal.date?poFmtDate(r.goal.date):'&mdash;'}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+  const other=o.otherGoals.length?`<div class="po-sub">Other goals (not required for ${o.next?o.next.name:'promotion'})</div><div class="po-line">${o.otherGoals.map(g=>`${DOMAINS[g.i]} &rarr; ${g.to}${g.met?' (met)':''}${g.date?` by ${poFmtDate(g.date)}`:''}`).join(' &bull; ')}</div>`:'';
+  const resp=(TRADER_RESPONSIBILITIES[t]||[]);
+  const respHtml=resp.length?`<div class="po-sub">Responsibilities</div>${resp.map(r=>`<div class="po-line"><b style="color:var(--text)">${poEsc(r.title)}</b><div style="margin-top:3px;color:var(--text3)">${poEsc(r.description)}</div></div>`).join('')}`:'';
+  let expects='';
+  if(o.next&&o.rows.length){
+    const placeholder=TIERS_PROMO.indexOf(o.next)>=3?`<div class="po-line" style="color:${PO_COL.amber};margin-bottom:6px">${o.next.name} thresholds are placeholders and still to be confirmed.</div>`:'';
+    expects=`<details class="po-details"><summary>What ${o.next.name} expects in these domains</summary>${placeholder}${o.rows.map(r=>`<div class="po-exp"><div class="po-exp-dom">${DOMAINS[r.i]} &mdash; level ${r.needed}</div>${poCriteriaText(r.i,r.needed)}${r.goal&&r.goal.notes?`<div class="po-goal-notes"><b>Goal plan</b><br>${poEsc(r.goal.notes)}</div>`:''}</div>`).join('')}</details>`;
+  }
+  return`<div class="po-card" id="po-card-${t}">${head}${status}${table}${other}${respHtml}${expects}</div>`;
+}
+function renderPromoOutlook(){
+  const el=document.getElementById('promo-outlook-content');
+  if(!el)return;
+  const all=TRADERS.map(t=>({t,o:getPromoOutlook(t)}));
+  // Junior -> Trader first (the live promotion question), then higher tiers, probation last
+  const order=[1,2,3,4,0];
+  const groups=order.map(ti=>{
+    const members=all.filter(x=>TIERS_PROMO.indexOf(x.o.tier)===ti).sort((a,b)=>a.o.pts-b.o.pts||a.o.required-b.o.required);
+    return{tier:TIERS_PROMO[ti],members};
+  }).filter(g=>g.members.length);
+  const sumRows=groups.flatMap(g=>g.members).map(({t,o})=>`<tr class="po-sum-row" onclick="document.getElementById('po-card-${t}').scrollIntoView({behavior:'smooth',block:'start'})">
+    <td><div style="display:flex;align-items:center;gap:7px"><div style="width:9px;height:9px;border-radius:50%;background:${COLORS[t]}"></div>${FULL_NAMES[t]||t}</div></td>
+    <td>${poBadge(o.tier)}</td><td>${o.next?poBadge(o.next):'&mdash;'}</td>
+    <td>${o.next?(o.required?o.shortBy:'&mdash;'):'&mdash;'}</td>
+    <td>${o.next&&o.required?`${o.covered}/${o.required}`:'&mdash;'}</td>
+    <td>${o.dates.length?o.dates.map(poFmtDate).join(', '):'&mdash;'}</td>
+    <td><span style="color:${o.color};font-weight:600">${o.short}</span></td>
+  </tr>`).join('');
+  const summary=`<div class="promo-guide-team-section"><div class="promo-guide-team-title">At a glance</div><div style="overflow-x:auto"><table class="po-table"><thead><tr><th>Trader</th><th>Now</th><th>Next</th><th>Short by</th><th>Goals cover</th><th>Goal dates</th><th>Outlook</th></tr></thead><tbody>${sumRows}</tbody></table></div>
+    <div class="po-line" style="margin-top:10px;color:var(--text3)">A timeline appears only when every gap has a goal at or above the level needed, each with a target date. Set or edit goals on the dashboard in Set goals mode.</div></div>`;
+  const cards=groups.map(g=>{
+    const nxt=TIERS_PROMO[TIERS_PROMO.indexOf(g.tier)+1];
+    return`<div class="po-group-title" style="color:${g.tier.color}">${g.tier.name}${nxt?` &rarr; ${nxt.name}`:''}</div>${g.members.map(({t,o})=>poCard(t,o)).join('')}`;
+  }).join('');
+  el.innerHTML=summary+cards;
 }
 function renderPromoOverview(){
   const el=document.getElementById('promo-overview');
