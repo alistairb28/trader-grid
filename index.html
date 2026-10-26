@@ -525,6 +525,11 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
 .promo-guide-trader-pill{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:12px;font-size:12px;font-weight:500;cursor:pointer;border:1px solid transparent;transition:all .15s;}
 .promo-guide-trader-pill:hover{opacity:.8;}
 
+/* Local auto-save status (sidebar) */
+.local-save-status{font-size:10.5px;color:var(--text3);line-height:1.45;padding:6px 10px 0;}
+.local-save-status b{color:var(--text2);font-weight:600;}
+.local-save-status .ls-warn{color:#e8872a;margin-top:4px;}
+
 /* Promotion outlook page */
 .po-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
 .po-tile{background:var(--surface);border:1px solid var(--border);border-top:3px solid var(--c);border-radius:var(--radius-lg);padding:12px 14px;cursor:pointer;transition:all .15s;}
@@ -705,6 +710,8 @@ td.level-cell.focus-hit{filter:brightness(1.08);}
       <div class="section-title">Data</div>
       <div class="mode-item" id="btn-export"><i class="ti ti-download mode-icon" aria-hidden="true"></i>Save JSON</div>
       <div class="mode-item" id="btn-import"><i class="ti ti-upload mode-icon" aria-hidden="true"></i>Load JSON</div>
+      <div class="mode-item" id="btn-reset-published" style="display:none" onclick="resetToPublished()"><i class="ti ti-arrow-back-up mode-icon" aria-hidden="true"></i>Reset to published</div>
+      <div id="local-save-status" class="local-save-status"></div>
       <input type="file" id="file-input" accept=".json" style="display:none">
     </div>
   </aside>
@@ -2539,16 +2546,7 @@ document.getElementById('file-input').addEventListener('change',e=>{
     try{
       const data=JSON.parse(ev.target.result);
       if(data.current&&data.goals){
-        if(!data.goalMeta){data.goalMeta={};TRADERS.forEach(t=>data.goalMeta[t]=emptyMetas());}
-        if(!data.generalNotes){data.generalNotes={};TRADERS.forEach(t=>data.generalNotes[t]='');}
-        if(!data.history){data.history={};TRADERS.forEach(t=>data.history[t]=[]);}
-        if(!data.reviews){data.reviews={};TRADERS.forEach(t=>data.reviews[t]={last:'',next:''});}
-        if(!data.cardTier){data.cardTier={};TRADERS.forEach(t=>data.cardTier[t]='gold');}
-        if(!data.recruitmentNotes){data.recruitmentNotes={overview:'',hiring:'',timeline:'',simTier:'junior'};}
-        if(!data.experience){data.experience={tournaments:[],records:{}};}
-        // Traders added since the file was saved keep their built-in data, so older saves still load
-        ['current','goals','goalMeta','generalNotes','history','reviews','cardTier'].forEach(k=>{if(!data[k]||!state[k])return;TRADERS.forEach(t=>{if(data[k][t]===undefined&&state[k][t]!==undefined)data[k][t]=JSON.parse(JSON.stringify(state[k][t]));});});
-        state=data;render();showToast('Data loaded successfully');
+        state=normaliseLoadedState(data);render();showToast('Data loaded successfully');
       }
     }catch{showToast('Error reading file');}
   };
@@ -4073,7 +4071,80 @@ function confirmImport(){
   showToast(`Imported ${imported} entries`);
 }
 
-function render(){renderSidebar();renderStats();renderSummary();renderGrid();renderGoalsSummary();if(currentPage==='dashboard'){renderTeamRadar();renderPromoOverview();}}
+function render(){renderSidebar();renderStats();renderSummary();renderGrid();renderGoalsSummary();if(currentPage==='dashboard'){renderTeamRadar();renderPromoOverview();}scheduleLocalSave();}
+
+// ---- LOCAL AUTO-SAVE ----
+// Edits are kept in this browser only (localStorage). The published version is the state built into this file.
+// A save exists only while the data differs from the published version, so browsing alone never creates one.
+const LOCAL_SAVE_KEY='theGrid.savedState.v1';
+var _localSaveTimer=null,localSaveInfo=null; // localSaveInfo: {savedAt, publishedHash}
+function gridHash(str){let h=5381;for(let i=0;i<str.length;i++)h=((h<<5)+h+str.charCodeAt(i))|0;return(h>>>0).toString(36);}
+// UI-only fields are left out so viewing a page never counts as an edit
+function comparableState(s){const c=JSON.parse(JSON.stringify(s));if(c.metrics)delete c.metrics.activePeriodIdx;return JSON.stringify(c);}
+ensureExperience();ensureMetrics();if(!state.cardTier)state.cardTier={};
+const PUBLISHED_STATE=JSON.parse(JSON.stringify(state));
+const PUBLISHED_CMP=comparableState(PUBLISHED_STATE);
+const PUBLISHED_HASH=gridHash(PUBLISHED_CMP);
+function normaliseLoadedState(data){
+  if(!data.goalMeta){data.goalMeta={};TRADERS.forEach(t=>data.goalMeta[t]=emptyMetas());}
+  if(!data.generalNotes){data.generalNotes={};TRADERS.forEach(t=>data.generalNotes[t]='');}
+  if(!data.history){data.history={};TRADERS.forEach(t=>data.history[t]=[]);}
+  if(!data.reviews){data.reviews={};TRADERS.forEach(t=>data.reviews[t]={last:'',next:''});}
+  if(!data.cardTier){data.cardTier={};TRADERS.forEach(t=>data.cardTier[t]='gold');}
+  if(!data.recruitmentNotes){data.recruitmentNotes={overview:'',hiring:'',timeline:'',simTier:'junior'};}
+  if(!data.experience){data.experience={tournaments:[],records:{}};}
+  // Traders added since the data was saved keep their published data, so older saves still load
+  ['current','goals','goalMeta','generalNotes','history','reviews','cardTier'].forEach(k=>{if(!data[k]||!PUBLISHED_STATE[k])return;TRADERS.forEach(t=>{if(data[k][t]===undefined&&PUBLISHED_STATE[k][t]!==undefined)data[k][t]=JSON.parse(JSON.stringify(PUBLISHED_STATE[k][t]));});});
+  return data;
+}
+function saveLocalNow(){
+  clearTimeout(_localSaveTimer);_localSaveTimer=null;
+  try{
+    if(comparableState(state)===PUBLISHED_CMP){localStorage.removeItem(LOCAL_SAVE_KEY);localSaveInfo=null;}
+    else{
+      // Keep the published version the edits were based on, so a later publish is flagged
+      const base=localSaveInfo?localSaveInfo.publishedHash:PUBLISHED_HASH;
+      const savedAt=new Date().toISOString();
+      localStorage.setItem(LOCAL_SAVE_KEY,JSON.stringify({savedAt,publishedHash:base,state}));
+      localSaveInfo={savedAt,publishedHash:base};
+    }
+  }catch(e){const el=document.getElementById('local-save-status');if(el)el.innerHTML='<div class="ls-warn">Auto-save failed in this browser. Use Save JSON.</div>';return;}
+  renderLocalSaveStatus();
+}
+function scheduleLocalSave(){clearTimeout(_localSaveTimer);_localSaveTimer=setTimeout(saveLocalNow,400);}
+function renderLocalSaveStatus(){
+  const el=document.getElementById('local-save-status'),btn=document.getElementById('btn-reset-published');
+  if(!el||!btn)return;
+  if(!localSaveInfo){el.innerHTML='Showing the published version. Edits you make auto-save in this browser.';btn.style.display='none';return;}
+  const when=new Date(localSaveInfo.savedAt).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  const stale=localSaveInfo.publishedHash!==PUBLISHED_HASH;
+  el.innerHTML=`<b>Showing your edits</b>, saved in this browser only (${when}).`+(stale?'<div class="ls-warn">The published version has been updated since. Reset to published to see it.</div>':'');
+  btn.style.display='';
+}
+function resetToPublished(){
+  if(!confirm('Discard the edits saved in this browser and show the published version?\n\nUse Save JSON first if you might want them back.'))return;
+  clearTimeout(_localSaveTimer);
+  try{localStorage.removeItem(LOCAL_SAVE_KEY);}catch(e){}
+  window.removeEventListener('beforeunload',saveLocalNow);
+  location.reload();
+}
+// Restore saved edits before the first render
+try{
+  const raw=localStorage.getItem(LOCAL_SAVE_KEY);
+  if(raw){
+    const saved=JSON.parse(raw);
+    if(saved&&saved.state&&saved.state.current&&saved.state.goals){
+      state=normaliseLoadedState(saved.state);
+      localSaveInfo={savedAt:saved.savedAt,publishedHash:saved.publishedHash};
+    }
+  }
+}catch(e){}
+// Save after edit-type interactions (render() also schedules a save) and when leaving the page
+['input','change','click'].forEach(ev=>document.addEventListener(ev,scheduleLocalSave,true));
+window.addEventListener('beforeunload',saveLocalNow);
+renderLocalSaveStatus();
+if(localSaveInfo&&localSaveInfo.publishedHash!==PUBLISHED_HASH)setTimeout(()=>showToast('Showing your saved edits. The published version has changed since; see Data in the sidebar.'),600);
+
 initCompare();
 // Trigger initial transition
 const initPage=document.getElementById('page-dashboard');
